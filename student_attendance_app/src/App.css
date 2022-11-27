@@ -1,0 +1,283 @@
+/* CSS for this Project */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body , .header {
+  background-color: #ffffff;
+  background:#1976d2;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.header_img {
+  margin: 10px 30px 10px 50px;
+  height: 80px;
+  width: 80px;
+  border: 1px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.header_btn{
+  color: black;
+  border-radius: 8px;
+  border: 1px solid black;
+  background-color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  padding: 5px 10px;
+  font-size: larger;
+  font-weight: bolder ;
+}
+
+.header_btn:hover{
+  background:#1976d2;
+ transition: 0.5s;
+}
+
+.home_style {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 1100px;
+  height: auto;
+  margin: 50px auto;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 5px 5px 10px black/* , -2px -2px 5px black */;
+}
+
+.registration_img {
+  width: 500px;
+  height: 675px;
+}
+
+#text_home_regis {
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+#text_home {
+  font-size: large;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.registration_form {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+.input_field{
+width: 100%;
+}
+
+#submit_btn {
+  padding: 10px 5px;
+  /* width: 100%; */
+  margin-top: 20px;
+  color: white;
+}
+#submit_link {
+  text-align: center;
+  text-decoration: none;
+}
+
+#grid_links {
+  margin: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+#grid_links_btn {
+  color: black;
+  border: 2px solid black;
+}
+#grid_links_btn:hover {
+  transition: 0.5s;
+  color: #fff;
+  border: 2px solid white;
+}
+
+.login_link {
+  /* width: 100px; */
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.login_link p {
+  margin: 0 5px;
+}
+#login_btn {
+  text-decoration: none;
+  color: rgb(25, 118, 210);
+}
+#login_btn:hover{
+  text-decoration: underline;
+}
+
+.clear_errors, .clear_error {
+  color: red;
+  font-size: 14px;
+  padding: 0 !important; 
+  margin: 0 !important;
+}
+.clear_error{
+  margin: -8px 0 8px -15px !important;
+}
+
+#add_btn{
+float: right;
+font-weight: bold;
+font-size: larger;
+color: black;
+border-radius: 8px;
+border: 2px solid black;
+background-color: #fff;
+margin: 50px 150px 0 0;
+}
+
+#datagrid{
+  margin: 150px auto 100px auto;
+  background: white; 
+  border:2px solid black;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+  .home_style {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 750px;
+    height: auto;
+    margin: 80px 20px;
+  }
+  .registration_img {
+    width: auto;
+    height: 500px;
+  }
+  .registration_form {
+    padding: 30px 0;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .header_img {
+    margin: 10px;
+    height: 50px;
+    width: 50px;
+  }
+  .header_btn{
+    margin: 0;
+    padding: 5px;
+    font-size: medium;
+    font-weight: bolder ;
+  }
+  .home_style {
+    width: 400px;
+    margin: auto;
+    margin: 50px auto;
+    justify-content: center;
+  }
+
+  .registration_img {
+    width: 100%;
+    height: 600px;
+  }
+
+  .registration_form {
+    padding: 20px;
+  }
+  #add_btn{
+    font-size: medium;
+    margin: 20px 40px 0 0;
+    }
+    #datagrid{
+      margin: 100px auto 50px auto;
+    }
+}
+
+/* Media for all device with width */
+
+/* footer css start here */
+
+footer {
+  padding: 10px;
+  margin: 5px;
+  height: auto;
+  border: 2px solid rgb(4, 4, 52);
+  border-radius: 10px;
+  background: linear-gradient(to right, #1976d2, #d2e1f0, #1976d2);
+  /* position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+}
+
+.social-media {
+  position: relative;
+}
+
+.social-media .fa {
+  font-size: 30px;
+  text-decoration: none;
+  padding: 2px;
+  margin: 12px;
+}
+
+.social-media .fa:hover {
+  opacity: 0.7;
+}
+
+.fa-instagram {
+  color: rgb(244, 66, 95);
+}
+
+.fa-github {
+  color: black;
+}
+
+.fa-twitter {
+  color: #2f9df0;
+}
+
+.fa-linkedin {
+  color: #007bb5;
+}
+
+.fa-facebook {
+  color: #214fb1;
+}
+
+.fa-youtube {
+  color: rgb(236, 24, 24);
+}
+
+/* @media all and (min-width:601) and (max-width:1000px){
+  footer{
+    margin-right: 100px;
+  }
+}
+
+@media all and (max-width:600px){
+  footer{
+    margin: 5px;
+    margin-top: 80px;
+    height: auto;
+  }
+  footer b{
+    display: block;
+  }
+} */
+/* footer css end here */
