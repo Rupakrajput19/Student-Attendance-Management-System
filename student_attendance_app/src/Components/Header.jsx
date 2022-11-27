@@ -14,7 +14,7 @@ export default function Header() {
         <AppBar position="static" className="header">
           <Toolbar>
             <div>
-              <a href="http://spraxa.com" target="_blank" rel="noopener noreferrer">
+              <a href="" rel="noopener noreferrer">
                 <img src={Logo_img} alt="Logo" className="header_img" />
                 </a>
             </div>

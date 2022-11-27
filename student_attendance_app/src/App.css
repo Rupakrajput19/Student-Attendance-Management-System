@@ -6,7 +6,6 @@
 }
 
 body , .header {
-  background-color: #ffffff;
   background:#1976d2;
   background-attachment: fixed;
   background-size: cover;
@@ -264,20 +263,15 @@ footer {
   color: rgb(236, 24, 24);
 }
 
-/* @media all and (min-width:601) and (max-width:1000px){
-  footer{
-    margin-right: 100px;
-  }
-}
 
 @media all and (max-width:600px){
   footer{
     margin: 5px;
-    margin-top: 80px;
+    margin-top: 50px;
     height: auto;
   }
   footer b{
     display: block;
   }
-} */
+}
 /* footer css end here */

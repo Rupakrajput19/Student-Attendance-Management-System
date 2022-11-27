@@ -12,11 +12,11 @@ function NotFound() {
   document.title = "😒Page Not Found - Student Attendance App";
   return (
     <div style={style_notfound}>
-      <h1>OOPS!</h1 ><br /><br />
+      <h1>OOPS!</h1 >
+      <br />
       <h1 >404 Page Not Found!</h1>
       <br />
-      <br />
-      <h4>The page are you looking for that is not available or doesn't exist on this websites,for to go main application click on <span><Link to="/" id="login_btn">
+      <h4>The page are you looking for that is not available or doesn't exist on this websites,for to go main application click on <span><Link to="/" id="login_btn" style={{color:"White", textDecoration:"underline"}}>
               Login
             </Link></span></h4>
     </div>
