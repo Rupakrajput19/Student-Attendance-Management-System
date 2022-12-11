@@ -17,36 +17,36 @@ function Footer() {
         <br />
         <br />
         Design and Developed by :-- <b> Ritu Kumar ( "Rupak Rajput" )</b>
-        <div class="social-media">
+        <div className="social-media">
           <a
             href="https://www.instagram.com/rupakrajput161/"
             target="_blank"
-            class="fa fa-instagram"
+            className="fa fa-instagram"
           ></a>
           <a
             href="https://github.com/Rupakrajput19"
             target="_blank"
-            class="fa fa-github"
+            className="fa fa-github"
           ></a>
           <a
             href="https://mobile.twitter.com/RupakRajput10"
             target="_blank"
-            class="fa fa-twitter"
+            className="fa fa-twitter"
           ></a>
           <a
             href="https://www.linkedin.com/in/ritu-kumar-a0a5aa1b2"
             target="_blank"
-            class="fa fa-linkedin"
+            className="fa fa-linkedin"
           ></a>
           <a
             href="https://m.facebook.com/100016564753676/"
             target="_blank"
-            class="fa fa-facebook"
+            className="fa fa-facebook"
           ></a>
           <a
             href="https://youtube.com/channel/UCvmxiRqoHxKCimgpvIxTaFw"
             target="_blank"
-            class="fa fa-youtube"
+            className="fa fa-youtube"
           ></a>
         </div>
       Students Attendace Managemant System &copy; {current_year}

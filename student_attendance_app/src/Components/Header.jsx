@@ -21,16 +21,16 @@ export default function Header() {
             <Typography variant="h4" component="div" sx={{ flexGrow: 1 , color:"black", fontWeight:"bold", textDecoration:"underline"}}>
               Student Attendance Portal
             </Typography>
+            <Link to='/home' className="header_btn">
             <Button color="inherit">
-            <Link className="header_btn">
               Home
+            </Button>
             </Link>
-            </Button>
-            <Button color="inherit">
              <Link to="/login" className="header_btn">
+            <Button color="inherit">
              Logout
+            </Button> 
              </Link> 
-            </Button>
           </Toolbar>
         </AppBar>
       </Box>

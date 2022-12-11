@@ -10,11 +10,15 @@ body , .header {
   background-attachment: fixed;
   background-size: cover;
 }
-
+.header{
+  position: fixed !important;
+  top: 0;
+  z-index: 10000;
+}
 .header_img {
   margin: 10px 30px 10px 50px;
-  height: 80px;
-  width: 80px;
+  height: 70px;
+  width: 70px;
   border: 1px solid black;
   border-radius: 8px;
   cursor: pointer;
@@ -143,7 +147,7 @@ color: black;
 border-radius: 8px;
 border: 2px solid black;
 background-color: #fff;
-margin: 50px 150px 0 0;
+margin: 10px 150px 10px 0 !important;
 }
 
 #datagrid{
@@ -152,66 +156,11 @@ margin: 50px 150px 0 0;
   border:2px solid black;
 }
 
-@media screen and (min-width: 600px) and (max-width: 1000px) {
-  .home_style {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 750px;
-    height: auto;
-    margin: 80px 20px;
-  }
-  .registration_img {
-    width: auto;
-    height: 500px;
-  }
-  .registration_form {
-    padding: 30px 0;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  .header_img {
-    margin: 10px;
-    height: 50px;
-    width: 50px;
-  }
-  .header_btn{
-    margin: 0;
-    padding: 5px;
-    font-size: medium;
-    font-weight: bolder ;
-  }
-  .home_style {
-    width: 400px;
-    margin: auto;
-    margin: 50px auto;
-    justify-content: center;
-  }
-
-  .registration_img {
-    width: 100%;
-    height: 600px;
-  }
-
-  .registration_form {
-    padding: 20px;
-  }
-  #add_btn{
-    font-size: medium;
-    margin: 20px 40px 0 0;
-    }
-    #datagrid{
-      margin: 100px auto 50px auto;
-    }
-}
-
-/* Media for all device with width */
 
 /* footer css start here */
 
 footer {
+  /* margin-left: 222px !important; */
   padding: 10px;
   margin: 5px;
   height: auto;
@@ -263,15 +212,90 @@ footer {
   color: rgb(236, 24, 24);
 }
 
+/* footer css end here */
 
-@media all and (max-width:600px){
-  footer{
-    margin: 5px;
-    margin-top: 50px;
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+  .home_style {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 750px;
     height: auto;
+    margin: 80px 20px;
   }
-  footer b{
-    display: block;
+  .registration_img {
+    width: auto;
+    height: 500px;
+  }
+  .registration_form {
+    padding: 30px 0;
   }
 }
-/* footer css end here */
+
+@media screen and (max-width: 599px) {
+  .header_img {
+    margin: 10px;
+    height: 50px;
+    width: 50px;
+  }
+  .header_btn{
+    margin: 0;
+    padding: 5px;
+    font-size: medium;
+    font-weight: bolder ;
+  }
+  .home_style {
+    width: 400px;
+    margin: auto;
+    margin: 50px auto;
+    justify-content: center;
+  }
+
+  .registration_img {
+    width: 100%;
+    height: 600px;
+  }
+
+  .registration_form {
+    padding: 20px;
+  }
+  #add_btn{
+    font-size: medium;
+    margin: 20px 40px 0 0 !important;
+    }
+    #datagrid{
+      margin: 100px auto 50px auto;
+    }
+    footer{
+      margin: 5px;
+      margin-top: 50px;
+      height: auto;
+    }
+    footer b{
+      display: block;
+    }
+  
+}
+
+/* Media for all device with width */
+
+
+/* Css for MUI Classes */
+.css-i4bv87-MuiSvgIcon-root{
+  margin-right: 5px !important;
+}
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root{
+  margin-left: -20px !important;
+}
+
+.WIP_text{
+  font-size: larger;
+  color:black;
+  width: 100%;
+  margin: 275px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
