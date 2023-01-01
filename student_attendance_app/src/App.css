@@ -5,12 +5,13 @@
   box-sizing: border-box;
 }
 
-body , .header {
-  background:#1976d2;
+body,
+.header {
+  background: #1976d2;
   background-attachment: fixed;
   background-size: cover;
 }
-.header{
+.header {
   position: fixed !important;
   top: 0;
   z-index: 10000;
@@ -24,7 +25,7 @@ body , .header {
   cursor: pointer;
 }
 
-.header_btn{
+.header_btn {
   color: black;
   border-radius: 8px;
   border: 1px solid black;
@@ -33,12 +34,12 @@ body , .header {
   margin: 0 15px;
   padding: 5px 10px;
   font-size: larger;
-  font-weight: bolder ;
+  font-weight: bolder;
 }
 
-.header_btn:hover{
-  background:#1976d2;
- transition: 0.5s;
+.header_btn:hover {
+  background: #1976d2;
+  transition: 0.5s;
 }
 
 .home_style {
@@ -51,7 +52,7 @@ body , .header {
   margin: 50px auto;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 5px 5px 10px black/* , -2px -2px 5px black */;
+  box-shadow: 5px 5px 10px black /* , -2px -2px 5px black */;
 }
 
 .registration_img {
@@ -76,8 +77,22 @@ body , .header {
   justify-content: space-around;
   flex-direction: column;
 }
-.input_field{
-width: 100%;
+
+.student_form {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 1250px;
+  height: auto;
+  padding: 15px;
+  margin: 30px auto;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 5px 5px 10px black /* , -2px -2px 5px black */;
+}
+.input_field {
+  width: 100%;
 }
 
 #submit_btn {
@@ -125,37 +140,38 @@ width: 100%;
   text-decoration: none;
   color: rgb(25, 118, 210);
 }
-#login_btn:hover{
+#login_btn:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
 
-.clear_errors, .clear_error {
+.clear_errors,
+.clear_error {
   color: red;
   font-size: 14px;
-  padding: 0 !important; 
+  padding: 0 !important;
   margin: 0 !important;
 }
-.clear_error{
+.clear_error {
   margin: -8px 0 8px -15px !important;
 }
 
-#add_btn{
-float: right;
-font-weight: bold;
-font-size: larger;
-color: black;
-border-radius: 8px;
-border: 2px solid black;
-background-color: #fff;
-margin: 10px 150px 10px 0 !important;
+#add_btn {
+  float: right;
+  font-weight: bold;
+  font-size: larger;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid black;
+  background-color: #fff;
+  margin: 10px 150px 10px 0 !important;
 }
 
-#datagrid{
+#datagrid {
   margin: 150px auto 100px auto;
-  background: white; 
-  border:2px solid black;
+  background: white;
+  border: 2px solid black;
 }
-
 
 /* footer css start here */
 
@@ -215,7 +231,7 @@ footer {
 /* footer css end here */
 
 @media screen and (min-width: 600px) and (max-width: 1000px) {
-  .home_style {
+  .home_style , .student_form{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -239,13 +255,13 @@ footer {
     height: 50px;
     width: 50px;
   }
-  .header_btn{
+  .header_btn {
     margin: 0;
     padding: 5px;
     font-size: medium;
-    font-weight: bolder ;
+    font-weight: bolder;
   }
-  .home_style {
+  .home_style, .student_form {
     width: 400px;
     margin: auto;
     margin: 50px auto;
@@ -260,38 +276,36 @@ footer {
   .registration_form {
     padding: 20px;
   }
-  #add_btn{
+  #add_btn {
     font-size: medium;
     margin: 20px 40px 0 0 !important;
-    }
-    #datagrid{
-      margin: 100px auto 50px auto;
-    }
-    footer{
-      margin: 5px;
-      margin-top: 50px;
-      height: auto;
-    }
-    footer b{
-      display: block;
-    }
-  
+  }
+  #datagrid {
+    margin: 100px auto 50px auto;
+  }
+  footer {
+    margin: 5px;
+    margin-top: 50px;
+    height: auto;
+  }
+  footer b {
+    display: block;
+  }
 }
 
 /* Media for all device with width */
 
-
 /* Css for MUI Classes */
-.css-i4bv87-MuiSvgIcon-root{
+.css-i4bv87-MuiSvgIcon-root {
   margin-right: 5px !important;
 }
-.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root{
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
   margin-left: -20px !important;
 }
 
-.WIP_text{
+.WIP_text {
   font-size: larger;
-  color:black;
+  color: black;
   width: 100%;
   margin: 275px auto;
   display: flex;

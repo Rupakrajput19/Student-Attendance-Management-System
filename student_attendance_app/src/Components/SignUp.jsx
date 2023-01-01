@@ -34,7 +34,7 @@ function SignUp(props) {
     let errors = {};
 
     if (InputValues.name === "") {
-      errors.name = "Please Enter Email!";
+      errors.name = "Please Enter Full Name!";
     } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
       errors.name = "Please Enter Name Between 3-30 Characters!";
     } else if (!isNaN(InputValues.name)) {

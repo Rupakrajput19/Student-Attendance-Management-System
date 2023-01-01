@@ -120,7 +120,7 @@ function Login(props) {
           <Typography className="login_link">
             <p>Don't have an account?</p>
             <Link to="/Signup" id="login_btn">
-              SingUp
+              SignUp
             </Link>
           </Typography>
         </Box>

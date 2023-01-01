@@ -14,6 +14,8 @@ import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
 import StudentDetails from "./Components/StudentDetails";
 
+const text = "Page is in Progress...";
+const textFuture = `${text} ,I will Add this Functionality In Future`;
 function App() {
   return (
     <>
@@ -24,14 +26,14 @@ function App() {
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/attendance" element={<Attendance />} />
           <Route exact path="/form" element={<StudentForm />} />
-          <Route path="*" element={<NotFound />} />
 
-          <Route exact path="/profile" element={<MyProfile WIP_text='Page is in Progress...'/>} />
-          <Route exact path="/student_details" element={<StudentDetails WIP_text='Page is in Progress...'/>} />
-          <Route exact path="/marksheet" element={<Marksheet WIP_text='Page is in Progress... ,I will Add this Functionality In Future'/>} />
-          <Route exact path="/events" element={<Events WIP_text='Page is in Progress... ,I will Add this Functionality In Future'/>} />
-          <Route exact path="/contactUs" element={<ContactUs WIP_text='Page is in Progress...'/>} />
+          <Route exact path="/profile" element={<MyProfile WIP_text={text}/>} />
+          <Route exact path="/student_details" element={<StudentDetails WIP_text={text}/>} />
+          <Route exact path="/marksheet" element={<Marksheet WIP_text={textFuture}/>} />
+          <Route exact path="/events" element={<Events WIP_text={textFuture}/>} />
+          <Route exact path="/contactUs" element={<ContactUs WIP_text={text}/>} />
           
+          <Route path="*" element={<NotFound />} />
         </Routes>
       <Footer/>
     </>

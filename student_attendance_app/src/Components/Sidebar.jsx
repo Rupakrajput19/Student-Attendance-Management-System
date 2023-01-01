@@ -126,7 +126,6 @@ export default function Sidebar(props) {
           background: 'blue',
         }}
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           container={container}
           variant="temporary"
