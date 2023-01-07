@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 export default function ContactUs(props) {
-  document.title = "Contact Us - Student Attendance App";
+  document.title = "Contact Us - Student Attendance Management System";
   return (
     <>
       <Header />

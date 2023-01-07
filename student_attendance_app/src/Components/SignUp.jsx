@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function SignUp(props) {
-  document.title = "SignUp - Student Attendance App";
+  document.title = "SignUp - Student Attendance Management System";
   const Navigator = useNavigate();
   const intitial = {
     name: "",

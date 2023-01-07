@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 export default function Events(props) {
-  document.title = "Events - Student Attendance App";
+  document.title = "Events - Student Attendance Management System";
   return (
     <>
       <Header />

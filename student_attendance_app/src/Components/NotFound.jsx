@@ -9,7 +9,7 @@ const style_notfound = {
 
 
 function NotFound() {
-  document.title = "😒Page Not Found - Student Attendance App";
+  document.title = "😒Page Not Found - Student Attendance Management System";
   return (
     <div style={style_notfound}>
       <h1>OOPS!</h1 >

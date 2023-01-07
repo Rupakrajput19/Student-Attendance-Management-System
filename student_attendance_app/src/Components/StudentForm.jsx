@@ -14,7 +14,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 function SignUp(props) {
-  document.title = "Form - Student Attendance App";
+  document.title = "Form - Student Attendance Management System";
   const Navigator = useNavigate();
   const intitial = {
     name: "",

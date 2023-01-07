@@ -49,7 +49,7 @@ function Footer() {
             className="fa fa-youtube"
           ></a>
         </div>
-      Students Attendace Managemant System &copy; {current_year}
+        Student Attendance Management System &copy; {current_year}
       </footer>
     </div>
     </>
