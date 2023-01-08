@@ -116,7 +116,7 @@ function SignUp(props) {
       errors.dob = "Please Enter Date of Birth!";
     }
 
-    if (InputValues.dob == InputValues.addmissionDate) {
+    if (InputValues.dob === InputValues.addmissionDate) {
       // debugger;
       errors.dob = "Date of Birth and Addmission Date Can't be Same";
       errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";

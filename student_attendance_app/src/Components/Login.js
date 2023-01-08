@@ -6,13 +6,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
 
 function Login(props) {
   document.title = "Login - Student Attendance Management System";
   const Navigator = useNavigate();
   const intitial = {
-    email: "",
+    username: "",
     password: "",
+    // email: ""
   };
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
@@ -27,38 +29,69 @@ function Login(props) {
   const Errors_check = (InputValues) => {
     let errors = {};
 
-    let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let trueEmail = InputValues.email;
-    let validEmailregex = trueEmail.match(emailregex);
+    if (InputValues.username === "") {
+      errors.username = "Please Enter Your Username or ID!";
+    } 
 
-    if (InputValues.email === "") {
-      errors.email = "Please Enter Your Email!";
-    } else if (!validEmailregex) {
-      errors.email = "Enter Valid Email! ex:abc@gmail.com";
-    }
+    // let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    // let trueEmail = InputValues.email;
+    // let validEmailregex = trueEmail.match(emailregex);
 
-    let passwordregex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/;
-    let truePassword = InputValues.password;
-    let validPassregex = truePassword.match(passwordregex);
+    // if (InputValues.email === "") {
+    //   errors.username = "Please Enter Your Email ID!";
+    // } 
+    // else if (!validEmailregex) {
+    //   errors.email = "Enter Valid Email! ex:abc@gmail.com";
+    // }
+
+    // let passwordregex =
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/;
+    // let truePassword = InputValues.password;
+    // let validPassregex = truePassword.match(passwordregex);
 
     if (InputValues.password === "") {
       errors.password = "Please Enter Your Password!";
-    } else if (!validPassregex) {
-      errors.password =
-        "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
-    }
+    } 
+    else if (InputValues.password.length < 5) {
+      errors.password = "Password should be in min. 5 characters!";
+    } 
+    // else if (!validPassregex) {
+    //   errors.password =
+    //     "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
+    // }
+
+    // let UserName = (InputValues.password == 'admin' || InputValues.password == 'Admin');
+    // let PassWord = (InputValues.username == 'admin' || InputValues.username == 'Admin');
+    // if(!(UserName && PassWord)){
+    //   // debugger;
+    //   // swal({
+    //   //   title: "Invalid Login Details",
+    //   //   text: "Please try again!" ,
+    //   //   icon: "error", 
+    //   // });
+    //   window.alert('Galat Hai');
+    //   setDetails(intitial);
+    // }
+    
     setErrors(errors);
     return Object.entries(errors).length > 0;
   };
 
   const onSubmitClick = (events) => {
-    const { email, password } = details;
+    const { username, password } = details;
     events.preventDefault();
     console.log("details:--", details);
     if(!Errors_check(details)){
       Navigator("/home", { replace: true });
     }
+    // else{
+    //    swal({
+    //         title: "Invalid Login Details",
+    //         text: "Please try again!" ,
+    //         icon: "error", 
+    //         });
+    //       setDetails(intitial);
+    // }
   };
 
   return (
@@ -81,6 +114,18 @@ function Login(props) {
           <Typography id="text_home_regis">Welcome!</Typography>
           <Typography id="text_home">{props.PageTitle} to your portal</Typography>
           <TextField
+            id="login_username"
+            type="text"
+            name="username"
+            label="Username or ID"
+            variant="outlined"
+            className="input_field"
+            value={details.username}
+            required
+            onChange={InputChange}
+          />
+          {errors.username ? <p className="clear_error">{errors.username}</p> : ""}
+          {/* <TextField
             id="login_email"
             type="email"
             name="email"
@@ -91,7 +136,7 @@ function Login(props) {
             required
             onChange={InputChange}
           />
-          {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
+          {errors.email ? <p className="clear_error">{errors.email}</p> : ""} */}
           <TextField
             id="login_password"
             type="password"
@@ -103,11 +148,7 @@ function Login(props) {
             required
             onChange={InputChange}
           />
-          {errors.password ? (
-            <p className="clear_error">{errors.password}</p>
-          ) : (
-            ""
-          )}
+          {errors.password ? <p className="clear_error">{errors.password}</p> : ""}
 
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
             Login
