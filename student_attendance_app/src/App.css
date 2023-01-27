@@ -7,7 +7,7 @@
 
 body,
 .header {
-  background: #1976d2;
+  background: #3c8ad9 !important;
   background-attachment: fixed;
   background-size: cover;
 }
@@ -172,7 +172,11 @@ body,
   background: white;
   border: 2px solid black;
 }
-
+.home_text{
+  color: black;
+  font-weight: bold;
+  font-size: larger;
+}
 /* footer css start here */
 
 footer {

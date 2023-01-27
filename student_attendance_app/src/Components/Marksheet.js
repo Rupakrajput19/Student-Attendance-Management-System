@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 export default function Marksheet(props) {
-  document.title = "Marksheet - Student Attendance Management System";
+  document.title = `Marksheet - ${props.pageTitle}`;
   return (
     <>
       <Header />

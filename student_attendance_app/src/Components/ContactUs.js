@@ -3,7 +3,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 export default function ContactUs(props) {
-  document.title = "Contact Us - Student Attendance Management System";
+  document.title = `Contact Us - ${props.pageTitle}`;
   return (
     <>
       <Header />
@@ -11,9 +11,9 @@ export default function ContactUs(props) {
 
       <div className="WIP_text">Contact Us {props.WIP_text}</div>
 
-      <div style={{ marginLeft: '0 2px 0 222px',background: 'lightgreen' }}>
+      <div style={{ margin: '0 2px 0 222px',background: '#fff' }}>
         <marquee behavior="alternate" direction="">
-        <b><u>Contact No.</u> 9599408303, 7065308276</b>
+        <b><u>Contact No.</u> 9599408303, 7065308276 || Email Add. - " ritukumar456061@gmail.com "</b>
         </marquee>
       </div>
     </>

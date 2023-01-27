@@ -14,28 +14,29 @@ import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
 import StudentDetails from "./Components/StudentDetails";
 
+const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
 const textFuture = `${text} ,I will Add this Functionality In Future`;
 function App() {
   return (
     <>
         <Routes>
-          <Route exact path="/" element={<Login PageTitle='Login'/>} />
-          <Route exact path="/login" element={<Login PageTitle='Login'/>} />
-          <Route exact path="/Signup" element={<SignUp PageTitle='Registered'/>} />
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path="/attendance" element={<Attendance />} />
-          <Route exact path="/form" element={<StudentForm />} />
+          <Route exact path="/" element={<Login PageTitle='Login' pageTitle={pageTitle}/>} />
+          <Route exact path="/login" element={<Login PageTitle='Login'  pageTitle={pageTitle}/>} />
+          <Route exact path="/Signup" element={<SignUp PageTitle='Registered'  pageTitle={pageTitle}/>} />
+          <Route exact path="/home" element={<Home   pageTitle={pageTitle}/>} />
+          <Route exact path="/attendance" element={<Attendance   pageTitle={pageTitle}/>} />
+          <Route exact path="/form" element={<StudentForm   pageTitle={pageTitle}/>} />
 
-          <Route exact path="/profile" element={<MyProfile WIP_text={text}/>} />
-          <Route exact path="/student_details" element={<StudentDetails WIP_text={text}/>} />
-          <Route exact path="/marksheet" element={<Marksheet WIP_text={textFuture}/>} />
-          <Route exact path="/events" element={<Events WIP_text={textFuture}/>} />
-          <Route exact path="/contactUs" element={<ContactUs WIP_text={text}/>} />
+          <Route exact path="/profile" element={<MyProfile WIP_text={text}  pageTitle={pageTitle}/>} />
+          <Route exact path="/student_details" element={<StudentDetails WIP_text={text}  pageTitle={pageTitle}/>} />
+          <Route exact path="/marksheet" element={<Marksheet WIP_text={textFuture}  pageTitle={pageTitle}/>} />
+          <Route exact path="/events" element={<Events WIP_text={textFuture}  pageTitle={pageTitle}/>} />
+          <Route exact path="/contactUs" element={<ContactUs WIP_text={text}  pageTitle={pageTitle}/>} />
           
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound  pageTitle={pageTitle}/>} />
         </Routes>
-      <Footer/>
+      <Footer pageTitle={pageTitle}/>
     </>
   );
 }

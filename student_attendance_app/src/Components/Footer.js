@@ -9,7 +9,7 @@ const f_style = {
 const time = new Date();
 const current_year = time.getFullYear();
 
-function Footer() {
+function Footer(props) {
   return (
     <>
     <div style={f_style}>
@@ -49,7 +49,7 @@ function Footer() {
             className="fa fa-youtube"
           ></a>
         </div>
-        Student Attendance Management System &copy; {current_year}
+        {props.pageTitle} &copy; {current_year}
       </footer>
     </div>
     </>

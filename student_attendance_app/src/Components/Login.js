@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
 function Login(props) {
-  document.title = "Login - Student Attendance Management System";
+  document.title = `Login - ${props.pageTitle}`;
   const Navigator = useNavigate();
   const intitial = {
     username: "",

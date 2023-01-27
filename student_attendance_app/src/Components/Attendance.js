@@ -481,8 +481,8 @@ const rows = [
 //   }
 // };
 
-export default function Attendance() {
-  document.title = "Attendance - Student Attendance Management System";
+export default function Attendance(props) {
+  document.title = `Attendance - ${props.pageTitle}`;
   return (
     <>
       <Header />

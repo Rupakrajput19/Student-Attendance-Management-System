@@ -62,7 +62,8 @@ export default function Sidebar(props) {
                 </ListItemButton>
           </Link>
         </ListItem>
-      <Divider />
+        <Divider />
+      { isAdmin ? 
         <ListItem>
           <Link to="/form" id="login_btn">
             <ListItemButton>
@@ -71,7 +72,8 @@ export default function Sidebar(props) {
             </ListItemButton>
           </Link>
         </ListItem>
-      <Divider />
+        : '' }
+        <Divider />
         <ListItem>
         <Link to="/marksheet" id="login_btn">
           <ListItemButton>
