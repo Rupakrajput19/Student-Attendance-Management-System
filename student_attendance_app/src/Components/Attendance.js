@@ -532,7 +532,6 @@ export default function Attendance(props) {
           checkboxSelection
           disableSelectionOnClick
           onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
-
           // {...data}
         />
       </div>
