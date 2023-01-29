@@ -30,3 +30,13 @@ C:\Users\Ritu Kumar\OneDrive\Desktop\Students_Attendance_Web_App\StudentAppBacke
 C:\Users\Ritu Kumar\OneDrive\Desktop\Students_Attendance_Web_App\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.pdb
 C:\Users\Ritu Kumar\OneDrive\Desktop\Students_Attendance_Web_App\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.genruntimeconfig.cache
 C:\Users\Ritu Kumar\OneDrive\Desktop\Students_Attendance_Web_App\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\ref\StudentAppBackend.dll
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.csproj.AssemblyReference.cache
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.AssemblyInfoInputs.cache
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.AssemblyInfo.cs
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.csproj.CoreCompileInputs.cache
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.dll
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\refint\StudentAppBackend.dll
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student Attendance Management System\StudentAppBackend\StudentAppBackend\obj\Debug\net6.0\StudentAppBackend.pdb

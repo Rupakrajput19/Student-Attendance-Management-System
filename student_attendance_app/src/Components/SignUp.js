@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios, {isCancel, AxiosError} from 'axios';
 
 function SignUp(props) {
   document.title = `SignUp - ${props.pageTitle}`;
@@ -20,16 +21,6 @@ function SignUp(props) {
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
   
-  const onSubmitClick = (events) => {
-    const { name, email, mobile, password} = details;
-    events.preventDefault();
-    console.log("details:--", details);
-
-    if(!Errors_check(details)){
-    Navigator("/", {replace : "true"});
-  }
-};
-
   const Errors_check = (InputValues) => {
     let errors = {};
 
@@ -86,6 +77,22 @@ function SignUp(props) {
     setDetails(tempDetails);
     Errors_check(details);
   };
+  
+  const onSubmitClick = (events) => {
+    const { name, email, mobile, password} = details;
+    events.preventDefault();
+    console.log("details:--", details);
+
+  if(!Errors_check(details)){
+    // axios.post("backend url/addUser", {name, email, mobile, password}).then((response) => {
+    //   console.log("Registration Succesfull")
+    // })
+    // .catch((errors) => {
+    //   console.log(errors)
+    // })
+    Navigator("/", {replace : "true"});
+  }
+};
     
   return (                                                                                                                                                                          
     <>
@@ -107,7 +114,7 @@ function SignUp(props) {
           <Typography id="text_home_regis">Welcome!</Typography>
           <Typography id="text_home">{props.PageTitle} at portal</Typography>
           <TextField
-            id="name"
+            id="Name"
             type="name"
             name="name"
             label="Name "
@@ -118,7 +125,7 @@ function SignUp(props) {
           />
           {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
           <TextField
-            id="email"
+            id="Email"
             type="email"
             name="email"
             label="Email ID"
@@ -129,7 +136,7 @@ function SignUp(props) {
           />
           {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
           <TextField
-            id="mobile"
+            id="Mobile"
             type="tel"
             name="mobile"
             label="Mobile"
@@ -140,7 +147,7 @@ function SignUp(props) {
           />
           {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
           <TextField
-            id="password"
+            id="Password"
             type="password"
             name="password"
             label="Password"
@@ -152,7 +159,7 @@ function SignUp(props) {
           {errors.password ? (
             <p className="clear_error">{errors.password}</p>) : ("")}
           <TextField
-            id="confirm_password"
+            id="Confirm_password"
             type="password"
             name="confirm_password"
             label="Confirm Password"
@@ -168,7 +175,7 @@ function SignUp(props) {
           </Button>
           <Typography className="login_link">
             <p>Already have an account?</p>
-            <Link to="/login" id="login_btn">
+            <Link to="/login" className="login_btn">
               Login
             </Link>
           </Typography>

@@ -136,11 +136,11 @@ body,
 .login_link p {
   margin: 0 5px;
 }
-#login_btn {
+.login_btn {
   text-decoration: none;
   color: rgb(25, 118, 210);
 }
-#login_btn:hover {
+.login_btn:hover {
   cursor: pointer;
   text-decoration: underline;
 }

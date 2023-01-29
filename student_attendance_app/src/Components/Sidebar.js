@@ -37,7 +37,7 @@ export default function Sidebar(props) {
       <Divider />
       <List>
         <ListItem>
-          <Link to="/profile" id="login_btn">
+          <Link to="/profile" className="login_btn">
           <ListItemButton>
             <AccountCircleIcon />
             My Profile
@@ -46,7 +46,7 @@ export default function Sidebar(props) {
         </ListItem>
       <Divider />
         <ListItem>
-        <Link to="/student_details" id="login_btn">
+        <Link to="/student_details" className="login_btn">
           <ListItemButton>
           <DocumentScannerIcon/>
             Student Details
@@ -55,7 +55,7 @@ export default function Sidebar(props) {
         </ListItem>
       <Divider />
         <ListItem>
-          <Link to="/Attendance" id="login_btn">
+          <Link to="/Attendance" className="login_btn">
             <ListItemButton>
             <PunchClockIcon/>
                 Attendance Sheet
@@ -65,7 +65,7 @@ export default function Sidebar(props) {
         <Divider />
       { isAdmin ? 
         <ListItem>
-          <Link to="/form" id="login_btn">
+          <Link to="/form" className="login_btn">
             <ListItemButton>
               <AddBoxIcon />
               Add New Student
@@ -75,7 +75,7 @@ export default function Sidebar(props) {
         : '' }
         <Divider />
         <ListItem>
-        <Link to="/marksheet" id="login_btn">
+        <Link to="/marksheet" className="login_btn">
           <ListItemButton>
           <ContentPasteIcon/>
             Marksheet
@@ -84,7 +84,7 @@ export default function Sidebar(props) {
         </ListItem>
       <Divider />
         <ListItem>
-          <Link to="/events" id="login_btn">
+          <Link to="/events" className="login_btn">
           <ListItemButton>
             <EventIcon />
             Events
@@ -93,7 +93,7 @@ export default function Sidebar(props) {
         </ListItem>
       <Divider />
         <ListItem>
-          <Link to="/contactUs" id="login_btn">
+          <Link to="/contactUs" className="login_btn">
             <ListItemButton>
               <ContactsIcon />
               Contact Us
@@ -102,7 +102,7 @@ export default function Sidebar(props) {
         </ListItem>
       <Divider />
         <ListItem>
-          <Link to="/login" id="login_btn">
+          <Link to="/login" className="login_btn">
             <ListItemButton>
               <LogoutIcon />
               Logout

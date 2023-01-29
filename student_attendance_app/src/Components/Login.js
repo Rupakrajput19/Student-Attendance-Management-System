@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import registration_image from "../Images/registration_image.jpg";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -6,7 +6,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert';
+import swal from "sweetalert";
+import axios, {isCancel, AxiosError} from 'axios';
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
@@ -19,19 +20,12 @@ function Login(props) {
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
 
-  const InputChange = (events) => {
-    const { name, value } = events.target;
-    const tempDetails = { ...details, [name]: value };
-    setDetails(tempDetails);
-    Errors_check(details);
-  };
-
   const Errors_check = (InputValues) => {
     let errors = {};
 
     if (InputValues.username === "") {
       errors.username = "Please Enter Your Username or ID!";
-    } 
+    }
 
     // let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     // let trueEmail = InputValues.email;
@@ -39,7 +33,7 @@ function Login(props) {
 
     // if (InputValues.email === "") {
     //   errors.username = "Please Enter Your Email ID!";
-    // } 
+    // }
     // else if (!validEmailregex) {
     //   errors.email = "Enter Valid Email! ex:abc@gmail.com";
     // }
@@ -51,10 +45,9 @@ function Login(props) {
 
     if (InputValues.password === "") {
       errors.password = "Please Enter Your Password!";
-    } 
-    else if (InputValues.password.length < 5) {
+    } else if (InputValues.password.length < 5) {
       errors.password = "Password should be in min. 5 characters!";
-    } 
+    }
     // else if (!validPassregex) {
     //   errors.password =
     //     "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
@@ -67,31 +60,49 @@ function Login(props) {
     //   // swal({
     //   //   title: "Invalid Login Details",
     //   //   text: "Please try again!" ,
-    //   //   icon: "error", 
+    //   //   icon: "error",
     //   // });
     //   window.alert('Galat Hai');
     //   setDetails(intitial);
     // }
-    
+
     setErrors(errors);
     return Object.entries(errors).length > 0;
+  };
+
+  const InputChange = (events) => {
+    const { name, value } = events.target;
+    const tempDetails = { ...details, [name]: value };
+    setDetails(tempDetails);
+    Errors_check(details);
   };
 
   const onSubmitClick = (events) => {
     const { username, password } = details;
     events.preventDefault();
     console.log("details:--", details);
-    if(!Errors_check(details)){
+
+    if (!Errors_check(details)) {
+      // axios.post("backend url/login user", { username, password })
+      //   .then((result) => {
+      //     console.log("Response from backend -> ", result);
+      //     if (result.data && result.data.success) {
+      //       Navigator("/home", { replace: true });
+      //     } else {
+      //       setDetails(intitial);
+      //       return swal({
+      //         title: "Login Failed!",
+      //         text: "Invalid login credentials... \n If you are new user please first registered your self.",
+      //         icon: "error",
+      //         button: "Try Again",
+      //       });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     alert(`Something went wrong ${error}`);
+      //   });
       Navigator("/home", { replace: true });
     }
-    // else{
-    //    swal({
-    //         title: "Invalid Login Details",
-    //         text: "Please try again!" ,
-    //         icon: "error", 
-    //         });
-    //       setDetails(intitial);
-    // }
   };
 
   return (
@@ -112,9 +123,11 @@ function Login(props) {
           autoComplete="off"
         >
           <Typography id="text_home_regis">Welcome!</Typography>
-          <Typography id="text_home">{props.PageTitle} to your portal</Typography>
+          <Typography id="text_home">
+            {props.PageTitle} to your portal
+          </Typography>
           <TextField
-            id="login_username"
+            id="Username"
             type="text"
             name="username"
             label="Username or ID"
@@ -124,9 +137,13 @@ function Login(props) {
             required
             onChange={InputChange}
           />
-          {errors.username ? <p className="clear_error">{errors.username}</p> : ""}
+          {errors.username ? (
+            <p className="clear_error">{errors.username}</p>
+          ) : (
+            ""
+          )}
           {/* <TextField
-            id="login_email"
+            id="Email"
             type="email"
             name="email"
             label="Email ID"
@@ -138,7 +155,7 @@ function Login(props) {
           />
           {errors.email ? <p className="clear_error">{errors.email}</p> : ""} */}
           <TextField
-            id="login_password"
+            id="Password"
             type="password"
             name="password"
             label="Password"
@@ -148,19 +165,23 @@ function Login(props) {
             required
             onChange={InputChange}
           />
-          {errors.password ? <p className="clear_error">{errors.password}</p> : ""}
+          {errors.password ? (
+            <p className="clear_error">{errors.password}</p>
+          ) : (
+            ""
+          )}
 
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
             Login
           </Button>
           <Typography className="login_link">
-            <Link to="forget_password" id="login_btn">
+            <Link to="forget_password" className="login_btn">
               Forgot your password?
             </Link>
           </Typography>
           <Typography className="login_link">
             <p>Don't have an account?</p>
-            <Link to="/Signup" id="login_btn">
+            <Link to="/Signup" className="login_btn">
               SignUp
             </Link>
           </Typography>

@@ -215,7 +215,7 @@ function SignUp(props) {
           autoComplete="off"
         >
           <TextField
-            id="name"
+            id="Name"
             type="text"
             name="name"
             label="Full Name "
@@ -248,7 +248,7 @@ function SignUp(props) {
           />
           {errors.RollNo ? <p className="clear_error">{errors.RollNo}</p> : ""}
           <TextField
-            id="addmissionDate"
+            id="AddmissionDate"
             type="date"
             name="addmissionDate"
             label="Addmission Date"
@@ -263,7 +263,7 @@ function SignUp(props) {
             ""
           )}
            <TextField
-            id="className"
+            id="ClassName"
             type="text"
             name="className"
             label="Class Name "
@@ -275,7 +275,7 @@ function SignUp(props) {
           {errors.className ? (
             <p className="clear_error">{errors.className}</p>) : ("")}
           <TextField
-            id="mobile"
+            id="Mobile"
             type="tel"
             name="mobile"
             label="Mobile"
@@ -303,7 +303,7 @@ function SignUp(props) {
           <Select
             labelId="demo-controlled-open-select-label"
             id="demo-controlled-open-select gender"
-            name="gender"
+            name="Gender"
             label="Gender"
             className="input_field"
             required
@@ -320,7 +320,7 @@ function SignUp(props) {
         </FormControl>
         {errors.gender ? <p className="clear_error">{errors.gender}</p> : ""}
            <TextField
-            id="email"
+            id="Email"
             type="email"
             name="email"
             label="Email ID"
@@ -332,7 +332,7 @@ function SignUp(props) {
           {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
          
           <TextField
-            id="dob"
+            id="DateOfBirth"
             type="date"
             name="date"
             label="Date of Birth"
@@ -343,7 +343,7 @@ function SignUp(props) {
           />
           {errors.dob ? <p className="clear_error">{errors.dob}</p> : ""}
           <TextField
-            id="fatherName"
+            id="FatherName"
             type="text"
             name="fatherName"
             label="Father Name "
@@ -358,7 +358,7 @@ function SignUp(props) {
             ""
           )}
           <TextField
-            id="motherName"
+            id="MotherName"
             type="text"
             name="motherName"
             label="Mother Name "
@@ -390,7 +390,7 @@ function SignUp(props) {
           autoComplete="off"
         >
           <TextField
-            id="address"
+            id="Address"
             type="text"
             name="address"
             label="Address"
@@ -405,7 +405,7 @@ function SignUp(props) {
             ""
           )}
           <TextField
-            id="city"
+            id="City"
             type="text"
             name="city"
             label="City"
@@ -416,7 +416,7 @@ function SignUp(props) {
           />
           {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
           <TextField
-            id="state"
+            id="State"
             type="text"
             name="state"
             label="State"
@@ -427,9 +427,9 @@ function SignUp(props) {
           />
           {errors.state ? <p className="clear_error">{errors.state}</p> : ""}
           <TextField
-            id="country"
+            id="Country"
             type="text"
-            name="country"
+            name="country" 
             label="Country"
             variant="outlined"
             className="input_field"
@@ -442,7 +442,7 @@ function SignUp(props) {
             ""
           )}
           <TextField
-            id="pincode"
+            id="Pincode"
             type="number"
             name="pincode"
             label="Pincode"

@@ -475,11 +475,11 @@ const rows = [
   },
 ];
 
-// const onCheckboxClick () => {
-//   onCheckboxClick(){
-
-//   }
-// };
+const onCheckboxClick = (ids) => {
+  const selectedRowsData = ids.map((id) => rows.find((row) => row.id === id));
+    console.log('checkbox clicked');
+    console.log(selectedRowsData);
+};
 
 export default function Attendance(props) {
   document.title = `Attendance - ${props.pageTitle}`;
@@ -516,22 +516,24 @@ export default function Attendance(props) {
           // display: "flex"
         }}
       >
-       <Checkbox
+       {/* <Checkbox
         sx={{
           color: "black",
           "&.Mui-checked": {
             color: "blue",  
           },
         }}
-        />
+        /> */}
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10]}
-          // checkboxSelection
-          // disableSelectionOnClick
-          // onCheckboxClick
+          checkboxSelection
+          disableSelectionOnClick
+          onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
+
+          // {...data}
         />
       </div>
     </>

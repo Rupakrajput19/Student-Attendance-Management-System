@@ -16,6 +16,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Disable Cors Policy
+var provider = builder.Services.BuildServiceProvider();
+var configuration = provider.GetService<IConfiguration>();
+
+builder.Services.AddCors(options =>
+{
+    var frontentUrl = configuration.GetValue<string>("Frontend_Url");
+
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(frontentUrl).AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
