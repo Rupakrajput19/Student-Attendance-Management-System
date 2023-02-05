@@ -1,4 +1,6 @@
-namespace StudentAppBackend
+﻿using System;
+
+namespace StudentAppBackend.Models
 {
     public class Students
     {
@@ -10,8 +12,8 @@ namespace StudentAppBackend
         public DateTime DateOfBirth { get; set; }
         public string? FatherName { get; set; }
         public string? MotherName { get; set; }
-        public string? ClassName { get; set; }  
-        public string? RollNo { get; set; }  
+        public string? ClassName { get; set; }
+        public string? RollNo { get; set; }
         public string? RegistrationId { get; set; }
         public DateTime AddmissionDate { get; set; }
         public string? Address { get; set; }

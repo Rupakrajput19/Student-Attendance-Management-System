@@ -42,13 +42,13 @@ namespace StudentAppBackend
                 returnvalue = true;
             }
             catch
-            { }
+            { 
+            }
             finally
             {
                 connection.Close();
             }
             return returnvalue;
-
         }
     }
 }

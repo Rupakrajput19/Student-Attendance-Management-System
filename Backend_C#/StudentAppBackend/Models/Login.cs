@@ -1,4 +1,6 @@
-﻿namespace StudentAppBackend
+﻿using System;
+
+namespace StudentAppBackend.Models
 {
     public class Login
     {
