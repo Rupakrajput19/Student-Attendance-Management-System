@@ -2,9 +2,10 @@
 
 namespace StudentAppBackend.Models
 {
+    [Serializable()]
     public class Students
     {
-        //public int StudentID { get; set; }
+        public int StudentID { get; set; }
         public string? Name { get; set; }
         public int Mobile { get; set; }
         public string? Email { get; set; }
@@ -22,6 +23,7 @@ namespace StudentAppBackend.Models
         public string? Country { get; set; }
         public int Pincode { get; set; }
         public bool? IsActive { get; set; } //= false;
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

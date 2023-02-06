@@ -4,7 +4,7 @@ namespace StudentAppBackend.Models
 {
     public class Signup
     {
-        //public int UserID { get; set; }
+        public int UserID { get; set; }
         public string? Name { get; set; }
         public string? UserName { get; set; }
         public int Mobile { get; set; }
@@ -13,5 +13,6 @@ namespace StudentAppBackend.Models
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
         public DateTime? CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 }

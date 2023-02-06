@@ -9,7 +9,7 @@ namespace StudentAppBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Login : ControllerBase
+    public class Controllers_Login : ControllerBase
     {
         [HttpGet(Name = "GetStudents")]
         //public IEnumerable<StudentAppBackend.Login> //Get()

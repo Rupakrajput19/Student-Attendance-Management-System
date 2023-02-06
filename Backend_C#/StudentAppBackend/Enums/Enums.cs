@@ -1,0 +1,42 @@
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+
+namespace StudentAppBackend.Enums
+{
+    public enum Months
+    {
+        January,    // 1
+        February,   // 2
+        March,      // 3
+        April,      // 4
+        May,        // 5
+        June,       // 6
+        July,       // 7
+        August,     // 8
+        September,  // 9
+        October,    // 10
+        November,   // 11
+        Decemnber   // 12
+    }
+
+    public enum Days
+    {
+        Sunday,      // 1
+        Monday,      // 2
+        Tuesday,     // 3
+        Wednesday,   // 4
+        Thursday,    // 5
+        Friday,      // 6
+        Saturday     // 7
+    }
+    public enum Separator
+    {
+        Comma = ',',
+        Tab = '\t',
+        Space = ' '
+    }
+    public enum Deleted
+    {
+        isDeleted = 1,
+        notDeleted = 0,
+    }
+}
