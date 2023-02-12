@@ -12,16 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // Disable Cors Security Policy
 
@@ -38,11 +30,11 @@ if (app.Environment.IsDevelopment())
 ////    });
 ////});
 
+
 builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", Options => Options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-
 
 // JSON Serializer
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(Options =>
@@ -50,7 +42,17 @@ Options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoop
 .AddNewtonsoftJson(Options => Options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
-app.UseCors();
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
+}
+
+app.UseCors(Options => Options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -59,6 +61,16 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Photos"
 });
 
+
+app.UseRouting();
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//});
+
+//app.UseMvc();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -66,3 +78,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+

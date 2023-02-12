@@ -1,4 +1,7 @@
 {
+  "ConnectionStrings": {
+    "StudentAppConnection": "data source=LAPTOP-A5Q0P5KS\\SQLEXPRESS09;initial catalog=StudentApp;trusted_connection=true"
+  },
   "dependencies": {
     "secrets1": {
       "type": "secrets"

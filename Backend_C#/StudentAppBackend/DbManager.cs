@@ -14,7 +14,8 @@ namespace StudentAppBackend
         public DbManager()
         {
             connection = new SqlConnection();
-            connection.ConnectionString = "data source = LAPTOP - A5Q0P5KS/SQLEXPRESS09; initial catalog = StudentApp; trusted_connection = true";
+            connection.ConnectionString = "data source = LAPTOP-A5Q0P5KS/SQLEXPRESS09; initial catalog = StudentApp; trusted_connection = true";
+            //Server=LAPTOP-A5Q0P5KS\SQLEXPRESS09;Database=StudentApp;Trusted_Connection=True;
             command = new SqlCommand();
             command.Connection = connection;
             command.CommandType = CommandType.Text;

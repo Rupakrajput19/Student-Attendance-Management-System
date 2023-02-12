@@ -4,31 +4,31 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using StudentAppBackend.Models;
-using StudentAppBackend;
+using StudentAppBackend.Enums;
 
 namespace StudentAppBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Controllers_Signup : ControllerBase
+    public class SignupControllers : ControllerBase
     {
         DateTime currentDateTime = DateTime.Now.AddHours(5).AddMinutes(30);
 
         private readonly IConfiguration _configuration;
 
-        public Controllers_Signup(IConfiguration confg)
+        public SignupControllers(IConfiguration configuration)
         {
-            _configuration = confg;
+            _configuration = configuration;
         }
 
         //[HttpGet(Name = "GetUser")]
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"select * from dbo.Users where IsDeleted = " + (int)Enums.Deleted.notDeleted;
+            string query = @"SELECT * FROM dbo.[Users] WHERE IsDeleted = " + (int)Deleted.notDeleted;
 
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("StudentApp");
+            string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
             SqlDataReader myReader;
 
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
@@ -50,8 +50,8 @@ namespace StudentAppBackend.Controllers
         [HttpPost]
         public JsonResult Post(Signup user)
         {
-            string query = @"insert into dbo.Users
-                            value
+            string query = @"INSERT INTO dbo.[Users]
+                            VALUE
                             (
                              ,'" + user.Name + @"'  
                              ,'" + user.UserName + @"'  
@@ -86,7 +86,7 @@ namespace StudentAppBackend.Controllers
         [HttpPut]
         public JsonResult Put(Signup user)
         {
-            string query = @"update dbo.Users set 
+            string query = @"UPDATE dbo.[Users] SET 
                              Name = '" + user.Name + @"'
                             ,UserName = '" + user.UserName + @"'
                             ,Mobile = '" + user.Mobile + @"'
@@ -95,7 +95,7 @@ namespace StudentAppBackend.Controllers
                             ,ConfirmPassword = '" + user.ConfirmPassword + @"'
                             ,IsAdmin = '" + user.IsAdmin + @"'
                             ,ModifiedOn = '" + currentDateTime + @"'
-                            where
+                            WHERE
                             UserID = '" + user.UserID + @"'
                             ";
 
@@ -123,8 +123,8 @@ namespace StudentAppBackend.Controllers
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @"delete from dbo.Users
-                            where UserID = " + id + @"
+            string query = @"DELETE FROM dbo.[Users]
+                            WHERE UserID = " + id + @"
                             ";
 
             DataTable table = new DataTable();

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import axios, {isCancel, AxiosError} from 'axios';
+import { variables } from "../Variables";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
