@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import axios, {isCancel, AxiosError} from 'axios';
-import { variables } from "../Variables";
+import { APIs } from "../Variables";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
@@ -25,7 +25,7 @@ function Login(props) {
     let errors = {};
 
     if (InputValues.username === "") {
-      errors.username = "Please Enter Your Username or ID!";
+      errors.username = "Please Enter Your Username or Email!";
     }
 
     // let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -46,9 +46,11 @@ function Login(props) {
 
     if (InputValues.password === "") {
       errors.password = "Please Enter Your Password!";
-    } else if (InputValues.password.length < 5) {
-      errors.password = "Password should be in min. 5 characters!";
-    }
+    } 
+    // else if (InputValues.password.length < 5) {
+    //   errors.password = "Password should be in min. 5 characters!";
+    // }
+
     // else if (!validPassregex) {
     //   errors.password =
     //     "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
@@ -84,25 +86,25 @@ function Login(props) {
     console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      // axios.post("backend url/login user", { username, password })
-      //   .then((result) => {
-      //     console.log("Response from backend -> ", result);
-      //     if (result.data && result.data.success) {
-      //       Navigator("/home", { replace: true });
-      //     } else {
-      //       setDetails(intitial);
-      //       return swal({
-      //         title: "Login Failed!",
-      //         text: "Invalid login credentials... \n If you are new user please first registered your self.",
-      //         icon: "error",
-      //         button: "Try Again",
-      //       });
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     alert(`Something went wrong ${error}`);
-      //   });
-      Navigator("/home", { replace: true });
+      axios.get(APIs.LOGIN , { username, password })
+        .then((result) => {
+          console.log("Response from backend -> ", result);
+          if ((result.data.UserName == username || result.data.UserID == username || result.data.Email == username) 
+          && (result.data.Password == password)) {
+            Navigator("/home", { replace: true });
+          } else {
+            setDetails(intitial);
+            return swal({
+              title: "Login Failed!",
+              text: "Invalid login credentials ... \n If you are new user please signup/registered your self.",
+              icon: "error",
+              button: "Try Again",
+            });
+          }
+        })
+        .catch((error) => {
+          alert(`Something went wrong: ${error}`);
+        });
     }
   };
 
@@ -131,7 +133,7 @@ function Login(props) {
             id="Username"
             type="text"
             name="username"
-            label="Username or ID"
+            label="Username or UserID or Email"
             variant="outlined"
             className="input_field"
             value={details.username}

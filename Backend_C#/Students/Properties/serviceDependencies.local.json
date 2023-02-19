@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql1": {
+      "secretStore": "LocalSecretsFile",
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:data_source=LAPTOP-A5Q0P5KS::SQLEXPRESS09;initial_catalog=StudentApp;trusted_connection=true",
+      "dynamicId": null
+    }
+  }
+}

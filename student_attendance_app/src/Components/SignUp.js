@@ -6,7 +6,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import axios, {isCancel, AxiosError} from 'axios';
+import { APIs } from "../Variables";
 
 function SignUp(props) {
   document.title = `SignUp - ${props.pageTitle}`;
@@ -15,6 +17,7 @@ function SignUp(props) {
     name: "",
     email: "",
     mobile: "",
+    username: "",
     password: "",
     confirm_password: "",
   };
@@ -50,6 +53,12 @@ function SignUp(props) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
     }
 
+    if (InputValues.username === "") {
+      errors.username = "Please Enter Your Username";
+    } else if (InputValues.username.length < 5){
+      errors.username = "Username Should be Minimun 5 Characters/digits";
+    }
+
     let passwordregex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/;
     let truePassword = InputValues.password;
@@ -79,18 +88,31 @@ function SignUp(props) {
   };
   
   const onSubmitClick = (events) => {
-    const { name, email, mobile, password} = details;
+    const { name, email, mobile, username, password, confirm_password} = details;
     events.preventDefault();
     console.log("details:--", details);
 
   if(!Errors_check(details)){
-    // axios.post("backend url/addUser", {name, email, mobile, password}).then((response) => {
-    //   console.log("Registration Succesfull")
-    // })
-    // .catch((errors) => {
-    //   console.log(errors)
-    // })
-    Navigator("/", {replace : "true"});
+    axios.post(APIs.USER , {name, email, mobile, username, password, confirm_password})
+    .then((response) => {
+      console.log("Response from backend -> ", response);
+      console.log("Registration Succesfull");
+      if(response.status == 200){
+        swal({
+          title: "User Succesfully Created",
+          text: "Please Login with your Credentials!",
+          icon: "success",
+          button: "OK",
+        });
+        Navigator("/", {replace : "true"});
+      }
+      else{
+        alert(`Something went wrong /n Unable to recived Response from backend API's`);
+      }
+    })
+    .catch((errors) => {
+      alert(`Something went wrong: ${errors}`);
+    })
   }
 };
     
@@ -146,6 +168,18 @@ function SignUp(props) {
             onChange={InputChange}
           />
           {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
+          <TextField
+            id="Username"
+            type="text"
+            name="username"
+            label="Username"
+            variant="outlined"
+            className="input_field"
+            value={details.username}
+            required
+            onChange={InputChange}
+          />
+          {errors.username ? (<p className="clear_error">{errors.username}</p>) : ("")}
           <TextField
             id="Password"
             type="password"
