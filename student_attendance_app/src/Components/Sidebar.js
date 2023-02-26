@@ -30,7 +30,7 @@ export default function Sidebar(props) {
   const drawerWidth = 220;
   const drawerMargin = "95px 0 0 0";
   const drawerBorder = '2px solid black';
-  const isAdmin = true;
+  const isAdmin = true; //props.IsAdmin
   const drawer = (
     <div>
       <List>&nbsp; &nbsp; Hi, <b>Ritu Kumar</b> {isAdmin ? '(Admin)' : '(Student)'}</List>
@@ -91,6 +91,17 @@ export default function Sidebar(props) {
           </ListItemButton>
             </Link>
         </ListItem>
+        <Divider />
+      { isAdmin ? 
+        <ListItem>
+          <Link to="/" className="login_btn">
+            <ListItemButton>
+            <PunchClockIcon/>
+               All Users List
+                </ListItemButton>
+          </Link>
+        </ListItem>
+        : '' }
       <Divider />
         <ListItem>
           <Link to="/contactUs" className="login_btn">

@@ -16,9 +16,6 @@ namespace Students.Controllers
     [Route("api/[controller]")]
     public class LoginControllers : ControllerBase
     {
-        string email = string.Empty;
-        string userName = string.Empty;
-        string password = string.Empty;
 
         private readonly IConfiguration _configuration;
         public LoginControllers(IConfiguration configuration)
@@ -26,12 +23,16 @@ namespace Students.Controllers
             _configuration = configuration;
         }
         //[HttpGet(Name = "GetUsers")]
-        [HttpGet]
-        public JsonResult Get()
+        [HttpPost]
+        public JsonResult Post(Login login)
         {
-            string query = @"SELECT * FROM dbo.[vwUsersList]";
+            string query = @"SELECT * FROM dbo.[vwUsersList] WHERE 
+                            Email = '" + login.UserName + @"' OR UserName = '" + login.UserName + @"'
+                            AND Password = '" + login.Password + @"'
+                            ";
             //query.Where.And(new Expression("IsDeleted", CompareOperator.Equals, (int)Deleted.notDeleted, false));
             //query.Where.And(new Expression("UserID", CompareOperator.Equals, UserID));
+            //query.Where.And(new In("UserID", "UserID", UserID));
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -59,34 +60,6 @@ namespace Students.Controllers
 
             return new JsonResult(table);
         }
-
-        [HttpPost]
-        public IActionResult Post(Users user)
-        {
-            // TODO: Check if user credentials are valid
-            bool isAuthenticated = false;
-
-            if (isAuthenticated)
-            {
-                return Ok("User logged in successfully");
-            }
-            else
-            {
-                return Unauthorized("Invalid email or password");
-            }
-        }
-
-        //public class UserLogin()
-        //{ 
-
-        //if((email || userName) && password)
-        //    {
-        //    //login succesfull
-        //    }
-        //}
-
-
-
 
         //at top
         //public static int? Email { get; set; }

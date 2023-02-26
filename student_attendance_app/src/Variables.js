@@ -1,24 +1,12 @@
-// API's Url's in an object.
+// Regex Variable
 
-const API_URL = "https://localhost:44367/api/";
+export const Variables = {
+  // Regex
+  EmailRegex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+  PasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/,
 
-export const APIs = {
-    LOGIN: API_URL + "LoginControllers",
-    USER: API_URL + "UsersControllers",
-    STUDENTS: API_URL + "StudentsControllers",
-    ATTEDNDANCES: API_URL + "AttendancesControllers",
+// Validations Errors
+
+Empty: "Please Enter ",
+
 };
-
-// **-- API's --**
-
-// 1. https://localhost:44367/api/LoginControllers
-// 2. https://localhost:44367/api/UsersControllers
-// 3. https://localhost:44367/api/StudentsControllers
-// 4. https://localhost:44367/api/AttendancesControllers
-
-// ----------------------
-// 1.Get api - (Login/Users/Students/Attendances) - Done
-// 2.Post api - (Users/Students/Attendances) - Done
-// 3.Put/Update api - (Users/Students/Attendances) - Done
-// 4.Delete api - /id - (Users/Students/Attendances) - Done
-// ----------------------

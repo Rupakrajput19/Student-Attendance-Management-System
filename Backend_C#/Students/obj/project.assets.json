@@ -3548,11 +3548,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Students\\Students\\Students.csproj",
+      "projectUniqueName": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj",
       "projectName": "Students",
-      "projectPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Students\\Students\\Students.csproj",
+      "projectPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj",
       "packagesPath": "C:\\Users\\Ritu Kumar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Students\\Students\\obj\\",
+      "outputPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ritu Kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",

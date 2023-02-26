@@ -16,7 +16,7 @@ namespace Students.Controllers
     [Route("api/[controller]")]
     public class AttendancesControllers : ControllerBase
     {
-        DateTime currentDateTime = DateTime.Now.AddHours(5).AddMinutes(30);
+        DateTime currentDateTime = DateTime.Now; //.AddHours(5).AddMinutes(30);
 
         private readonly IConfiguration _configuration;
         public AttendancesControllers(IConfiguration configuration)
@@ -28,8 +28,6 @@ namespace Students.Controllers
         public JsonResult Get()
         {
             string query = @"SELECT * FROM dbo.[Attendances] WHERE [IsDeleted] = " + (int)Deleted.notDeleted;
-            //query.Where.And(new Expression("IsDeleted", CompareOperator.Equals, (int)Deleted.notDeleted, false));
-            //query.Where.And(new Expression("UserID", CompareOperator.Equals, UserID));
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -93,7 +91,7 @@ namespace Students.Controllers
                              IsPresent = '" + attandances.IsPresent + @"'
                             ,AttendanceDate = '" + attandances.AttendanceDate + @"'
                             ,ModifiedOn = '" + currentDateTime + @"'
-                            ,ModifiedBy = '" + "Rupak Rajput" + @"'
+                            ,ModifiedBy = '" + Security.UserName + @"'
                             WHERE
                             AttendanceID = '" + attandances.AttendanceID + @"' AND
                             StudentID = '" + attandances.StudentID + @"'

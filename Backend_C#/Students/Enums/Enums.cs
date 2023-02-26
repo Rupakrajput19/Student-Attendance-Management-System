@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Students.Enums
 {
-    //public enum Security
-    //{
-    //   UserName = "Rupak Rajput",
-    //}
+    public static class Security
+    {
+        public const string UserName = "Rupak Rajput";
+    }
     public enum Months
     {
         January = 1,    // 1

@@ -8,7 +8,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import axios, {isCancel, AxiosError} from 'axios';
-import { APIs } from "../Variables";
+import { APIs } from "../APIs";
+import { Variables } from "../Variables";
+import ForgotPassword from "./ForgotPassword";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
@@ -24,50 +26,19 @@ function Login(props) {
   const Errors_check = (InputValues) => {
     let errors = {};
 
-    if (InputValues.username === "") {
+    if (InputValues.username.trim() === "") {
       errors.username = "Please Enter Your Username or Email!";
     }
 
-    // let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    // let trueEmail = InputValues.email;
-    // let validEmailregex = trueEmail.match(emailregex);
+    let inputPassword = InputValues.password.trim();
+    let validPassword = inputPassword.match(Variables.PasswordRegex);
 
-    // if (InputValues.email === "") {
-    //   errors.username = "Please Enter Your Email ID!";
-    // }
-    // else if (!validEmailregex) {
-    //   errors.email = "Enter Valid Email! ex:abc@gmail.com";
-    // }
-
-    // let passwordregex =
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/;
-    // let truePassword = InputValues.password;
-    // let validPassregex = truePassword.match(passwordregex);
-
-    if (InputValues.password === "") {
+    if (InputValues.password.trim() === "") {
       errors.password = "Please Enter Your Password!";
-    } 
-    // else if (InputValues.password.length < 5) {
-    //   errors.password = "Password should be in min. 5 characters!";
-    // }
-
-    // else if (!validPassregex) {
-    //   errors.password =
-    //     "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
-    // }
-
-    // let UserName = (InputValues.password == 'admin' || InputValues.password == 'Admin');
-    // let PassWord = (InputValues.username == 'admin' || InputValues.username == 'Admin');
-    // if(!(UserName && PassWord)){
-    //   // debugger;
-    //   // swal({
-    //   //   title: "Invalid Login Details",
-    //   //   text: "Please try again!" ,
-    //   //   icon: "error",
-    //   // });
-    //   window.alert('Galat Hai');
-    //   setDetails(intitial);
-    // }
+    } else if (!validPassword) {
+      errors.password =
+        "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
+    }
 
     setErrors(errors);
     return Object.entries(errors).length > 0;
@@ -86,12 +57,21 @@ function Login(props) {
     console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      axios.get(APIs.LOGIN , { username, password })
+      axios.post(APIs.LOGIN , { username, password })
         .then((result) => {
           console.log("Response from backend -> ", result);
-          if ((result.data.UserName == username || result.data.UserID == username || result.data.Email == username) 
-          && (result.data.Password == password)) {
-            Navigator("/home", { replace: true });
+          if (result.data.length == 1 && result.status == 200) {
+            if((result.data[0].UserName == username || result.data[0].Email == username) && (result.data[0].Password == password)){
+              Navigator("/home", { replace: true });
+            }
+          console.log(`UserID:-> ${result.data[0].UserID} \n
+                      Name:-> ${result.data[0].Name} \n
+                      UserName:-> ${result.data[0].UserName} \n
+                      Mobile:-> ${result.data[0].Mobile} \n
+                      Email:-> ${result.data[0].Email} \n
+                      Password:-> ${result.data[0].Password} \n
+                      IsAdmin:-> ${result.data[0].IsAdmin}
+                      `);
           } else {
             setDetails(intitial);
             return swal({
@@ -103,7 +83,11 @@ function Login(props) {
           }
         })
         .catch((error) => {
-          alert(`Something went wrong: ${error}`);
+          swal({
+            title: `Something went wrong: ${error}`,
+            text: "Unable to get response from backend, please try again later!",
+            icon: "error",
+          });
         });
     }
   };
@@ -145,18 +129,6 @@ function Login(props) {
           ) : (
             ""
           )}
-          {/* <TextField
-            id="Email"
-            type="email"
-            name="email"
-            label="Email ID"
-            variant="outlined"
-            className="input_field"
-            value={details.email}
-            required
-            onChange={InputChange}
-          />
-          {errors.email ? <p className="clear_error">{errors.email}</p> : ""} */}
           <TextField
             id="Password"
             type="password"
@@ -177,11 +149,7 @@ function Login(props) {
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
             Login
           </Button>
-          <Typography className="login_link">
-            <Link to="forget_password" className="login_btn">
-              Forgot your password?
-            </Link>
-          </Typography>
+            <ForgotPassword />
           <Typography className="login_link">
             <p>Don't have an account?</p>
             <Link to="/Signup" className="login_btn">

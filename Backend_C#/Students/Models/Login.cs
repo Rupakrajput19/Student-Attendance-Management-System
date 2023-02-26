@@ -8,7 +8,8 @@ namespace Students.Models
     {
 
         #region Login Properties
-        public string? Email { get; set; }
+        //public string? Email { get; set; }
+        //public int? UserID { get; set; }
         //{  
         //    set
         //    {

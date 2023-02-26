@@ -12,7 +12,7 @@ namespace Students.Controllers
     [Route("api/[controller]")]
     public class UsersControllers : ControllerBase
     {
-        DateTime currentDateTime = DateTime.Now.AddHours(5).AddMinutes(30);
+        DateTime currentDateTime = DateTime.Now; //.AddHours(5).AddMinutes(30);
 
         private readonly IConfiguration _configuration;
 
@@ -50,7 +50,33 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult Post(Users user)
         {
-            string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin)
+            bool userUsernameStatus = false;
+            bool userEmailStatus = false;
+            string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+            using (SqlConnection conn = new SqlConnection(sqlDataSource))
+            {
+                using (SqlCommand cmd = new SqlCommand("CheckUsernameAvailability", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserName", user.UserName.Trim());
+                    conn.Open();
+                    userUsernameStatus = Convert.ToBoolean(cmd.ExecuteScalar());
+                    conn.Close();
+                }
+                using (SqlCommand cmd = new SqlCommand("CheckEmailAvailability", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", user.Email.Trim());
+                    conn.Open();
+                    userEmailStatus = Convert.ToBoolean(cmd.ExecuteScalar());
+                    conn.Close();
+                }
+            }
+            if (userUsernameStatus)
+            {
+                if (userEmailStatus)
+                {
+                    string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin)
                             VALUES
                             (
                              '" + user.Name + @"'  
@@ -63,25 +89,34 @@ namespace Students.Controllers
                              )
                             ";
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
-            SqlDataReader myReader;
+                    DataTable table = new DataTable();
+                    //string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+                    SqlDataReader myReader;
 
 
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                    {
+                        myCon.Open();
+                        using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                        {
+                            myReader = myCommand.ExecuteReader();
+                            table.Load(myReader);
+
+                            myReader.Close();
+                            myCon.Close();
+                        }
+                    }
+                    return new JsonResult("Users Successfully Registered");
+                }
+                else
                 {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-
-                    myReader.Close();
-                    myCon.Close();
+                    return new JsonResult("Email Already Registered");
                 }
             }
-
-            return new JsonResult("Users Added Successfully");
+            else
+            {
+                return new JsonResult("User Already Registered");
+            }
         }
 
         [HttpPut]
@@ -89,7 +124,6 @@ namespace Students.Controllers
         {
             string query = @"UPDATE dbo.[Users] SET 
                              Name = '" + user.Name + @"'
-                            ,UserName = '" + user.UserName + @"'
                             ,Mobile = '" + user.Mobile + @"'
                             ,Email = '" + user.Email + @"'
                             ,Password = '" + user.Password + @"'

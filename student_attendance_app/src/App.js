@@ -13,6 +13,7 @@ import Events from "./Components/Events";
 import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
 import StudentDetails from "./Components/StudentDetails";
+import ForgotPassword from "./Components/ForgotPassword";
 
 const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
@@ -27,6 +28,8 @@ function App() {
           <Route exact path="/home" element={<Home   pageTitle={pageTitle}/>} />
           <Route exact path="/attendance" element={<Attendance   pageTitle={pageTitle}/>} />
           <Route exact path="/form" element={<StudentForm   pageTitle={pageTitle}/>} />
+
+          {/* <Route exact path="/forgotPassword" element={<ForgotPassword  pageTitle={pageTitle}/>} /> */}
 
           <Route exact path="/profile" element={<MyProfile WIP_text={text}  pageTitle={pageTitle}/>} />
           <Route exact path="/student_details" element={<StudentDetails WIP_text={text}  pageTitle={pageTitle}/>} />

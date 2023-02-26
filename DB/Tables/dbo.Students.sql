@@ -1,7 +1,7 @@
 USE [StudentApp]
 GO
 
-/****** Object:  Table [dbo].[Students]    Script Date: 02-02-2023 23:20:02 ******/
+/****** Object:  Table [dbo].[Students]    Script Date: 26-02-2023 23:52:48 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -10,28 +10,29 @@ GO
 
 CREATE TABLE [dbo].[Students](
 	[StudentID] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [varchar](100) NULL,
-	[Mobile] [varchar](10) NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Mobile] [varchar](15) NOT NULL,
 	[Email] [varchar](100) NULL,
 	[Gender] [varchar](50) NULL,
-	[DateOfBirth] [datetime] NULL,
+	[DateOfBirth] [varchar](100) NULL,
 	[FatherName] [varchar](100) NULL,
 	[MotherName] [varchar](100) NULL,
 	[ClassName] [varchar](100) NULL,
 	[RollNo] [varchar](10) NULL,
 	[RegistrationID] [varchar](10) NULL,
-	[AddmissionDate] [datetime] NULL,
+	[AddmissionDate] [varchar](100) NULL,
 	[Address] [varchar](100) NULL,
 	[City] [varchar](50) NULL,
 	[State] [varchar](50) NULL,
 	[Country] [varchar](50) NULL,
-	[IsActive] [bit] NULL,
 	[Pincode] [varchar](50) NULL,
+	[IsActive] [bit] NULL,
 	[IsDeleted] [int] NULL,
 	[CreatedBy] [varchar](100) NULL,
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [varchar](100) NULL,
-	[ModifiedOn] [datetime] NULL,
+	[ModifiedOn] [varchar](100) NULL,
+	[Photo] [varchar](500) NULL,
  CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
 (
 	[StudentID] ASC
@@ -39,16 +40,19 @@ CREATE TABLE [dbo].[Students](
 ) ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF_Students_IsActive]  DEFAULT ((1)) FOR [IsActive]
+GO
+
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__IsDelet__71D1E811]  DEFAULT ((0)) FOR [IsDeleted]
 GO
 
-ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Created__72C60C4A]  DEFAULT (suser_sname()) FOR [CreatedBy]
+ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Created__72C60C4A]  DEFAULT ('Ritu Kumar') FOR [CreatedBy]
 GO
 
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Created__73BA3083]  DEFAULT (getdate()) FOR [CreatedOn]
 GO
 
-ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Updated__74AE54BC]  DEFAULT (suser_sname()) FOR [ModifiedBy]
+ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Updated__74AE54BC]  DEFAULT ('Ritu Kumar') FOR [ModifiedBy]
 GO
 
 ALTER TABLE [dbo].[Students] ADD  CONSTRAINT [DF__Student__Updated__75A278F5]  DEFAULT (getdate()) FOR [ModifiedOn]

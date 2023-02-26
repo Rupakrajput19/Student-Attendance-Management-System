@@ -9,6 +9,7 @@ export default function StudentDetails(props) {
       <Header />
       <Sidebar />
       <div className="WIP_text">Student Details {props.WIP_text}</div>
+      {/* All student data data should be here */}
     </>
   );
 }

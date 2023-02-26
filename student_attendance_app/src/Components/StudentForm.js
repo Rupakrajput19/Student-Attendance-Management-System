@@ -12,8 +12,12 @@ import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { Variables } from "../Variables";
+import { APIs } from "../APIs";
+import swal from "sweetalert";
+import axios, {isCancel, AxiosError} from 'axios';
 
-function SignUp(props) {
+function StudentForm(props) {
   document.title = `Form - ${props.pageTitle}`;
   const Navigator = useNavigate();
   const intitial = {
@@ -52,40 +56,6 @@ function SignUp(props) {
     setOpen(true);
   };
 
-  const onSubmitClick = (events) => {
-    const {
-      name,
-      email,
-      mobile,
-      RollNo,
-      className,
-      dob,
-      addmissionDate,
-      RegistrationId,
-      fatherName,
-      motherName,
-      gender,
-      address,
-      city,
-      state,
-      country,
-      pincode,
-    } = details;
-    events.preventDefault();
-    console.log("details:--", details);
-
-    if (!Errors_check(details)) {
-      Navigator("/", { replace: "true" });
-    }
-  };
-
-  //  const ClearData = () => {
-  //     // setDetails({});
-  //     // setDetails(intitial);
-  //     window.location.reload();
-  //     console.log('initial');
-  //   };
-
   const Errors_check = (InputValues) => {
     let errors = {};
 
@@ -117,7 +87,6 @@ function SignUp(props) {
     }
 
     if (InputValues.dob === InputValues.addmissionDate) {
-      // debugger;
       errors.dob = "Date of Birth and Addmission Date Can't be Same";
       errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
     }
@@ -184,6 +153,66 @@ function SignUp(props) {
     setDetails(tempDetails);
     Errors_check(details);
   };
+  const onSubmitClick = (events) => {
+    const {
+      name,
+      email,
+      mobile,
+      RollNo,
+      className,
+      dob,
+      addmissionDate,
+      RegistrationId,
+      fatherName,
+      motherName,
+      gender,
+      address,
+      city,
+      state,
+      country,
+      pincode,
+    } = details;
+    events.preventDefault();
+    console.log("details:--", details);
+
+    if (!Errors_check(details)) {
+      axios.post(APIs.STUDENTS , {name, email, mobile, RollNo, className, dob, addmissionDate, RegistrationId, 
+        fatherName, motherName, gender, address, city, state, country, pincode})
+      .then((response) => {
+        debugger
+        console.log("Response from backend -> ", response);
+        if(response.data == "Student Added Successfully" && response.status == 200){
+          swal({
+            title: "Student Succesfully Registered",
+            // text: "Please Login with your Credentials!",
+            icon: "success"
+          });      
+          Navigator("/attendance", { replace: "true" });
+        }
+        else if(response.data == "Students Already Registered" || response.data == "Email Already Registered" && response.status == 200){
+          swal({
+            title: `${response.data}!`,
+            // text: `${response.data} with us, please login with your registered details or you can forgot your password!`,
+            icon: "error"
+          });
+        }
+      })
+      .catch((errors) => {
+        swal({
+          title: `Something went wrong: ${errors}`,
+          text: "Unable to get response from backend, please try again later!",
+          icon: "error"
+        });
+      })
+    }
+  }
+
+  //  const ClearData = () => {
+  //     // setDetails({});
+  //     // setDetails(intitial);
+  //     window.location.reload();
+  //     console.log('initial');
+  //   };
 
   return (
     <>
@@ -465,4 +494,4 @@ function SignUp(props) {
   );
 }
 
-export default SignUp;
+export default StudentForm;

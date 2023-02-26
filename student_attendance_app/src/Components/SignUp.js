@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import registration_image from "../Images/registration_image.jpg";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import axios, {isCancel, AxiosError} from 'axios';
-import { APIs } from "../Variables";
+import { APIs } from "../APIs";
+import { Variables } from "../Variables";
 
 function SignUp(props) {
   document.title = `SignUp - ${props.pageTitle}`;
@@ -19,62 +20,63 @@ function SignUp(props) {
     mobile: "",
     username: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
   };
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
   
   const Errors_check = (InputValues) => {
     let errors = {};
+    let nam = InputValues.name.trim();
+    let eml = InputValues.email.trim();
+    let mob = InputValues.mobile.trim();
+    let usr = InputValues.username.trim();
+    let pass = InputValues.password.trim();
+    let cpass = InputValues.confirmPassword.trim();
 
-    if (InputValues.name === "") {
+    if (nam === "") {
       errors.name = "Please Enter Full Name!";
-    } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
+    } else if (nam.length < 3 || nam.length > 30) {
       errors.name = "Please Enter Name Between 3-30 Characters!";
-    } else if (!isNaN(InputValues.name)) {
+    } else if (!isNaN(nam)) {
       errors.name = "Only Characters Allowed In Name!";
     }
 
-    let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let trueEmail = InputValues.email;
-    let validEmailregex = trueEmail.match(emailregex);
+    let validEmail = eml.match(Variables.EmailRegex);
 
-    if (InputValues.email === "") {
+    if (eml === "") {
       errors.email = "Please Enter Email!";
-    } else if (!validEmailregex) {
+    } else if (!validEmail) {
       errors.email = "Enter Valid Email! ex:abc@gmail.com";
     }
 
-    if (InputValues.mobile === "") {
+    if (mob === "") {
       errors.mobile = "Please Enter Mobile No.!";
-    } else if (isNaN(InputValues.mobile)) {
+    } else if (isNaN(mob)) {
       errors.mobile = "Only No. Allowed In Mobile!";
-    } else if ((InputValues.mobile.length < 10) || (InputValues.mobile.length > 12)) {
+    } else if ((mob.length < 10) || (mob.length > 12)) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
     }
 
-    if (InputValues.username === "") {
+    if (usr === "") {
       errors.username = "Please Enter Your Username";
-    } else if (InputValues.username.length < 5){
-      errors.username = "Username Should be Minimun 5 Characters/digits";
+    } else if ((usr.length < 5) || (usr.length > 10)) {
+      errors.username = "Username Should be in 5-10 Characters";
     }
 
-    let passwordregex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#.$!^%*?&]{8,20}$/;
-    let truePassword = InputValues.password;
-    let validPassregex = truePassword.match(passwordregex);
+    let validPassword = pass.match(Variables.PasswordRegex);
 
-    if (InputValues.password === "") {
+    if (pass === "") {
       errors.password = "Please Enter Password!";
-    } else if (!validPassregex) {
+    } else if (!validPassword) {
       errors.password =
         "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
     }
 
-    if (InputValues.confirm_password === "") {
-      errors.confirm_password = "Please Enter Confirm Password!";
-    } else if (!(InputValues.confirm_password === InputValues.password)) {
-      errors.confirm_password = "Confirm Password Must Be Same As Above Password!";
+    if (cpass === "") {
+      errors.confirmPassword = "Please Enter Confirm Password!";
+    } else if (!(cpass === pass)) {
+      errors.confirmPassword = "Confirm Password Must Be Same As Above Password!";
     }
     setErrors(errors);
     return Object.entries(errors).length > 0;
@@ -88,30 +90,49 @@ function SignUp(props) {
   };
   
   const onSubmitClick = (events) => {
-    const { name, email, mobile, username, password, confirm_password} = details;
+    const { name, email, mobile, username, password, confirmPassword} = details;
     events.preventDefault();
     console.log("details:--", details);
 
   if(!Errors_check(details)){
-    axios.post(APIs.USER , {name, email, mobile, username, password, confirm_password})
+    axios.post(APIs.USER , {name, email, mobile, username, password, confirmPassword})
     .then((response) => {
+      debugger
       console.log("Response from backend -> ", response);
-      console.log("Registration Succesfull");
-      if(response.status == 200){
+      if(response.data == "Users Successfully Registered" && response.status == 200){
         swal({
-          title: "User Succesfully Created",
+          title: "User Succesfully Registered",
           text: "Please Login with your Credentials!",
-          icon: "success",
-          button: "OK",
+          icon: "success"
         });
         Navigator("/", {replace : "true"});
       }
-      else{
-        alert(`Something went wrong /n Unable to recived Response from backend API's`);
+      else if(response.data == "User Already Registered" || response.data == "Email Already Registered" && response.status == 200){
+        swal({
+          title: `${response.data}!`,
+          text: `${response.data} with us, please login with your registered details or you can forgot your password!`,
+          icon: "error"
+        });
       }
+      // else{
+      //   swal({
+      //     title: "Something went wrong!",
+      //     text: "Unable to get response from backend, please try again later!",
+      //     icon: "error"
+      //   });
+      // }
     })
     .catch((errors) => {
-      alert(`Something went wrong: ${errors}`);
+      swal({
+        title: `Something went wrong: ${errors}`,
+        text: "Unable to get response from backend, please try again later!",
+        icon: "error"
+      });
+      // debugger
+      // alert(`Something went wrong: ${errors}`);
+      // alert(`Something went wrong: ${errors.response.data}`);
+      // alert(`Something went wrong: ${errors.request.response}`);
+      // alert(`Something went wrong: ${errors.request.responseText}`);
     })
   }
 };
@@ -193,17 +214,17 @@ function SignUp(props) {
           {errors.password ? (
             <p className="clear_error">{errors.password}</p>) : ("")}
           <TextField
-            id="Confirm_password"
+            id="confirmPassword"
             type="password"
-            name="confirm_password"
+            name="confirmPassword"
             label="Confirm Password"
             variant="outlined"
             className="input_field"
             required
             onChange={InputChange}
           />
-          {errors.confirm_password ? (
-            <p className="clear_error">{errors.confirm_password}</p>) : ("")}
+          {errors.confirmPassword ? (
+            <p className="clear_error">{errors.confirmPassword}</p>) : ("")}
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
             Submit
           </Button>

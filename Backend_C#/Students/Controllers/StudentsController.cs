@@ -16,7 +16,7 @@ namespace Students.Controllers
     [Route("api/[controller]")]
     public class StudentsControllers : ControllerBase
     {
-        DateTime currentDateTime = DateTime.Now.AddHours(5).AddMinutes(30);
+        DateTime currentDateTime = DateTime.Now; //.AddHours(5).AddMinutes(30);
 
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;

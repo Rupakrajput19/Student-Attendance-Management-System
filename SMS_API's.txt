@@ -26,7 +26,8 @@ Added Username fields need to add -- IsAdmin
 Need to create all users list
 
 
-
+Need to add and disable cors
+"Frontend_Url": "http://localhost:3000/"
 
 
 
