@@ -1,7 +1,7 @@
 USE [StudentApp]
 GO
 
-/****** Object:  View [dbo].[vwStudentsList]    Script Date: 26-02-2023 23:48:20 ******/
+/****** Object:  View [dbo].[vwStudentsList]    Script Date: 18-03-2023 23:06:02 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,9 +12,12 @@ GO
 
 
 
+
+
+
 ALTER VIEW [dbo].[vwStudentsList]
 AS
-SELECT   StudentID, Name, Mobile, Email,Gender, DateOfBirth, FatherName, MotherName, ClassName, RollNo, RegistrationID, AddmissionDate, Address + ', ' + City + ', ' + State + ', ' + Country + ' - ' + Pincode AS FullAddress, IsActive, Photo
+SELECT   StudentID, Name, Mobile, Email,Gender, DateOfBirth, FatherName, MotherName, ClassName, RegistrationID, AddmissionDate, Address + ', ' + City + ', ' + State + ', ' + Country + ' - ' + Pincode AS FullAddress, IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn
 FROM       dbo.Students
 WHERE    (IsDeleted = 0)
 GO

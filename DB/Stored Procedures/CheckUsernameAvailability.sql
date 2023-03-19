@@ -1,6 +1,6 @@
 USE [StudentApp]
 GO
-/****** Object:  StoredProcedure [dbo].[CheckUsernameAvailability]    Script Date: 26-02-2023 23:35:51 ******/
+/****** Object:  StoredProcedure [dbo].[CheckUsernameAvailability]    Script Date: 18-03-2023 23:35:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

@@ -17,7 +17,6 @@ namespace Students.Models
         public string? FatherName { get; set; }
         public string? MotherName { get; set; }
         public string? ClassName { get; set; }
-        public string? RollNo { get; set; }
         public string? RegistrationID { get; set; }
         public DateTime AddmissionDate { get; set; }
         public string? Address { get; set; }

@@ -11,7 +11,8 @@ import { Link } from "react-router-dom";
 import swal from "sweetalert";
 import { APIs } from "../APIs";
 import { Variables } from "../Variables";
-import axios, {isCancel, AxiosError} from 'axios';
+import axios, { isCancel, AxiosError } from "axios";
+import { Ring } from "../Ring";
 
 export default function ForgotPassword(props) {
   const [open, setOpen] = useState(false);
@@ -28,12 +29,11 @@ export default function ForgotPassword(props) {
     userInput: "",
     mobile: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   };
 
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
-
 
   const Errors_check = (InputValues) => {
     let errors = {};
@@ -41,34 +41,28 @@ export default function ForgotPassword(props) {
     let mob = InputValues.mobile.trim();
     let pass = InputValues.password.trim();
     let cpass = InputValues.confirmPassword.trim();
+    let validPassword = pass.match(Variables.PasswordRegex);
 
     if (inp === "") {
       errors.userInput = "Please Enter Your Registered Username or Email!";
-    }
-
-    if (mob === "") {
+    } else if (mob === "") {
       errors.mobile = "Please Enter Your Registered Phone!";
     } else if (isNaN(mob)) {
       errors.mobile = "Only No. Allowed In Mobile!";
-    } else if ((mob.length < 10) || (mob.length > 12)) {
+    } else if (mob.length < 10 || mob.length > 12) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
-    }
-
-    let validPassword = pass.match(Variables.PasswordRegex);
-
-    if (pass === "") {
+    } else if (pass === "") {
       errors.password = "Please Enter Your New Password!";
     } else if (!validPassword) {
       errors.password =
         "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
-    }
-
-    if (cpass === "") {
+    } else if (cpass === "") {
       errors.confirmPassword = "Please Enter Your Confirm Password!";
     } else if (!(cpass == pass)) {
-      errors.confirmPassword = "Confirm Password Must Be Same As Above Password!";
-    } 
-  
+      errors.confirmPassword =
+        "Confirm Password Must Be Same As Above Password!";
+    }
+
     setErrors(errors);
     return Object.entries(errors).length > 0;
   };
@@ -86,36 +80,47 @@ export default function ForgotPassword(props) {
     console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      debugger
-      axios.put(APIs.FORGOTPASSWORD , { userInput, mobile, password, confirmPassword })
+      <Ring />
+      axios
+        .put(APIs.FORGOTPASSWORD, {
+          userInput,
+          mobile,
+          password,
+          confirmPassword,
+        })
         .then((result) => {
-          debugger
           console.log("Response from backend -> ", result);
           // if (result.data.length == 1 && result.status == 200) {
-            // if(result.data[0].UserName == userInput || result.data[0].Email == userInput &&  result.data[0].Mobile == mobile){
-              if(result.data == "Password Successfully Updated" && result.status == 200) {
-                swal({
-                  title: "Password Successfully Updated!",
-                  text: "Please login with your given credentials",
-                  icon: "success"
-                })
+          // if(result.data[0].UserName == userInput || result.data[0].Email == userInput &&  result.data[0].Mobile == mobile){
+          if (
+            result.data == "Password Successfully Updated" &&
+            result.status == 200
+          ) {
+            swal({
+              title: "Password Successfully Updated!",
+              text: "Please login with your given credentials",
+              icon: "success",
+            });
             // setDetails(intitial);
-              // swal({
-              //   title: "Password Forgot Successfully!",
-              //   text: `
-              //   UserID: ${result.data[0].UserID}
-              //   Name: ${result.data[0].Name}
-              //   UserName: ${result.data[0].UserName}
-              //   Mobile: ${result.data[0].Mobile}
-              //   Email: ${result.data[0].Email}
-              //   Password: ${result.data[0].Password}
-              //   IsAdmin: ${result.data[0].IsAdmin}`,
-              //   icon: "success",
-              // });
-          } else if (result.data == "Forgot Password Failed" && result.status == 200) {
+            // swal({
+            //   title: "Password Forgot Successfully!",
+            //   text: `
+            //   UserID: ${result.data[0].UserID}
+            //   Name: ${result.data[0].Name}
+            //   UserName: ${result.data[0].UserName}
+            //   Mobile: ${result.data[0].Mobile}
+            //   Email: ${result.data[0].Email}
+            //   Password: ${result.data[0].Password}
+            //   IsAdmin: ${result.data[0].IsAdmin}`,
+            //   icon: "success",
+            // });
+          } else if (
+            result.data == "Forgot Password Failed" &&
+            result.status == 200
+          ) {
             // setDetails(intitial);
             return swal({
-              title: `${result.data}!`, 
+              title: `${result.data}!`,
               text: `No user found with entered \n Username/Email: "${userInput}", \n Phone No.: ${mobile} \n
               Notes: If you don't know your registered username and email then you need to contact on "9599408303 - ritukumar456061@gmail.com"`,
               icon: "error",
@@ -130,8 +135,8 @@ export default function ForgotPassword(props) {
             icon: "error",
           });
         });
-        setDetails(intitial);
-        setOpen(false);
+      setDetails(intitial);
+      setOpen(false);
     }
   };
   return (
@@ -145,8 +150,7 @@ export default function ForgotPassword(props) {
         {/* <DialogTitle>{props.pageTitle}</DialogTitle> */}
         <DialogContent>
           <DialogContentText>
-            To Forgot/Recover your password, please fill all required
-            fields.
+            To Forgot/Recover your password, please fill all required fields.
           </DialogContentText>
           <TextField
             required
@@ -161,10 +165,10 @@ export default function ForgotPassword(props) {
             onChange={InputChange}
           />
           {errors.userInput ? (
-          <p className="clear_errors">{errors.userInput}</p>
-        ) : (
-          ""
-        )}
+            <p className="clear_errors">{errors.userInput}</p>
+          ) : (
+            ""
+          )}
           <TextField
             required
             autoComplete="off"
@@ -177,11 +181,7 @@ export default function ForgotPassword(props) {
             value={details.mobile}
             onChange={InputChange}
           />
-          {errors.mobile ? (
-          <p className="clear_errors">{errors.mobile}</p>
-        ) : (
-          ""
-        )}
+          {errors.mobile ? <p className="clear_errors">{errors.mobile}</p> : ""}
           <TextField
             required
             autoComplete="off"
@@ -195,10 +195,10 @@ export default function ForgotPassword(props) {
             onChange={InputChange}
           />
           {errors.password ? (
-          <p className="clear_errors">{errors.password}</p>
-        ) : (
-          ""
-        )}
+            <p className="clear_errors">{errors.password}</p>
+          ) : (
+            ""
+          )}
           <TextField
             required
             autoComplete="off"
@@ -212,10 +212,10 @@ export default function ForgotPassword(props) {
             onChange={InputChange}
           />
           {errors.confirmPassword ? (
-          <p className="clear_errors">{errors.confirmPassword}</p>
-        ) : (
-          ""
-        )}
+            <p className="clear_errors">{errors.confirmPassword}</p>
+          ) : (
+            ""
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

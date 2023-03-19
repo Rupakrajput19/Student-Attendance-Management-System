@@ -1,6 +1,6 @@
 USE [StudentApp]
 GO
-/****** Object:  StoredProcedure [dbo].[CheckEmailAvailability]    Script Date: 26-02-2023 23:35:31 ******/
+/****** Object:  StoredProcedure [dbo].[CheckEmailAvailability]    Script Date: 18-03-2023 23:33:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

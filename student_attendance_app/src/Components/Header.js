@@ -22,14 +22,14 @@ export default function Header() {
               Student Attendance Portal
             </Typography>
             <Link to='/home' className="header_btn">
-            <Button color="inherit">
+            {/* <Button color="inherit"> */}
               Home
-            </Button>
+            {/* </Button> */}
             </Link>
              <Link to="/login" className="header_btn">
-            <Button color="inherit">
+            {/* <Button color="inherit"> */}
              Logout
-            </Button> 
+            {/* </Button>  */}
              </Link> 
           </Toolbar>
         </AppBar>

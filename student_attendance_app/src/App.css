@@ -14,7 +14,7 @@ body,
 .header {
   position: fixed !important;
   top: 0;
-  z-index: 10000;
+  z-index: 1000;
 }
 .header_img {
   margin: 10px 30px 10px 50px;
@@ -34,12 +34,14 @@ body,
   margin: 0 15px;
   padding: 5px 10px;
   font-size: larger;
-  font-weight: bolder;
+  font-weight: 100;
 }
 
 .header_btn:hover {
-  background: #1976d2;
   transition: 0.5s;
+  color: #fff;
+  background: #1976d2;
+  border: 1px solid white;
 }
 
 .home_style {
@@ -172,10 +174,20 @@ body,
   background: white;
   border: 2px solid black;
 }
-.home_text{
+.home_text {
   color: black;
   font-weight: bold;
   font-size: larger;
+}
+
+.attendance_modal {
+  float: right;
+  margin: 65px 20px 20px auto;
+}
+
+.checkbox{
+  display: flex;
+  align-items: center;
 }
 /* footer css start here */
 
@@ -235,7 +247,8 @@ footer {
 /* footer css end here */
 
 @media screen and (min-width: 600px) and (max-width: 1000px) {
-  .home_style , .student_form{
+  .home_style,
+  .student_form {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,9 +276,10 @@ footer {
     margin: 0;
     padding: 5px;
     font-size: medium;
-    font-weight: bolder;
+    font-weight: 100;
   }
-  .home_style, .student_form {
+  .home_style,
+  .student_form {
     width: 400px;
     margin: auto;
     margin: 50px auto;

@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Attendance from "./Attendance";
+import AttendanceList from "./AttendanceList";
 import StudentForm from "./StudentForm";
 
 export default function Home(props) {
@@ -96,7 +96,7 @@ export default function Home(props) {
           />
         </div>
       </div>
-      {/* <Attendance /> */}
+      {/* <Attendance List/> */}
       {/* <StudentForm /> */}
     </>
   );

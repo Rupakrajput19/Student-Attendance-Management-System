@@ -7,31 +7,37 @@ namespace Students.Enums
     {
         public const string UserName = "Rupak Rajput";
     }
-    public enum Months
+
+    public enum IsAdmin
     {
-        January = 1,    // 1
-        February = 2,   // 2
-        March = 3,      // 3
-        April = 4,      // 4
-        May = 5,        // 5
-        June = 6,       // 6
-        July = 7,       // 7
-        August = 8,     // 8
-        September = 9,  // 9
-        October = 10,   // 10
-        November = 11,  // 11
-        Decemnber = 12  // 12
+        True = 1,
+        False = 0,
+    }
+    public static class Months
+    {
+        public const string January = "January";
+        public const string February = "February";
+        public const string March = "March";
+        public const string April = "April";
+        public const string May = "May";
+        public const string June = "June";
+        public const string July = "July";
+        public const string August = "August";
+        public const string September = "September";
+        public const string October = "October";
+        public const string November = "November";
+        public const string Decemnber = "Decemnber";
     }
 
-    public enum Days
+    public static class Days
     {
-        Sunday = 1,      // 1
-        Monday = 2,      // 2
-        Tuesday = 3,     // 3
-        Wednesday = 4,   // 4
-        Thursday = 5,    // 5
-        Friday = 6,      // 6
-        Saturday = 7    // 7
+        public const string Sunday = "Sunday";
+        public const string Monday = "Monday";
+        public const string Tuesday = "Tuesday";
+        public const string Wednesday = "Wednesday";
+        public const string Thursday = "Thursday";
+        public const string Friday = "Friday";
+        public const string Saturday = "Saturday";
     }
     public enum Separator
     {

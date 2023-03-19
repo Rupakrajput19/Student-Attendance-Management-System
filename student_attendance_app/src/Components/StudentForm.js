@@ -15,7 +15,8 @@ import Sidebar from "./Sidebar";
 import { Variables } from "../Variables";
 import { APIs } from "../APIs";
 import swal from "sweetalert";
-import axios, {isCancel, AxiosError} from 'axios';
+import axios, { isCancel, AxiosError } from "axios";
+import { Ring } from "../Ring";
 
 function StudentForm(props) {
   document.title = `Form - ${props.pageTitle}`;
@@ -23,16 +24,13 @@ function StudentForm(props) {
   const intitial = {
     name: "",
     email: "",
-    RollNo: "",
     className: "",
     addmissionDate: "",
-    RegistrationId: "",
+    registrationId: "",
     fatherName: "",
     motherName: "",
     mobile: "",
-    dob: "",
-    gender: "",
-    // confirm_password: "",
+    dateOfBirth: "",
     address: "",
     city: "",
     state: "",
@@ -41,12 +39,8 @@ function StudentForm(props) {
   };
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
-  const [gender, setGender] = useState("");
+  const [genders, setGender] = useState(intitial.gender);
   const [open, setOpen] = useState(false);
-
-  const handleChange = (event) => {
-    setGender(event.target.value);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -58,62 +52,25 @@ function StudentForm(props) {
 
   const Errors_check = (InputValues) => {
     let errors = {};
+    let inputEmail = InputValues.email.trim();
+    let validEmail = inputEmail.match(Variables.EmailRegex);
 
+    // if (InputValues.gender === "") {
+    //   errors.gender = "Please Select Gender!";
+    // } else
     if (InputValues.name === "") {
       errors.name = "Please Enter Full Name!";
     } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
       errors.name = "Please Enter Name Between 3-30 Characters!";
     } else if (!isNaN(InputValues.name)) {
       errors.name = "Only Characters Allowed In Name!";
-    }
-
-    if (InputValues.RegistrationId === "") {
-      errors.RegistrationId = "Please Enter Registration Id!";
-    }
-    if (InputValues.RollNo === "") {
-      errors.RollNo = "Please Enter Roll No!";
-    }
-    
-    if (InputValues.className === "") {
-      errors.className = "Please Enter Class Name!";
-    }
-
-    if (InputValues.addmissionDate === "") {
+    } else if (InputValues.registrationId === "") {
+      errors.registrationId = "Please Enter Registration Id!";
+    } else if (InputValues.addmissionDate === "") {
       errors.addmissionDate = "Please Enter Addmission Date!";
-    }
-
-    if (InputValues.dob === "") {
-      errors.dob = "Please Enter Date of Birth!";
-    }
-
-    if (InputValues.dob === InputValues.addmissionDate) {
-      errors.dob = "Date of Birth and Addmission Date Can't be Same";
-      errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
-    }
-
-    if (InputValues.fatherName === "") {
-      errors.fatherName = "Please Enter Father Name!";
-    }
-
-    if (InputValues.motherName === "") {
-      errors.motherName = "Please Enter Mother Name!";
-    }
-
-    let emailregex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let trueEmail = InputValues.email;
-    let validEmailregex = trueEmail.match(emailregex);
-
-    if (InputValues.email === "") {
-      errors.email = "Please Enter Email!";
-    } else if (!validEmailregex) {
-      errors.email = "Enter Valid Email! ex:abc@gmail.com";
-    }
-
-    if (InputValues.gender === "") {
-      errors.gender = "Please Select Gender!";
-    }
-
-    if (InputValues.mobile === "") {
+    } else if (InputValues.className === "") {
+      errors.className = "Please Enter Class Name!";
+    } else if (InputValues.mobile === "") {
       errors.mobile = "Please Enter Mobile No.!";
     } else if (isNaN(InputValues.mobile)) {
       errors.mobile = "Only No. Allowed In Mobile!";
@@ -122,25 +79,28 @@ function StudentForm(props) {
       InputValues.mobile.length > 12
     ) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
-    }
-
-    if (InputValues.address === "") {
+    } else if (InputValues.email === "") {
+      errors.email = "Please Enter Email!";
+    } else if (!validEmail) {
+      errors.email = "Enter Valid Email! ex:abc@gmail.com";
+    } else if (InputValues.dateOfBirth === "") {
+      errors.dateOfBirth = "Please Enter Date of Birth!";
+    } else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
+      errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
+      errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
+    } else if (InputValues.fatherName === "") {
+      errors.fatherName = "Please Enter Father Name!";
+    } else if (InputValues.motherName === "") {
+      errors.motherName = "Please Enter Mother Name!";
+    } else if (InputValues.address === "") {
       errors.address = "Please Enter Address!";
-    }
-
-    if (InputValues.city === "") {
+    } else if (InputValues.city === "") {
       errors.city = "Please Enter City!";
-    }
-
-    if (InputValues.state === "") {
+    } else if (InputValues.state === "") {
       errors.state = "Please Enter State!";
-    }
-
-    if (InputValues.country === "") {
+    } else if (InputValues.country === "") {
       errors.country = "Please Enter Country!";
-    }
-
-    if (InputValues.pincode === "") {
+    } else if (InputValues.pincode === "") {
       errors.pincode = "Please Enter Pincode!";
     }
     setErrors(errors);
@@ -153,59 +113,91 @@ function StudentForm(props) {
     setDetails(tempDetails);
     Errors_check(details);
   };
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+    const { name, value } = event.target;
+    const genderValue = { [name]: value };
+    console.log("gender:--", genderValue);
+  };
+
   const onSubmitClick = (events) => {
     const {
       name,
       email,
       mobile,
-      RollNo,
       className,
-      dob,
+      dateOfBirth,
       addmissionDate,
-      RegistrationId,
+      registrationId,
       fatherName,
       motherName,
-      gender,
       address,
       city,
       state,
       country,
       pincode,
     } = details;
+    const gender = genders;
+
     events.preventDefault();
-    console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      axios.post(APIs.STUDENTS , {name, email, mobile, RollNo, className, dob, addmissionDate, RegistrationId, 
-        fatherName, motherName, gender, address, city, state, country, pincode})
-      .then((response) => {
-        debugger
-        console.log("Response from backend -> ", response);
-        if(response.data == "Student Added Successfully" && response.status == 200){
+      console.log("details:--", details);
+      console.log("gender value:--", gender);
+      <Ring />;
+      axios
+        .post(APIs.STUDENTS, {
+          name,
+          email,
+          mobile,
+          className,
+          dateOfBirth,
+          addmissionDate,
+          registrationId,
+          fatherName,
+          motherName,
+          gender,
+          address,
+          city,
+          state,
+          country,
+          pincode,
+        })
+        .then((response) => {
+          console.log("Response from backend -> ", response);
+          if (
+            response.data == "Student Succesfully Registered" &&
+            response.status == 200
+          ) {
+            swal({
+              title: `${response.data}`,
+              // text: "!",
+              icon: "success",
+            });
+            Navigator("/student_details", { replace: "true" });
+          } else if (
+            (response.data === "Student Mobile Already Existed" ||
+              response.data === "Student Email Already Existed" ||
+              response.data === "Student RegistrationID Already Existed") &&
+            response.status === 200
+          ) {
+            swal({
+              title: `${response.data}!`,
+              text: `${response.data} with another student, please try with different details!`,
+              icon: "error",
+            });
+          }
+        })
+        .catch((errors) => {
           swal({
-            title: "Student Succesfully Registered",
-            // text: "Please Login with your Credentials!",
-            icon: "success"
-          });      
-          Navigator("/attendance", { replace: "true" });
-        }
-        else if(response.data == "Students Already Registered" || response.data == "Email Already Registered" && response.status == 200){
-          swal({
-            title: `${response.data}!`,
-            // text: `${response.data} with us, please login with your registered details or you can forgot your password!`,
-            icon: "error"
+            title: `Something went wrong: ${errors}`,
+            text: "Unable to get response from backend, please try again later!",
+            icon: "error",
           });
-        }
-      })
-      .catch((errors) => {
-        swal({
-          title: `Something went wrong: ${errors}`,
-          text: "Unable to get response from backend, please try again later!",
-          icon: "error"
         });
-      })
     }
-  }
+  };
 
   //  const ClearData = () => {
   //     // setDetails({});
@@ -244,6 +236,16 @@ function StudentForm(props) {
           autoComplete="off"
         >
           <TextField
+            id="RollNo"
+            type="number"
+            name="studentId"
+            label="Roll No."
+            variant="outlined"
+            className="input_field"
+            disabled
+          />
+          <p className="clear_error">Roll no. will automatically generated</p>
+          <TextField
             id="Name"
             type="text"
             name="name"
@@ -257,25 +259,18 @@ function StudentForm(props) {
           <TextField
             id="RegistrationId"
             type="text"
-            name="RegistrationId"
+            name="registrationId"
             label="RegistrationId"
             variant="outlined"
             className="input_field"
             required
             onChange={InputChange}
           />
-          {errors.RegistrationId ? (<p className="clear_error">{errors.RegistrationId}</p>) : ("")}
-          <TextField
-            id="RollNo"
-            type="number"
-            name="RollNo"
-            label="Roll No."
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.RollNo ? <p className="clear_error">{errors.RollNo}</p> : ""}
+          {errors.registrationId ? (
+            <p className="clear_error">{errors.registrationId}</p>
+          ) : (
+            ""
+          )}
           <TextField
             id="AddmissionDate"
             type="date"
@@ -291,7 +286,7 @@ function StudentForm(props) {
           ) : (
             ""
           )}
-           <TextField
+          <TextField
             id="ClassName"
             type="text"
             name="className"
@@ -302,7 +297,10 @@ function StudentForm(props) {
             onChange={InputChange}
           />
           {errors.className ? (
-            <p className="clear_error">{errors.className}</p>) : ("")}
+            <p className="clear_error">{errors.className}</p>
+          ) : (
+            ""
+          )}
           <TextField
             id="Mobile"
             type="tel"
@@ -325,30 +323,30 @@ function StudentForm(props) {
           noValidate
           autoComplete="off"
         >
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-controlled-open-select-label">
-            Gender
-          </InputLabel>
-          <Select
-            labelId="demo-controlled-open-select-label"
-            id="demo-controlled-open-select gender"
-            name="Gender"
-            label="Gender"
-            className="input_field"
-            required
-            open={open}
-            value={gender}
-            onClose={handleClose}
-            onOpen={handleOpen}
-            onChange={handleChange}
-          >
-            <MenuItem value={"Male"}>Male</MenuItem>
-            <MenuItem value={"Female"}>Female</MenuItem>
-            <MenuItem value={"Transgender"}>Transgender</MenuItem>
-          </Select>
-        </FormControl>
-        {errors.gender ? <p className="clear_error">{errors.gender}</p> : ""}
-           <TextField
+          <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-controlled-open-select-label">
+              Gender
+            </InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select gender"
+              name="gender"
+              label="Gender"
+              className="input_field"
+              required
+              open={open}
+              value={genders}
+              onClose={handleClose}
+              onOpen={handleOpen}
+              onChange={handleChange}
+            >
+              <MenuItem value={"Male"}>Male</MenuItem>
+              <MenuItem value={"Female"}>Female</MenuItem>
+              <MenuItem value={"Transgender"}>Transgender</MenuItem>
+            </Select>
+          </FormControl>
+          {errors.gender ? <p className="clear_error">{errors.gender}</p> : ""}
+          <TextField
             id="Email"
             type="email"
             name="email"
@@ -359,18 +357,22 @@ function StudentForm(props) {
             onChange={InputChange}
           />
           {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
-         
+
           <TextField
             id="DateOfBirth"
             type="date"
-            name="date"
+            name="dateOfBirth"
             label="Date of Birth"
             variant="outlined"
             className="input_field"
             required
             onChange={InputChange}
           />
-          {errors.dob ? <p className="clear_error">{errors.dob}</p> : ""}
+          {errors.dateOfBirth ? (
+            <p className="clear_error">{errors.dateOfBirth}</p>
+          ) : (
+            ""
+          )}
           <TextField
             id="FatherName"
             type="text"
@@ -397,11 +399,15 @@ function StudentForm(props) {
             onChange={InputChange}
           />
           {errors.motherName ? (
-            <p className="clear_error">{errors.motherName}</p>) : ("")}
+            <p className="clear_error">{errors.motherName}</p>
+          ) : (
+            ""
+          )}
           <Button
             variant="contained"
             id="submit_btn"
             onClick={() => {
+              setDetails(intitial);
               window.location.reload();
             }}
           >
@@ -458,11 +464,12 @@ function StudentForm(props) {
           <TextField
             id="Country"
             type="text"
-            name="country" 
+            name="country"
             label="Country"
             variant="outlined"
             className="input_field"
             required
+            defaultValue={"India"}
             onChange={InputChange}
           />
           {errors.country ? (

@@ -1,7 +1,7 @@
 USE [StudentApp]
 GO
 
-/****** Object:  Table [dbo].[Attendances]    Script Date: 26-02-2023 23:51:39 ******/
+/****** Object:  Table [dbo].[Attendances]    Script Date: 18-03-2023 23:26:17 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,9 +12,6 @@ CREATE TABLE [dbo].[Attendances](
 	[AttendanceID] [int] IDENTITY(1,1) NOT NULL,
 	[AttendanceDate] [varchar](100) NULL,
 	[StudentID] [int] NULL,
-	[StudentName] [varchar](100) NULL,
-	[ClassName] [varchar](100) NULL,
-	[RollNo] [varchar](100) NULL,
 	[IsPresent] [bit] NULL,
 	[IsDeleted] [int] NULL,
 	[CreatedBy] [varchar](100) NULL,

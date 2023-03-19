@@ -3,8 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
 import Home from "./Components/Home";
+import AttendanceList from "./Components/AttendanceList";
 import Attendance from "./Components/Attendance";
 import StudentForm from './Components/StudentForm';
+import EditStudentForm from "./Components/EditStudents";
 import Footer from "./Components/Footer";
 import NotFound from "./Components/NotFound";
 
@@ -14,10 +16,11 @@ import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
 import StudentDetails from "./Components/StudentDetails";
 import ForgotPassword from "./Components/ForgotPassword";
+import UsersList from "./Components/UsersList";
 
 const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
-const textFuture = `${text} ,I will Add this Functionality In Future`;
+const textFuture = `${text} , I will Add this Functionality In Future`;
 function App() {
   return (
     <>
@@ -26,10 +29,13 @@ function App() {
           <Route exact path="/login" element={<Login PageTitle='Login'  pageTitle={pageTitle}/>} />
           <Route exact path="/Signup" element={<SignUp PageTitle='Registered'  pageTitle={pageTitle}/>} />
           <Route exact path="/home" element={<Home   pageTitle={pageTitle}/>} />
-          <Route exact path="/attendance" element={<Attendance   pageTitle={pageTitle}/>} />
+          <Route exact path="/attendanceList" element={<AttendanceList   pageTitle={pageTitle}/>} />
           <Route exact path="/form" element={<StudentForm   pageTitle={pageTitle}/>} />
-
+          <Route exact path="/editStudent" element={<EditStudentForm   pageTitle={pageTitle}/>} />
           {/* <Route exact path="/forgotPassword" element={<ForgotPassword  pageTitle={pageTitle}/>} /> */}
+          <Route exact path="/usersList" element={<UsersList pageTitle={pageTitle}/>} />
+          {/* <Route exact path="/attendance" element={<Attendance pageTitle={pageTitle}/>} /> */}
+
 
           <Route exact path="/profile" element={<MyProfile WIP_text={text}  pageTitle={pageTitle}/>} />
           <Route exact path="/student_details" element={<StudentDetails WIP_text={text}  pageTitle={pageTitle}/>} />

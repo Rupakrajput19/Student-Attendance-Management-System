@@ -1,7 +1,7 @@
 USE [StudentApp]
 GO
 
-/****** Object:  Table [dbo].[Users]    Script Date: 26-02-2023 23:53:35 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 18-03-2023 23:10:15 ******/
 SET ANSI_NULLS ON
 GO
 

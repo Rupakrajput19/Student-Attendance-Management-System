@@ -7,10 +7,17 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-import axios, {isCancel, AxiosError} from 'axios';
+import axios, { isCancel, AxiosError } from "axios";
 import { APIs } from "../APIs";
 import { Variables } from "../Variables";
 import ForgotPassword from "./ForgotPassword";
+import { Ring } from "../Ring";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import actionCreators from "../ReduxStates/index";
+import userAdminCheck from "../ReduxStates/Actions/index";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Backdrop } from "@mui/material";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
@@ -20,20 +27,22 @@ function Login(props) {
     password: "",
     // email: ""
   };
+
+  const dispatch = useDispatch();
+  // const actions = bindActionCreators(actionCreators, dispatch);
+
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const Errors_check = (InputValues) => {
     let errors = {};
-
-    if (InputValues.username.trim() === "") {
-      errors.username = "Please Enter Your Username or Email!";
-    }
-
     let inputPassword = InputValues.password.trim();
     let validPassword = inputPassword.match(Variables.PasswordRegex);
 
-    if (InputValues.password.trim() === "") {
+    if (InputValues.username.trim() === "") {
+      errors.username = "Please Enter Your Username or Email!";
+    } else if (InputValues.password.trim() === "") {
       errors.password = "Please Enter Your Password!";
     } else if (!validPassword) {
       errors.password =
@@ -54,17 +63,28 @@ function Login(props) {
   const onSubmitClick = (events) => {
     const { username, password } = details;
     events.preventDefault();
-    console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      axios.post(APIs.LOGIN , { username, password })
-        .then((result) => {
+      setIsLoading(true);
+      console.log("details:--", details);
+      axios
+      .post(APIs.LOGIN, { username, password })
+      .then((result) => {
+          // setIsLoading(true);
           console.log("Response from backend -> ", result);
           if (result.data.length == 1 && result.status == 200) {
-            if((result.data[0].UserName == username || result.data[0].Email == username) && (result.data[0].Password == password)){
-              Navigator("/home", { replace: true });
+            if (
+              (result.data[0].UserName == username ||
+                result.data[0].Email == username) &&
+              result.data[0].Password == password
+            ) {
+              // actions.userAdminCheck(result.data[0].IsAdmin);
+              // userAdminCheck(result.data[0].IsAdmin);
+              setTimeout(() => {
+                Navigator("/home", { replace: true });
+              }, 3000);
             }
-          console.log(`UserID:-> ${result.data[0].UserID} \n
+            console.log(`UserID:-> ${result.data[0].UserID} \n
                       Name:-> ${result.data[0].Name} \n
                       UserName:-> ${result.data[0].UserName} \n
                       Mobile:-> ${result.data[0].Mobile} \n
@@ -81,19 +101,29 @@ function Login(props) {
               button: "Try Again",
             });
           }
+          // setIsLoading(false);
         })
         .catch((error) => {
+          // setIsLoading(true);
           swal({
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
           });
+          // setIsLoading(false);
         });
+        setIsLoading(false);
     }
   };
 
   return (
     <>
+      {isLoading && (
+        <Backdrop open={isLoading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
+      {!isLoading && (
       <div className="home_style">
         <img
           src={registration_image}
@@ -149,7 +179,7 @@ function Login(props) {
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
             Login
           </Button>
-            <ForgotPassword />
+          <ForgotPassword />
           <Typography className="login_link">
             <p>Don't have an account?</p>
             <Link to="/Signup" className="login_btn">
@@ -158,6 +188,7 @@ function Login(props) {
           </Typography>
         </Box>
       </div>
+      )}
     </>
   );
 }

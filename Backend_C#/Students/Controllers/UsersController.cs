@@ -25,7 +25,7 @@ namespace Students.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM dbo.[Users] WHERE IsDeleted = " + (int)Deleted.notDeleted;
+            string query = @"SELECT * FROM dbo.[Users] ORDER BY Name ASC"; // WHERE IsDeleted = " + (int)Deleted.notDeleted;
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -52,6 +52,7 @@ namespace Students.Controllers
         {
             bool userUsernameStatus = false;
             bool userEmailStatus = false;
+            bool userMobileStatus = false;
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
             using (SqlConnection conn = new SqlConnection(sqlDataSource))
             {
@@ -71,12 +72,23 @@ namespace Students.Controllers
                     userEmailStatus = Convert.ToBoolean(cmd.ExecuteScalar());
                     conn.Close();
                 }
-            }
-            if (userUsernameStatus)
-            {
-                if (userEmailStatus)
+                using (SqlCommand cmd = new SqlCommand("CheckMobileAvailability", conn))
                 {
-                    string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin)
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Mobile", user.Mobile.Trim());
+                    conn.Open();
+                    userMobileStatus = Convert.ToBoolean(cmd.ExecuteScalar());
+                    conn.Close();
+                }
+            }
+
+            if (userEmailStatus)
+            {
+                if (userMobileStatus)
+                {
+                    if (userUsernameStatus)
+                    {
+                        string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin)
                             VALUES
                             (
                              '" + user.Name + @"'  
@@ -89,33 +101,38 @@ namespace Students.Controllers
                              )
                             ";
 
-                    DataTable table = new DataTable();
-                    //string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
-                    SqlDataReader myReader;
+                        DataTable table = new DataTable();
+                        //string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+                        SqlDataReader myReader;
 
 
-                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-                    {
-                        myCon.Open();
-                        using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                        using (SqlConnection myCon = new SqlConnection(sqlDataSource))
                         {
-                            myReader = myCommand.ExecuteReader();
-                            table.Load(myReader);
+                            myCon.Open();
+                            using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                            {
+                                myReader = myCommand.ExecuteReader();
+                                table.Load(myReader);
 
-                            myReader.Close();
-                            myCon.Close();
+                                myReader.Close();
+                                myCon.Close();
+                            }
                         }
+                        return new JsonResult("Users Successfully Registered");
                     }
-                    return new JsonResult("Users Successfully Registered");
+                    else
+                    {
+                        return new JsonResult("UserName Already Registered");
+                    }
                 }
                 else
                 {
-                    return new JsonResult("Email Already Registered");
+                    return new JsonResult("Mobile No. Already Registered");
                 }
             }
             else
             {
-                return new JsonResult("User Already Registered");
+                return new JsonResult("Email Already Registered");
             }
         }
 
