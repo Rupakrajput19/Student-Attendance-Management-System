@@ -25,6 +25,7 @@ import { APIs } from "../APIs";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
+import moment from "moment";
 
 export default function Attendance() {
   const intitial = {
@@ -33,20 +34,11 @@ export default function Attendance() {
     // className: "",
   };
 
-  // const [studentId, setStudentId] = useState("");
-  // const [attendanceDate, setAttendanceDate] = useState("");
-
-  // const studentHandler = (e) => {
-  //   setStudentId(e.target.value);
-  // };
-  // const AttendanceDateHandler = (e) => {
-  //   setAttendanceDate(e.target.value);
-  // };
-
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
   const [open, setOpen] = useState(false);
   const [isPresents, setPresent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,28 +51,35 @@ export default function Attendance() {
 
   const Errors_check = (InputValues) => {
     let errors = {};
-    // const today = new Date();
-    // const yesterday = new Date(today);
-    // const tommorrow = new Date(today);
-    // const upcoming3day = new Date(today);
-    // // console.log(today, yesterday, tommorrow, upcoming3day)
 
-    // today.setDate(today.getDate());
-    // yesterday.setDate(yesterday.getDate() - 1);
-    // tommorrow.setDate(tommorrow.getDate() + 1);
-    // upcoming3day.setDate(upcoming3day.getDate() + 3);
+    const id = InputValues.studentId;
+    const ad = InputValues.attendanceDate;
 
-    // const tt = today.toDateString();
-    // const yy = yesterday.toDateString();
-    // const tm = tommorrow.toDateString();
-    // const up = upcoming3day.toDateString();
-    // console.log(tt, yy, tm, up)
+    var today = new Date();
+    var yesterday;
+    var tommorrow;
+    var lastFivethDay;
 
-    if (InputValues.studentId === "") {
-      errors.studentId = "Please Enter Roll No!";
+    today = moment(today).format("YYYY-MM-DD");
+    yesterday = moment(today).subtract(1, "days").format("YYYY-MM-DD");
+    tommorrow = moment(today).subtract(-1, "days").format("YYYY-MM-DD");
+    lastFivethDay = moment(today).subtract(5, "days").format("YYYY-MM-DD");
+
+    // Checking entered date is Sunday
+    const inputDate = new Date(ad);
+    const inputDateday = inputDate.toLocaleString("en-us", { weekday: "long" });
+
+    if (id === "") {
+      errors.studentId = "Please Enter Student Roll No!";
     }
-    if (InputValues.attendanceDate === "") {
+    if (ad === "") {
       errors.attendanceDate = "Please Enter Addmission Date!";
+    } else if (inputDateday == "Sunday") {
+      errors.attendanceDate = "Attendance Can't Be Fill For Sunday!";
+    } else if (ad <= lastFivethDay) {
+      errors.attendanceDate = "Attendance Can be Fill Only For Last 5 Days!";
+    } else if (ad > today) {
+      errors.attendanceDate = "Attendance Can't Be Fill For Upcoming Dates!";
     }
     // if (InputValues.className === "") {
     //   errors.className = "Please Enter Class Name!";
@@ -107,7 +106,7 @@ export default function Attendance() {
     } else {
       // when checked box is unchecked
       setPresent(false);
-      checkbox_text.innerHTML = "Student is Not Presented";
+      checkbox_text.innerHTML = "Student is Not Present";
     }
   };
 
@@ -119,7 +118,8 @@ export default function Attendance() {
     console.log("Student Attendance Details:--", details, isPresents);
 
     if (!Errors_check(details)) {
-      // <Ring />
+      setIsLoading(true);
+      debugger
       axios
         .put(APIs.ATTEDNDANCES, {
           studentId,
@@ -128,6 +128,7 @@ export default function Attendance() {
           ispresent,
         })
         .then((result) => {
+      debugger
           console.log("Response from backend -> ", result);
           if (
             result.data == "Attendance Added Successfully" &&
@@ -136,8 +137,11 @@ export default function Attendance() {
             swal({
               title: `${result.data}!`,
               icon: "success",
+              timer: 1500
             });
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
           } else if (
             result.data == "Attendance Is Already Marked" &&
             result.status == 200
@@ -146,6 +150,7 @@ export default function Attendance() {
               title: `${result.data}!`,
               text: `Attendance is already added with entered date: ${attendanceDate}`,
               icon: "error",
+              timer: 1500,
               button: "Try Again",
             });
           } else if (
@@ -156,6 +161,7 @@ export default function Attendance() {
               title: `${result.data}!`,
               text: `Student not found with this RollNo/StudentId: ${studentId}`,
               icon: "error",
+              timer: 1500,
               button: "Try Again",
             });
           }
@@ -165,77 +171,71 @@ export default function Attendance() {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500
           });
         });
-      setDetails(intitial);
-      setOpen(false);
+        setIsLoading(false);
+        setDetails(intitial);
+        setOpen(false);
     }
   };
 
   return (
-    <div>
-      <Typography>
-        <span className="header_btn attendance_modal" onClick={handleClickOpen}>
-          Add Attendances
-        </span>
-      </Typography>
-      <Dialog open={open}>
-        {/* <DialogTitle>{props.pageTitle}</DialogTitle> */}
-        <DialogContent>
-          <DialogContentText>
-            Add Students Attendance Using Roll no, please fill required details.
-          </DialogContentText>
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="studentId"
-            label="Student Roll No."
-            type="number"
-            className="input_field"
-            variant="outlined"
-            value={details.studentId}
-            onChange={InputChange}
-          />
-          {errors.studentId ? (
-            <p className="clear_errors">{errors.studentId}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="attendanceDate"
-            label="Attendance Date"
-            type="date"
-            className="input_field"
-            variant="outlined"
-            value={details.attendanceDate.toString()}
-            onChange={InputChange}
-          />
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={["DatePicker"]}>
-              <DatePicker 
-              required
-              autoComplete="off"
-              margin="dense"
-              name="attendanceDate"
-              label="Attendance Date"
-              type="date"
-              className="input_field"
-              variant="standard"
-              value={attendanceDate.toString()}
-              onChange={setAttendanceDate}
+    <>
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          <Typography>
+            <span
+              className="header_btn attendance_modal"
+              onClick={handleClickOpen}
+            >
+              Add Attendances
+            </span>
+          </Typography>
+          <Dialog open={open}>
+            {/* <DialogTitle>{props.pageTitle}</DialogTitle> */}
+            <DialogContent>
+              <DialogContentText style={{ margin: "5px auto" }}>
+                Please fill required details to add students attendance using
+                Roll no.
+              </DialogContentText>
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="studentId"
+                label="Student Roll No."
+                type="number"
+                className="input_field"
+                variant="outlined"
+                value={details.studentId}
+                onChange={InputChange}
               />
-            </DemoContainer>
-          </LocalizationProvider> */}
-          {errors.attendanceDate ? (
-            <p className="clear_errors">{errors.attendanceDate}</p>
-          ) : (
-            ""
-          )}
-          {/* <TextField
+              {errors.studentId ? (
+                <p className="clear_errors">{errors.studentId}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="attendanceDate"
+                label="Attendance Date"
+                type="date"
+                className="input_field"
+                variant="outlined"
+                value={details.attendanceDate}
+                onChange={InputChange}
+                focused
+              />
+              {errors.attendanceDate ? (
+                <p className="clear_errors">{errors.attendanceDate}</p>
+              ) : (
+                ""
+              )}
+              {/* <TextField
             required
             autoComplete="off"
             margin="dense"
@@ -252,33 +252,35 @@ export default function Attendance() {
           ) : (
             ""
           )} */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                value={isPresents}
-                id="checkboxId"
-                name="ispresent"
-                // color="primary"
-                sx={{
-                  color: "red",
-                  "&.Mui-checked": {
-                    color: "blue",
-                  },
-                }}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={isPresents}
+                    id="checkboxId"
+                    name="ispresent"
+                    // color="primary"
+                    sx={{
+                      color: "red",
+                      "&.Mui-checked": {
+                        color: "blue",
+                      },
+                    }}
+                  />
+                }
+                label="Present ?"
+                onChange={onCheckboxClick}
               />
-            }
-            label="Present ?"
-            onChange={onCheckboxClick}
-          />
-          <p className="clear_errors" id="checkbox_text">
-            Student is Not Presented
-          </p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={onSubmitClick}>Submit</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+              <p className="clear_errors" id="checkbox_text">
+                Student is Not Present
+              </p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={onSubmitClick}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      )}
+    </>
   );
 }

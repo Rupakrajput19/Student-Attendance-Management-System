@@ -147,7 +147,7 @@ namespace Students.Controllers
                             ,ConfirmPassword = '" + user.ConfirmPassword + @"'
                             ,IsAdmin = '" + user.IsAdmin + @"'  
                             ,ModifiedBy = '" + user.UserName + @"'
-                            ,ModifiedOn = '" + currentDateTime + @"'
+                            ,ModifiedOn = 'GETDATE()'
                             WHERE
                             UserID = '" + user.UserID + @"'
                             ";

@@ -15,7 +15,7 @@ GO
 
 ALTER VIEW [dbo].[vwAttendancesList]
 AS
-SELECT AttendanceID, AttendanceDate, Attendances.StudentID, vwStudentsList.Name AS StudentName, vwStudentsList.ClassName, IsPresent, IsDeleted, Attendances.CreatedBy, Attendances.CreatedOn, Attendances.ModifiedBy, Attendances.ModifiedOn  FROM Attendances 
+SELECT AttendanceID, CAST(AttendanceDate AS DATE) AS AttendanceDate, Attendances.StudentID, vwStudentsList.Name AS StudentName, vwStudentsList.ClassName, IsPresent, IsDeleted, Attendances.CreatedBy, Attendances.CreatedOn, Attendances.ModifiedBy, Attendances.ModifiedOn  FROM Attendances 
 INNER JOIN vwStudentsList ON vwStudentsList.StudentID = Attendances.StudentID
 WHERE Attendances.IsDeleted = 0 
 GO

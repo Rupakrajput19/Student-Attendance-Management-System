@@ -176,7 +176,7 @@ namespace Students.Controllers
                             ,IsActive = '" + student.IsActive + @"'
                             ,Photo = '" + student.Photo + @"'
                             ,ModifiedBy = '" + student.Name + @"'
-                            ,ModifiedOn = '" + currentDateTime + @"'
+                            ,ModifiedOn = 'GETDATE()'
                             WHERE
                             StudentID = '" + student.StudentID + @"'
                             ";
@@ -204,7 +204,7 @@ namespace Students.Controllers
 
 
         [HttpDelete("{id}")]
-        public JsonResult Delete(int id)
+        public JsonResult Delete(int id) 
         {
             string query = @"UPDATE dbo.[Students] SET 
                                      IsDeleted = '" + (int)Deleted.isDeleted + @"'

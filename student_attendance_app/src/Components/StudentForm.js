@@ -17,6 +17,7 @@ import { APIs } from "../APIs";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
+import moment from "moment";
 
 function StudentForm(props) {
   document.title = `Form - ${props.pageTitle}`;
@@ -41,6 +42,7 @@ function StudentForm(props) {
   const [errors, setErrors] = useState({});
   const [genders, setGender] = useState(intitial.gender);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -54,10 +56,14 @@ function StudentForm(props) {
     let errors = {};
     let inputEmail = InputValues.email.trim();
     let validEmail = inputEmail.match(Variables.EmailRegex);
+    let dob = InputValues.dateOfBirth;
+    let ad = InputValues.addmissionDate;
+    debugger;
 
-    // if (InputValues.gender === "") {
-    //   errors.gender = "Please Select Gender!";
-    // } else
+    var today = new Date();
+    today = moment(today).format("YYYY-MM-DD");
+    const dateExceededText = "Can't be Greater than Current Date!";
+
     if (InputValues.name === "") {
       errors.name = "Please Enter Full Name!";
     } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
@@ -68,6 +74,8 @@ function StudentForm(props) {
       errors.registrationId = "Please Enter Registration Id!";
     } else if (InputValues.addmissionDate === "") {
       errors.addmissionDate = "Please Enter Addmission Date!";
+    } else if (InputValues.addmissionDate > today) {
+      errors.addmissionDate = `Addmission Date ${dateExceededText}`;
     } else if (InputValues.className === "") {
       errors.className = "Please Enter Class Name!";
     } else if (InputValues.mobile === "") {
@@ -79,6 +87,8 @@ function StudentForm(props) {
       InputValues.mobile.length > 12
     ) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
+    } else if (genders == undefined) {
+      errors.gender = "Please Select Gender!";
     } else if (InputValues.email === "") {
       errors.email = "Please Enter Email!";
     } else if (!validEmail) {
@@ -88,6 +98,8 @@ function StudentForm(props) {
     } else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
       errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
       errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
+    } else if (InputValues.dateOfBirth >= today) {
+      errors.dateOfBirth = `Date of Birth  ${dateExceededText}`;
     } else if (InputValues.fatherName === "") {
       errors.fatherName = "Please Enter Father Name!";
     } else if (InputValues.motherName === "") {
@@ -145,7 +157,7 @@ function StudentForm(props) {
     if (!Errors_check(details)) {
       console.log("details:--", details);
       console.log("gender value:--", gender);
-      <Ring />;
+      setIsLoading(true);
       axios
         .post(APIs.STUDENTS, {
           name,
@@ -174,6 +186,7 @@ function StudentForm(props) {
               title: `${response.data}`,
               // text: "!",
               icon: "success",
+              timer: 1500,
             });
             Navigator("/student_details", { replace: "true" });
           } else if (
@@ -186,6 +199,7 @@ function StudentForm(props) {
               title: `${response.data}!`,
               text: `${response.data} with another student, please try with different details!`,
               icon: "error",
+              timer: 1500,
             });
           }
         })
@@ -194,8 +208,10 @@ function StudentForm(props) {
             title: `Something went wrong: ${errors}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500,
           });
         });
+      setIsLoading(false);
     }
   };
 
@@ -212,291 +228,310 @@ function StudentForm(props) {
 
       <Sidebar />
 
-      <Typography
-        variant="h4"
-        component="div"
-        sx={{
-          textAlign: "center",
-          margin: "120px auto 20px auto",
-          color: "black",
-          fontWeight: "bold",
-          textDecoration: "underline",
-        }}
-      >
-        Student Details Form
-      </Typography>
-      <div className="student_form" style={{ marginLeft: "250Px" }}>
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="RollNo"
-            type="number"
-            name="studentId"
-            label="Roll No."
-            variant="outlined"
-            className="input_field"
-            disabled
-          />
-          <p className="clear_error">Roll no. will automatically generated</p>
-          <TextField
-            id="Name"
-            type="text"
-            name="name"
-            label="Full Name "
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
-          <TextField
-            id="RegistrationId"
-            type="text"
-            name="registrationId"
-            label="RegistrationId"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.registrationId ? (
-            <p className="clear_error">{errors.registrationId}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="AddmissionDate"
-            type="date"
-            name="addmissionDate"
-            label="Addmission Date"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.addmissionDate ? (
-            <p className="clear_error">{errors.addmissionDate}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="ClassName"
-            type="text"
-            name="className"
-            label="Class Name "
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.className ? (
-            <p className="clear_error">{errors.className}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Mobile"
-            type="tel"
-            name="mobile"
-            label="Mobile"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
-        </Box>
-
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-controlled-open-select-label">
-              Gender
-            </InputLabel>
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select gender"
-              name="gender"
-              label="Gender"
-              className="input_field"
-              required
-              open={open}
-              value={genders}
-              onClose={handleClose}
-              onOpen={handleOpen}
-              onChange={handleChange}
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          <Typography variant="h4" component="div" className="typographyText">
+            Student Details Form
+          </Typography>
+          <div className="student_form" style={{ marginLeft: "250Px" }}>
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
             >
-              <MenuItem value={"Male"}>Male</MenuItem>
-              <MenuItem value={"Female"}>Female</MenuItem>
-              <MenuItem value={"Transgender"}>Transgender</MenuItem>
-            </Select>
-          </FormControl>
-          {errors.gender ? <p className="clear_error">{errors.gender}</p> : ""}
-          <TextField
-            id="Email"
-            type="email"
-            name="email"
-            label="Email ID"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
+              <TextField
+                id="RollNo"
+                type="number"
+                name="studentId"
+                label="Roll No."
+                variant="outlined"
+                className="input_field"
+                disabled
+              />
+              <p className="clear_error">
+                Roll no. Will Automatically Generated
+              </p>
+              <TextField
+                id="Name"
+                type="text"
+                name="name"
+                label="Full Name "
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
+              <TextField
+                id="RegistrationId"
+                type="text"
+                name="registrationId"
+                label="RegistrationId"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.registrationId ? (
+                <p className="clear_error">{errors.registrationId}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="AddmissionDate"
+                type="date"
+                name="addmissionDate"
+                label="Addmission Date"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+                focused
+              />
+              {errors.addmissionDate ? (
+                <p className="clear_error">{errors.addmissionDate}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="ClassName"
+                type="text"
+                name="className"
+                label="Class Name "
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.className ? (
+                <p className="clear_error">{errors.className}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Mobile"
+                type="tel"
+                name="mobile"
+                label="Mobile"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.mobile ? (
+                <p className="clear_error">{errors.mobile}</p>
+              ) : (
+                ""
+              )}
+            </Box>
 
-          <TextField
-            id="DateOfBirth"
-            type="date"
-            name="dateOfBirth"
-            label="Date of Birth"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.dateOfBirth ? (
-            <p className="clear_error">{errors.dateOfBirth}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="FatherName"
-            type="text"
-            name="fatherName"
-            label="Father Name "
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.fatherName ? (
-            <p className="clear_error">{errors.fatherName}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="MotherName"
-            type="text"
-            name="motherName"
-            label="Mother Name "
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.motherName ? (
-            <p className="clear_error">{errors.motherName}</p>
-          ) : (
-            ""
-          )}
-          <Button
-            variant="contained"
-            id="submit_btn"
-            onClick={() => {
-              setDetails(intitial);
-              window.location.reload();
-            }}
-          >
-            Cancel
-          </Button>
-        </Box>
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-controlled-open-select-label">
+                  Gender
+                </InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select gender"
+                  name="gender"
+                  label="Gender"
+                  className="input_field"
+                  required
+                  open={open}
+                  value={genders}
+                  onClose={handleClose}
+                  onOpen={handleOpen}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Transgender"}>Transgender</MenuItem>
+                </Select>
+              </FormControl>
+              {errors.gender ? (
+                <p className="clear_error">{errors.gender}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Email"
+                type="email"
+                name="email"
+                label="Email ID"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.email ? (
+                <p className="clear_error">{errors.email}</p>
+              ) : (
+                ""
+              )}
 
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="Address"
-            type="text"
-            name="address"
-            label="Address"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.address ? (
-            <p className="clear_error">{errors.address}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="City"
-            type="text"
-            name="city"
-            label="City"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
-          <TextField
-            id="State"
-            type="text"
-            name="state"
-            label="State"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.state ? <p className="clear_error">{errors.state}</p> : ""}
-          <TextField
-            id="Country"
-            type="text"
-            name="country"
-            label="Country"
-            variant="outlined"
-            className="input_field"
-            required
-            defaultValue={"India"}
-            onChange={InputChange}
-          />
-          {errors.country ? (
-            <p className="clear_error">{errors.country}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Pincode"
-            type="number"
-            name="pincode"
-            label="Pincode"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.pincode ? (
-            <p className="clear_error">{errors.pincode}</p>
-          ) : (
-            ""
-          )}
-          <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
-            Add
-          </Button>
-        </Box>
-      </div>
+              <TextField
+                id="DateOfBirth"
+                type="date"
+                name="dateOfBirth"
+                label="Date of Birth"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+                focused
+              />
+              {errors.dateOfBirth ? (
+                <p className="clear_error">{errors.dateOfBirth}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="FatherName"
+                type="text"
+                name="fatherName"
+                label="Father Name "
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.fatherName ? (
+                <p className="clear_error">{errors.fatherName}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="MotherName"
+                type="text"
+                name="motherName"
+                label="Mother Name "
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.motherName ? (
+                <p className="clear_error">{errors.motherName}</p>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="contained"
+                id="submit_btn"
+                onClick={() => {
+                  setDetails(intitial);
+                  window.location.reload();
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
+
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="Address"
+                type="text"
+                name="address"
+                label="Address"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.address ? (
+                <p className="clear_error">{errors.address}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="City"
+                type="text"
+                name="city"
+                label="City"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
+              <TextField
+                id="State"
+                type="text"
+                name="state"
+                label="State"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.state ? (
+                <p className="clear_error">{errors.state}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Country"
+                type="text"
+                name="country"
+                label="Country"
+                variant="outlined"
+                className="input_field"
+                required
+                // defaultValue={"India"}
+                onChange={InputChange}
+              />
+              {errors.country ? (
+                <p className="clear_error">{errors.country}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Pincode"
+                type="number"
+                name="pincode"
+                label="Pincode"
+                variant="outlined"
+                className="input_field"
+                required
+                onChange={InputChange}
+              />
+              {errors.pincode ? (
+                <p className="clear_error">{errors.pincode}</p>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="contained"
+                id="submit_btn"
+                onClick={onSubmitClick}
+              >
+                Add
+              </Button>
+            </Box>
+          </div>
+        </div>
+      )}
     </>
   );
 }

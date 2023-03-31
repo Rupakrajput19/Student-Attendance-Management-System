@@ -15,16 +15,6 @@ import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
 
 export default function ForgotPassword(props) {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const intitial = {
     userInput: "",
     mobile: "",
@@ -34,6 +24,17 @@ export default function ForgotPassword(props) {
 
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setDetails(intitial);
+    setOpen(false);
+  };
 
   const Errors_check = (InputValues) => {
     let errors = {};
@@ -80,7 +81,8 @@ export default function ForgotPassword(props) {
     console.log("details:--", details);
 
     if (!Errors_check(details)) {
-      <Ring />
+      setIsLoading(true);
+
       axios
         .put(APIs.FORGOTPASSWORD, {
           userInput,
@@ -100,6 +102,7 @@ export default function ForgotPassword(props) {
               title: "Password Successfully Updated!",
               text: "Please login with your given credentials",
               icon: "success",
+              timer: 1500,
             });
             // setDetails(intitial);
             // swal({
@@ -113,6 +116,7 @@ export default function ForgotPassword(props) {
             //   Password: ${result.data[0].Password}
             //   IsAdmin: ${result.data[0].IsAdmin}`,
             //   icon: "success",
+            // timer: 1500,
             // });
           } else if (
             result.data == "Forgot Password Failed" &&
@@ -124,6 +128,7 @@ export default function ForgotPassword(props) {
               text: `No user found with entered \n Username/Email: "${userInput}", \n Phone No.: ${mobile} \n
               Notes: If you don't know your registered username and email then you need to contact on "9599408303 - ritukumar456061@gmail.com"`,
               icon: "error",
+              timer: 1500,
               button: "Try Again",
             });
           }
@@ -133,95 +138,107 @@ export default function ForgotPassword(props) {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500,
           });
         });
       setDetails(intitial);
       setOpen(false);
+      setIsLoading(false);
     }
   };
   return (
-    <div>
-      <Typography className="login_link">
-        <span className="login_btn" onClick={handleClickOpen}>
-          Forgot your password?
-        </span>
-      </Typography>
-      <Dialog open={open}>
-        {/* <DialogTitle>{props.pageTitle}</DialogTitle> */}
-        <DialogContent>
-          <DialogContentText>
-            To Forgot/Recover your password, please fill all required fields.
-          </DialogContentText>
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="userInput"
-            label="Username or Email"
-            type="text"
-            className="input_field"
-            variant="standard"
-            value={details.userInput}
-            onChange={InputChange}
-          />
-          {errors.userInput ? (
-            <p className="clear_errors">{errors.userInput}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="mobile"
-            label="Phone"
-            type="text"
-            className="input_field"
-            variant="standard"
-            value={details.mobile}
-            onChange={InputChange}
-          />
-          {errors.mobile ? <p className="clear_errors">{errors.mobile}</p> : ""}
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="password"
-            label="Password"
-            type="text"
-            className="input_field"
-            variant="standard"
-            value={details.password}
-            onChange={InputChange}
-          />
-          {errors.password ? (
-            <p className="clear_errors">{errors.password}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            required
-            autoComplete="off"
-            margin="dense"
-            name="confirmPassword"
-            label="Confirm Password"
-            type="text"
-            className="input_field"
-            variant="standard"
-            value={details.confirmPassword}
-            onChange={InputChange}
-          />
-          {errors.confirmPassword ? (
-            <p className="clear_errors">{errors.confirmPassword}</p>
-          ) : (
-            ""
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={onSubmitClick}>Submit</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <>
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          <Typography className="login_link">
+            <span className="login_btn" onClick={handleClickOpen}>
+              Forgot your password?
+            </span>
+          </Typography>
+          <Dialog open={open}>
+            {/* <DialogTitle>{props.pageTitle}</DialogTitle> */}
+            <DialogContent>
+              <DialogContentText>
+                To Forgot/Recover your password, please fill all required
+                fields.
+              </DialogContentText>
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="userInput"
+                label="Username or Email"
+                type="text"
+                className="input_field"
+                variant="outlined"
+                value={details.userInput}
+                onChange={InputChange}
+              />
+              {errors.userInput ? (
+                <p className="clear_errors">{errors.userInput}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="mobile"
+                label="Phone"
+                type="text"
+                className="input_field"
+                variant="outlined"
+                value={details.mobile}
+                onChange={InputChange}
+              />
+              {errors.mobile ? (
+                <p className="clear_errors">{errors.mobile}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="password"
+                label="New Password"
+                type="text"
+                className="input_field"
+                variant="outlined"
+                value={details.password}
+                onChange={InputChange}
+              />
+              {errors.password ? (
+                <p className="clear_errors">{errors.password}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                required
+                autoComplete="off"
+                margin="dense"
+                name="confirmPassword"
+                label="Confirm Password"
+                type="text"
+                className="input_field"
+                variant="outlined"
+                value={details.confirmPassword}
+                onChange={InputChange}
+              />
+              {errors.confirmPassword ? (
+                <p className="clear_errors">{errors.confirmPassword}</p>
+              ) : (
+                ""
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={onSubmitClick}>Submit</Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import registration_image from "../Images/registration_image.jpg";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -17,8 +17,10 @@ import { APIs } from "../APIs";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
+import moment from "moment";
+import dayjs from 'dayjs';
 
-function EditStudentForm(props) {
+function StudentForm(props) {
   document.title = `Form - ${props.pageTitle}`;
   const Navigator = useNavigate();
   const intitial = {
@@ -31,26 +33,18 @@ function EditStudentForm(props) {
     motherName: "",
     mobile: "",
     dateOfBirth: "",
-    gender: "",
     address: "",
     city: "",
     state: "",
     country: "",
     pincode: "",
   };
-  const genderVal = { gender: "" };
-  const [details, setDetails] = useState(intitial);
+  const [details, setDetails] = useState([]);
   const [errors, setErrors] = useState({});
-  const [genders, setGender] = useState(intitial);
+  const [genders, setGender] = useState('');
   const [open, setOpen] = useState(false);
-
-  const handleChange = (event) => {
-    setGender(event.target.value);
-    const { name, value } = event.target;
-    const genderValue = { [name]: value };
-    setDetails(genderValue);
-    console.log("gender:--", genderValue);
-  };
+  // const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -62,45 +56,59 @@ function EditStudentForm(props) {
 
   const Errors_check = (InputValues) => {
     let errors = {};
-    let inputEmail = InputValues.email.trim();
-    let validEmail = inputEmail.match(Variables.EmailRegex);
+    // let inputEmail = InputValues.email.trim();
+    // let validEmail = inputEmail.match(Variables.EmailRegex);
 
-    if (InputValues.name === "") {
-      errors.name = "Please Enter Full Name!";
-    } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
-      errors.name = "Please Enter Name Between 3-30 Characters!";
-    } else if (!isNaN(InputValues.name)) {
-      errors.name = "Only Characters Allowed In Name!";
-    } else if (InputValues.registrationId === "") {
-      errors.registrationId = "Please Enter Registration Id!";
-    } else if (InputValues.className === "") {
-      errors.className = "Please Enter Class Name!";
-    } else if (InputValues.addmissionDate === "") {
-      errors.addmissionDate = "Please Enter Addmission Date!";
-    } else if (InputValues.dateOfBirth === "") {
+    var today = new Date();
+    today = moment(today).format("YYYY-MM-DD");
+    const dateExceededText = "Can't be Greater than Current Date!";
+
+    // if (InputValues.name === "") {
+    //   errors.name = "Please Enter Full Name!";
+    // } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
+    //   errors.name = "Please Enter Name Between 3-30 Characters!";
+    // } else if (!isNaN(InputValues.name)) {
+    //   errors.name = "Only Characters Allowed In Name!";
+    // } else if (InputValues.registrationId === "") {
+    //   errors.registrationId = "Please Enter Registration Id!";
+    // } else if (InputValues.addmissionDate === "") {
+    //   errors.addmissionDate = "Please Enter Addmission Date!";
+    // } else if (InputValues.addmissionDate > today){
+    //   errors.addmissionDate = `Addmission Date ${dateExceededText}`;
+    // } else if (InputValues.className === "") {
+    //   errors.className = "Please Enter Class Name!";
+    // } else 
+    // if (InputValues.mobile === "") {
+    //   errors.mobile = "Please Enter Mobile No.!";
+    // } else if (isNaN(InputValues.mobile)) {
+    //   errors.mobile = "Only No. Allowed In Mobile!";
+    // } else if (
+    //   InputValues.mobile.length < 10 ||
+    //   InputValues.mobile.length > 12
+    // ) {
+    //   errors.mobile = "Please Enter 10-12 Digits No.!";
+    // } else 
+    if (genders == undefined) {
+      errors.gender = "Please Select Gender!";
+    } 
+    // else if (InputValues.email === "") {
+    //   errors.email = "Please Enter Email!";
+    // } else if (!validEmail) {
+    //   errors.email = "Enter Valid Email! ex:abc@gmail.com";
+    // } 
+    else if (InputValues.dateOfBirth === "") {
       errors.dateOfBirth = "Please Enter Date of Birth!";
-    } else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
-      errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
-      errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
+    } 
+    // else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
+    //   errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
+    //   errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
+    // } 
+    else if (InputValues.dateOfBirth >= today){
+      errors.dateOfBirth = `Date of Birth  ${dateExceededText}`;
     } else if (InputValues.fatherName === "") {
       errors.fatherName = "Please Enter Father Name!";
     } else if (InputValues.motherName === "") {
       errors.motherName = "Please Enter Mother Name!";
-    } else if (InputValues.email === "") {
-      errors.email = "Please Enter Email!";
-    } else if (!validEmail) {
-      errors.email = "Enter Valid Email! ex:abc@gmail.com";
-    } else if (InputValues.gender === "") {
-      errors.gender = "Please Select Gender!";
-    } else if (InputValues.mobile === "") {
-      errors.mobile = "Please Enter Mobile No.!";
-    } else if (isNaN(InputValues.mobile)) {
-      errors.mobile = "Only No. Allowed In Mobile!";
-    } else if (
-      InputValues.mobile.length < 10 ||
-      InputValues.mobile.length > 12
-    ) {
-      errors.mobile = "Please Enter 10-12 Digits No.!";
     } else if (InputValues.address === "") {
       errors.address = "Please Enter Address!";
     } else if (InputValues.city === "") {
@@ -122,91 +130,117 @@ function EditStudentForm(props) {
     setDetails(tempDetails);
     Errors_check(details);
   };
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+    const { name, value } = event.target;
+    const genderValue = { [name]: value };
+    console.log("gender:--", genderValue);
+  };
+
   const onSubmitClick = (events) => {
     const {
-      name,
-      email,
-      mobile,
-      className,
-      dateOfBirth,
-      addmissionDate,
-      registrationId,
-      fatherName,
-      motherName,
-      gender,
-      address,
-      city,
-      state,
-      country,
-      pincode,
+      StudentID,
+      Name,
+      Email,
+      Mobile,
+      ClassName,
+      DateOfBirth,
+      AddmissionDate,
+      RegistrationID,
+      FatherName,
+      MotherName,
+      Address,
+      City,
+      State,
+      Country,
+      Pincode,
     } = details;
+    const Gender = genders;
 
     events.preventDefault();
 
     if (!Errors_check(details)) {
       console.log("details:--", details);
-      <Ring />;
+      console.log("gender value:--", Gender);
+      setIsLoading(true);
       axios
-        .post(APIs.STUDENTS, {
-          name,
-          email,
-          mobile,
-          className,
-          dateOfBirth,
-          addmissionDate,
-          registrationId,
-          fatherName,
-          motherName,
-          gender,
-          address,
-          city,
-          state,
-          country,
-          pincode,
+        .put(APIs.STUDENTS, {
+          StudentID,
+          Name,
+          Email,
+          Mobile,
+          ClassName,
+          Gender,
+          DateOfBirth,
+          AddmissionDate,
+          RegistrationID,
+          FatherName,
+          MotherName,
+          Address,
+          City,
+          State,
+          Country,
+          Pincode
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
           if (
-            response.data == "Student Succesfully Registered" &&
+            response.data == "Student Succesfully Updated" &&
             response.status == 200
           ) {
             swal({
               title: `${response.data}`,
               // text: "!",
               icon: "success",
+              timer: 1500,
             });
             Navigator("/student_details", { replace: "true" });
-          } else if (
-            response.data == "Students Already Registered" ||
-            (response.data == "Email Already Registered" &&
-              response.status == 200)
-          ) {
-            swal({
-              title: `${response.data}!`,
-              // text: `${response.data} with us, please login with your registered details or you can forgot your password!`,
-              icon: "error",
-            });
-          }
+          } 
         })
         .catch((errors) => {
           swal({
             title: `Something went wrong: ${errors}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500,
           });
         });
+        setIsLoading(false);
     }
   };
 
-  //  const ClearData = () => {
-  //     // setDetails({});
-  //     // setDetails(intitial);
-  //     window.location.reload();
-  //     console.log('initial');
-  //   };
+
+  const studentid = 5; //need to get studentId
+
+  useEffect(() => {
+    axios
+    .post(APIs.MYPROFILE, {
+      studentid
+    })
+    .then((response) => {
+        // debugger
+        const fullrecords = response.data;
+        const records = fullrecords[0];
+        setDetails(records);
+        setGender(records.Gender);
+        console.log("Data->", response.data);
+        console.log("type of data -> ", typeof response.data);
+      })
+      .catch((err) => {        
+        swal({
+        title:"Unable to fetch data",
+        text: `${err.message}`,
+        timer: 1500
+      });
+      });
+  }, []);
 
   return (
     <>
+    {isLoading && <Ring />}
+     {!isLoading && (
+      <div>
       <Header />
 
       <Sidebar />
@@ -214,13 +248,7 @@ function EditStudentForm(props) {
       <Typography
         variant="h4"
         component="div"
-        sx={{
-          textAlign: "center",
-          margin: "120px auto 20px auto",
-          color: "black",
-          fontWeight: "bold",
-          textDecoration: "underline",
-        }}
+        className="typographyText"
       >
         Edit Student Details
       </Typography>
@@ -236,12 +264,14 @@ function EditStudentForm(props) {
         >
           <TextField
             id="RollNo"
-            type="text"
-            name="rollNo"
+            type="number"
+            name="studentId"
             label="Roll No."
             variant="outlined"
             className="input_field"
-            disabled
+            value={details.StudentID}
+            // disabled
+            focused 
           />
           <TextField
             id="Name"
@@ -251,7 +281,10 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.Name}
             onChange={InputChange}
+            // disabled
+            focused 
           />
           {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
           <TextField
@@ -262,9 +295,10 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
-            disabled
-            // defaultValue={}
+            value={details.RegistrationID}
             onChange={InputChange}
+            focused 
+            // disabled
           />
           {errors.registrationId ? (
             <p className="clear_error">{errors.registrationId}</p>
@@ -272,26 +306,18 @@ function EditStudentForm(props) {
             ""
           )}
           <TextField
-            id="StudentID"
-            type="number"
-            name="StudentID"
-            label="Roll No."
-            variant="outlined"
-            className="input_field"
-            required
-            disabled
-            // defaultValue={}
-            onChange={InputChange}
-          />
-          <TextField
             id="AddmissionDate"
-            type="date"
+            type="text"
             name="addmissionDate"
             label="Addmission Date"
             variant="outlined"
             className="input_field"
             required
+            // value={details.AddmissionDate}
+            value={dayjs(details.AddmissionDate).format("YYYY-MM-DD")}
             onChange={InputChange}
+            // disabled
+            focused 
           />
           {errors.addmissionDate ? (
             <p className="clear_error">{errors.addmissionDate}</p>
@@ -306,7 +332,10 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.ClassName}
             onChange={InputChange}
+            // disabled
+            focused 
           />
           {errors.className ? (
             <p className="clear_error">{errors.className}</p>
@@ -321,7 +350,10 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.Mobile}
             onChange={InputChange}
+            // disabled
+            focused 
           />
           {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
         </Box>
@@ -351,7 +383,8 @@ function EditStudentForm(props) {
               onClose={handleClose}
               onOpen={handleOpen}
               onChange={handleChange}
-            >
+              focused 
+              >
               <MenuItem value={"Male"}>Male</MenuItem>
               <MenuItem value={"Female"}>Female</MenuItem>
               <MenuItem value={"Transgender"}>Transgender</MenuItem>
@@ -366,20 +399,26 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.Email}
             onChange={InputChange}
+            focused 
+            // disabled
           />
           {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
 
           <TextField
             id="DateOfBirth"
-            type="date"
+            type="text"
             name="dateOfBirth"
             label="Date of Birth"
             variant="outlined"
             className="input_field"
             required
+            // value={details.DateOfBirth}
+            value={dayjs(details.DateOfBirth).format("YYYY-MM-DD")}
             onChange={InputChange}
-          />
+            focused 
+            />
           {errors.dateOfBirth ? (
             <p className="clear_error">{errors.dateOfBirth}</p>
           ) : (
@@ -393,7 +432,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.FatherName}
             onChange={InputChange}
+            focused 
           />
           {errors.fatherName ? (
             <p className="clear_error">{errors.fatherName}</p>
@@ -408,7 +449,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.MotherName}
             onChange={InputChange}
+            focused 
           />
           {errors.motherName ? (
             <p className="clear_error">{errors.motherName}</p>
@@ -419,8 +462,8 @@ function EditStudentForm(props) {
             variant="contained"
             id="submit_btn"
             onClick={() => {
-              setDetails(intitial);
-              window.location.reload();
+              // setDetails(intitial);
+              Navigator("/student_details", { replace: "true" });
             }}
           >
             Cancel
@@ -444,7 +487,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.Address}
             onChange={InputChange}
+            focused 
           />
           {errors.address ? (
             <p className="clear_error">{errors.address}</p>
@@ -459,7 +504,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.City}
             onChange={InputChange}
+            focused 
           />
           {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
           <TextField
@@ -470,7 +517,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            value={details.State}
             onChange={InputChange}
+            focused 
           />
           {errors.state ? <p className="clear_error">{errors.state}</p> : ""}
           <TextField
@@ -481,9 +530,9 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
-            disabled
-            Value={"India"}
+            value={details.Country}
             onChange={InputChange}
+            focused 
           />
           {errors.country ? (
             <p className="clear_error">{errors.country}</p>
@@ -498,7 +547,10 @@ function EditStudentForm(props) {
             variant="outlined"
             className="input_field"
             required
+            // value={details.Pincode}
             onChange={InputChange}
+            value={details.Pincode}
+            focused 
           />
           {errors.pincode ? (
             <p className="clear_error">{errors.pincode}</p>
@@ -506,12 +558,14 @@ function EditStudentForm(props) {
             ""
           )}
           <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
-            Update
+            Save
           </Button>
         </Box>
       </div>
+      </div>
+     )}
     </>
   );
 }
 
-export default EditStudentForm;
+export default StudentForm;

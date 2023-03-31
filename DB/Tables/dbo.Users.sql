@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[Users](
 	[CreatedBy] [varchar](50) NULL,
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedOn] [varchar](100) NULL,
+	[ModifiedOn] [datetime] NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[UserID] ASC

@@ -4,7 +4,7 @@ import { Backdrop } from "@mui/material";
 import Box from "@mui/material/Box";
 
 export function Ring() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // const loadingCheck = () => {
   //   setIsLoading(true);
@@ -22,6 +22,16 @@ export function Ring() {
     </>
   );
 }
+
+
+
+// import * as React from 'react';
+// import CircularProgress from '@mui/material/CircularProgress';
+
+// export default function Ring() {
+//   return <CircularProgress disableShrink />;
+// }
+
 
 // import React from 'react';
 // import { ColorRing } from  'react-loader-spinner';

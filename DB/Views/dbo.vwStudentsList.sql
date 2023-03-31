@@ -17,7 +17,7 @@ GO
 
 ALTER VIEW [dbo].[vwStudentsList]
 AS
-SELECT   StudentID, Name, Mobile, Email,Gender, DateOfBirth, FatherName, MotherName, ClassName, RegistrationID, AddmissionDate, Address + ', ' + City + ', ' + State + ', ' + Country + ' - ' + Pincode AS FullAddress, IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn
+SELECT   StudentID, Name, Mobile, Email, Gender, CONVERT(date, DateOfBirth, 103) AS DateOfBirth, FatherName, MotherName, ClassName, RegistrationID, CONVERT(date, AddmissionDate, 103) AS AddmissionDate, Address + ', ' + City + ', ' + State + ', ' + Country + ' - ' + Pincode AS FullAddress, Address, City, State, Country, Pincode, IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn
 FROM       dbo.Students
 WHERE    (IsDeleted = 0)
 GO

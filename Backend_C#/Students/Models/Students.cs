@@ -13,12 +13,12 @@ namespace Students.Models
         public string? Mobile { get; set; }
         public string? Email { get; set; }
         public string? Gender { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string? FatherName { get; set; }
         public string? MotherName { get; set; }
         public string? ClassName { get; set; }
         public string? RegistrationID { get; set; }
-        public DateTime AddmissionDate { get; set; }
+        public DateTime? AddmissionDate { get; set; }
         public string? Address { get; set; }
         public string? City { get; set; }
         public string? State { get; set; }

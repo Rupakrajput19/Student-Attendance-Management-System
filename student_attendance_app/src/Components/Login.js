@@ -68,8 +68,8 @@ function Login(props) {
       setIsLoading(true);
       console.log("details:--", details);
       axios
-      .post(APIs.LOGIN, { username, password })
-      .then((result) => {
+        .post(APIs.LOGIN, { username, password })
+        .then((result) => {
           // setIsLoading(true);
           console.log("Response from backend -> ", result);
           if (result.data.length == 1 && result.status == 200) {
@@ -98,6 +98,7 @@ function Login(props) {
               title: "Login Failed!",
               text: "Invalid login credentials ... \n If you are new user please signup/registered your self.",
               icon: "error",
+              timer: 1500,
               button: "Try Again",
             });
           }
@@ -109,85 +110,82 @@ function Login(props) {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500,
           });
           // setIsLoading(false);
         });
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      {isLoading && (
-        <Backdrop open={isLoading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
+      {isLoading && <Ring />}
       {!isLoading && (
-      <div className="home_style">
-        <img
-          src={registration_image}
-          alt="Registration Img"
-          className="registration_img"
-        />
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <Typography id="text_home_regis">Welcome!</Typography>
-          <Typography id="text_home">
-            {props.PageTitle} to your portal
-          </Typography>
-          <TextField
-            id="Username"
-            type="text"
-            name="username"
-            label="Username or UserID or Email"
-            variant="outlined"
-            className="input_field"
-            value={details.username}
-            required
-            onChange={InputChange}
+        <div className="home_style">
+          <img
+            src={registration_image}
+            alt="Registration Img"
+            className="registration_img"
           />
-          {errors.username ? (
-            <p className="clear_error">{errors.username}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Password"
-            type="password"
-            name="password"
-            label="Password"
-            variant="outlined"
-            className="input_field"
-            value={details.password}
-            required
-            onChange={InputChange}
-          />
-          {errors.password ? (
-            <p className="clear_error">{errors.password}</p>
-          ) : (
-            ""
-          )}
+          <Box
+            className="registration_form"
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "30ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <Typography id="text_home_regis">Welcome!</Typography>
+            <Typography id="text_home">
+              {props.PageTitle} to your portal
+            </Typography>
+            <TextField
+              id="Username"
+              type="text"
+              name="username"
+              label="Username or UserID or Email"
+              variant="outlined"
+              className="input_field"
+              value={details.username}
+              required
+              onChange={InputChange}
+            />
+            {errors.username ? (
+              <p className="clear_error">{errors.username}</p>
+            ) : (
+              ""
+            )}
+            <TextField
+              id="Password"
+              type="password"
+              name="password"
+              label="Password"
+              variant="outlined"
+              className="input_field"
+              value={details.password}
+              required
+              onChange={InputChange}
+            />
+            {errors.password ? (
+              <p className="clear_error">{errors.password}</p>
+            ) : (
+              ""
+            )}
 
-          <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
-            Login
-          </Button>
-          <ForgotPassword />
-          <Typography className="login_link">
-            <p>Don't have an account?</p>
-            <Link to="/Signup" className="login_btn">
-              SignUp
-            </Link>
-          </Typography>
-        </Box>
-      </div>
+            <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
+              Login
+            </Button>
+            <ForgotPassword />
+            <Typography className="login_link">
+              <p>Don't have an account?</p>
+              <Link to="/Signup" className="login_btn">
+                SignUp
+              </Link>
+            </Typography>
+          </Box>
+        </div>
       )}
     </>
   );

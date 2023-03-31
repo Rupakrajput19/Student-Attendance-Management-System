@@ -10,6 +10,8 @@ import Attendance from "./Attendance";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { APIs } from "../APIs";
+import { Ring } from "../Ring";
+import moment from "moment";
 
 const columns = [
   // { field: "AttendanceID", headerName: "Attendance ID", width: 100, fontWeight: "bold" },
@@ -24,7 +26,7 @@ const columns = [
     field: "StudentName",
     fontWeight: "bold",
     headerName: "Students Name",
-    width: 150,
+    width: 200,
   },
   {
     field: "AttendanceDate",
@@ -33,7 +35,9 @@ const columns = [
     type: "date",
     sortable: false,
     filterable: false,
-    width: 200,
+    width: 150,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY"),
   },
   {
     field: "ClassName",
@@ -52,7 +56,7 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 100,
-  }, 
+  },
   {
     field: "CreatedBy",
     fontWeight: "bold",
@@ -65,11 +69,13 @@ const columns = [
   {
     field: "CreatedOn",
     fontWeight: "bold",
-    headerName: "Created On",
-    type: "dateTime",
+    headerName: "Attendance Added Date",
+    type: "date",
     sortable: false,
     filterable: false,
     width: 200,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY hh:mm A"),
   }, // dateTime and date
 ];
 
@@ -97,16 +103,18 @@ export default function AttendanceList(props) {
   // }, []);
 
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const userId = 1; // userId will come from redux
-  const studentId = 15
+  const studentId = 15;
   const isAdmin = true; // isAdmin will from redux
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .post(APIs.ATTEDNDANCES, {
         userId,
-        studentId
+        studentId,
       })
       .then((response) => {
         const records = response.data;
@@ -115,8 +123,13 @@ export default function AttendanceList(props) {
         console.log("type of data -> ", typeof response.data);
       })
       .catch((err) => {
-        swal("Unable to fetch data", err.message);
+        swal({
+          title:"Unable to fetch data",
+          text: `${err.message}`,
+          timer: 1500
+        });
       });
+    setIsLoading(false);
   }, []);
 
   return (
@@ -124,39 +137,24 @@ export default function AttendanceList(props) {
       <Header />
 
       <Sidebar />
-      
-      {isAdmin ?
-      <div className="login_link login_btn attendance_modal">
-        <Attendance />
-      </div>
-      : "" }
 
-      <Typography
-        variant="h4"
-        component="div"
-        sx={{
-          textAlign: "center",
-          margin: "120px auto 20px 235px",
-          color: "black",
-          fontWeight: "bold",
-          textDecoration: "underline",
-        }}
-      >
-        Attendances Reports
-      </Typography>
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          {isAdmin ? (
+            <div className="login_link login_btn attendance_modal">
+              <Attendance />
+            </div>
+          ) : (
+            ""
+          )}
 
-      <div
-        style={{
-          height: 670,
-          width: "84%",
-          textAlign: "center",
-          margin: "30px 30px 30px 235px",
-          background: "white",
-          border: "2px solid black",
-          // display: "flex"
-        }}
-      >
-        {/* <Checkbox
+          <Typography variant="h4" component="div" className="typographyText">
+            Attendances Reports
+          </Typography>
+
+          <div className="gridBoxContainer">
+            {/* <Checkbox
         sx={{
           color: "black",
           "&.Mui-checked": {
@@ -164,18 +162,20 @@ export default function AttendanceList(props) {
           },
         }}
         /> */}
-        <DataGrid
-          rows={data}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          // checkboxSelection
-          // disableSelectionOnClick
-          // onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
-          getRowId={(rows) => rows.AttendanceID}
-          // {...data}
-        />
-      </div>
+            <DataGrid
+              rows={data}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              // checkboxSelection
+              // disableSelectionOnClick
+              // onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
+              getRowId={(rows) => rows.AttendanceID}
+              // {...data}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

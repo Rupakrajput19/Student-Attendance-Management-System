@@ -40,7 +40,7 @@ body,
 .header_btn:hover {
   transition: 0.5s;
   color: #fff;
-  background: #1976d2;
+  background: #3c8ad9;
   border: 1px solid white;
 }
 
@@ -158,6 +158,25 @@ body,
   margin: -8px 0 8px -15px !important;
 }
 
+.typographyText {
+  text-align: center;
+  margin: 120px auto 20px 235px !important;
+  color: black;
+  /* font-weight: bold !important; */
+  text-decoration: underline;
+}
+
+.gridBoxContainer {
+  height: 670px !important;
+  width: 84% !important;
+  /* text-align: center; */
+  margin: 30px 30px 30px 235px !important;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 8px;
+  /* display: flex; */
+}
+
 #add_btn {
   float: right;
   font-weight: bold;
@@ -182,10 +201,10 @@ body,
 
 .attendance_modal {
   float: right;
-  margin: 65px 20px 20px auto;
+  margin: 0 20px 20px auto;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   align-items: center;
 }
@@ -246,6 +265,200 @@ footer {
 
 /* footer css end here */
 
+
+/* Css for MUI Classes */
+.css-i4bv87-MuiSvgIcon-root {
+  margin-right: 5px !important;
+}
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
+  margin-left: -20px !important;
+}
+
+.WIP_text {
+  font-size: larger;
+  color: black;
+  width: 100%;
+  margin: 275px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.imageBox {
+  text-align: right;
+  display: flex;
+}
+.profileData {
+  width: auto;
+  margin: 10px;
+}
+.profileField{
+  margin: 15px 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* flex-direction: column; */
+}
+.profileDataText{
+  margin: 0 10px;
+  width: 40%;
+  color: grey;
+  font-size: large;
+}
+
+/* For My Profile Image */
+.profile-pic-wrapper {
+  height: 100vh;
+  width: 100%;
+  margin: 30px -30px;
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+.profile-pic-box {
+  float: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+}
+.profile-pic-box h2 {
+  text-decoration: underline;
+}
+
+.pic-holder {
+  text-align: center;
+  position: relative;
+  border-radius: 50%;
+  width: 225px;
+  height: 225px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row-reverse;
+  /* justify-content: center;
+  align-items: center; */
+  margin-bottom: 20px;
+  /* border: 1px solid blue; */
+  box-shadow: 0px 5px 15px black /* , -2px -2px 5px black */;
+}
+
+.pic-holder .pic {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+}
+
+.pic-holder .upload-file-block,
+.pic-holder .upload-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(90, 92, 105, 0.7);
+  color: #f8f9fc;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.pic-holder .upload-file-block {
+  cursor: pointer;
+}
+
+.pic-holder:hover .upload-file-block,
+.uploadProfileInput:focus ~ .upload-file-block {
+  opacity: 1;
+}
+
+.pic-holder.uploadInProgress .upload-file-block {
+  display: none;
+}
+
+.pic-holder.uploadInProgress .upload-loader {
+  opacity: 1;
+}
+
+/* Snackbar css */
+.snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 14px;
+  transform: translateX(-50%);
+}
+
+.snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+/* For My Profile Image */
+
 @media screen and (min-width: 600px) and (max-width: 1000px) {
   .home_style,
   .student_form {
@@ -263,6 +476,11 @@ footer {
   }
   .registration_form {
     padding: 30px 0;
+  }
+  .gridBoxContainer {
+    height: auto !important;
+    width: 84% !important;
+    margin: 30px 30px 30px 235px !important;
   }
 }
 
@@ -309,25 +527,11 @@ footer {
   footer b {
     display: block;
   }
+  .gridBoxContainer {
+    height: auto !important;
+    width: 95% !important;
+    margin: 30px 10px 30px 10px !important;
+  }
 }
 
 /* Media for all device with width */
-
-/* Css for MUI Classes */
-.css-i4bv87-MuiSvgIcon-root {
-  margin-right: 5px !important;
-}
-.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
-  margin-left: -20px !important;
-}
-
-.WIP_text {
-  font-size: larger;
-  color: black;
-  width: 100%;
-  margin: 275px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}

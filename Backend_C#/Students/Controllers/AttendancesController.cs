@@ -78,15 +78,6 @@ namespace Students.Controllers
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
             using (SqlConnection conn = new SqlConnection(sqlDataSource))
             {
-                //using (SqlCommand cmd = new SqlCommand("AttendanceDateSundayCheck", conn))
-                //{
-                //    cmd.CommandType = CommandType.StoredProcedure;
-                //    cmd.Parameters.AddWithValue("@AttendanceDate", attandances.AttendanceDate);
-                //    cmd.Parameters.AddWithValue("@Sunday", Days.Sunday);
-                //    conn.Open();
-                //    attendanceDateSundayCheckStatus = Convert.ToBoolean(cmd.ExecuteScalar());
-                //    conn.Close();
-                //}
                 using (SqlCommand cmd = new SqlCommand("AttendanceStudentExist", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -105,56 +96,48 @@ namespace Students.Controllers
                     conn.Close();
                 }
             }
-            //if (attendanceDateSundayCheckStatus)
-            //{
-                if (attendanceStudentStatus)
+            if (attendanceStudentStatus)
+            {
+                if (attendanceDateSatus)
                 {
-                    if (attendanceDateSatus)
-                    {
-                        string query = @"INSERT INTO dbo.[Attendances] (AttendanceDate,StudentID,ClassName,IsPresent)
+                    string query = @"INSERT INTO dbo.[Attendances] (AttendanceDate,StudentID,IsPresent)
                             VALUES
                             (
                               '" + attandances.AttendanceDate + @"'
                              ,'" + attandances.StudentID + @"'
-                             ,'" + attandances.ClassName + @"'
                              ,'" + attandances.IsPresent + @"'
                              )
                             ";
+                             //,'" + attandances.ClassName + @"'
 
-                        DataTable table = new DataTable();
-                        //string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
-                        SqlDataReader myReader;
+                    DataTable table = new DataTable();
+                    //string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+                    SqlDataReader myReader;
 
-                        using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-                        {
-                            myCon.Open();
-                            using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                            {
-                                myReader = myCommand.ExecuteReader();
-                                table.Load(myReader);
-
-                                myReader.Close();
-                                myCon.Close();
-                            }
-                        }
-
-                        return new JsonResult("Attendance Added Successfully");
-                    }
-                    else
+                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
                     {
-                        return new JsonResult("Attendance Is Already Marked"); // Attendance Is Already Marked with entered date add attendance for different date
-                                                                               // (check sunday) create sp and check
+                        myCon.Open();
+                        using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                        {
+                            myReader = myCommand.ExecuteReader();
+                            table.Load(myReader);
+
+                            myReader.Close();
+                            myCon.Close();
+                        }
                     }
+
+                    return new JsonResult("Attendance Added Successfully");
                 }
                 else
                 {
-                    return new JsonResult("Student Not Found"); // response show with - student not existed with this rollNo/ studentId
+                    return new JsonResult("Attendance Is Already Marked");
                 }
-            //}
-            //else
-            //{
-            //    return new JsonResult("Cannot Mark Attendance On Sunday"); // response show with - student not existed with this rollNo/ studentId
-            //}
+            }
+            else
+            {
+                return new JsonResult("Student Not Found");
+            }
         }
 
         //[HttpPut]
@@ -163,7 +146,7 @@ namespace Students.Controllers
         //    string query = @"UPDATE dbo.[Attendances] SET 
         //                     IsPresent = '" + attandances.IsPresent + @"'
         //                    ,AttendanceDate = '" + attandances.AttendanceDate + @"'
-        //                    ,ModifiedOn = '" + currentDateTime + @"'
+        //                    ,ModifiedOn = 'GETDATE()'
         //                    ,ModifiedBy = '" + Security.UserName + @"'
         //                    WHERE
         //                    AttendanceID = '" + attandances.AttendanceID + @"' AND

@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[Attendances](
 	[CreatedBy] [varchar](100) NULL,
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [varchar](100) NULL,
-	[ModifiedOn] [varchar](100) NULL,
+	[ModifiedOn] [datetime] NULL,
  CONSTRAINT [PK_Attendance] PRIMARY KEY CLUSTERED 
 (
 	[AttendanceID] ASC

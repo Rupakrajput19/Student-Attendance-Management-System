@@ -8,6 +8,9 @@ import Header from "./Header";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { APIs } from "../APIs";
+import { Ring } from "../Ring";
+import moment from "moment";
+import EditStudents from "../Components/EditStudents";
 
 const columns = [
   // { field: "StudentID", headerName: "Student ID", width: 100, fontWeight: "bold" },
@@ -26,7 +29,7 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 120,
-  },  
+  },
   {
     field: "ClassName",
     fontWeight: "bold",
@@ -66,6 +69,8 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 200,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY"),
   },
   {
     field: "Gender",
@@ -110,6 +115,8 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 200,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY"),
   },
   {
     field: "IsActive",
@@ -146,6 +153,8 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 200,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY hh:mm A"),
   },
   {
     field: "ModifiedBy",
@@ -164,6 +173,8 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 200,
+    valueFormatter: params => 
+    moment(params?.value).format("DD/MM/YYYY hh:mm A"),
   },
   {
     field: "Edit",
@@ -178,7 +189,10 @@ const columns = [
           className="d-flex justify-content-center aligh-item-center"
           style={{ cursor: "pointer" }}
         >
-          <EditIcon onClick={updateData} />
+          <a href="/editStudent">
+            <EditIcon />
+          </a>
+          {/* <EditStudents /> */}
         </div>
       );
     },
@@ -248,6 +262,7 @@ const updateData = (params) => {
       // Reload_func();
       swal({
         title: "Student Data Updated Successfully",
+        timer: 1500,
       });
       // setInterval(() => {
       //   window.location.reload(false);
@@ -258,37 +273,48 @@ const updateData = (params) => {
       swal({
         title: "Something went wrong!",
         text: "Unable to update Student details\nPlease try again later...",
+        timer: 1500,
       });
     });
 };
 
 const deleteData = (id) => {
-  const confrimBox = window.confirm(
-    "Do You Really Want To Delete This Student ?"
-  );
-  if (!confrimBox) {
-    return false;
-  }
-  axios
+  swal({
+    title: "Are you sure?",
+    text: "Do You Really Want To Delete This Student ?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+    axios
     .delete(`${APIs.STUDENTS}/${id}`)
     .then((res) => {
-      console.log("Student Data Deleted Successfully", res);
-      // Reload_func();
-      swal({
-        title: "Student Data Deleted Successfully",
-      });
-      setInterval(() => {
-        window.location.reload(false);
-      }, 3000);
+      if(res.data === 'Student Deleted Successfully' && res.status === 200){
+        swal({
+          title: `${res.data}!`,
+          icon: "success",
+          timer: 1500,
+        });
+        setInterval(() => {
+          window.location.reload(false);
+        }, 1500);
+      }
     })
-    .catch((errors) => {
-      console.log("Unable to delete Student data", errors);
-      swal({
-        title: "Something went wrong!",
-        text: "Unable to delete Student details\nPlease try again later...",
+    .catch((error) => {
+    swal({
+        title: `Something went wrong: ${error.message}`,
+        text: "Unable to get response from backend, please try again later!",
+        icon: "error",
+        timer: 1500,
       });
     });
-};
+    } else {
+      return false; 
+    }
+  }
+  )};
 
 export default function StudentDetails(props) {
   document.title = `Student Details - ${props.pageTitle}`;
@@ -303,8 +329,10 @@ export default function StudentDetails(props) {
   // }, []);
 
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(APIs.STUDENTS)
       .then((response) => {
@@ -314,8 +342,13 @@ export default function StudentDetails(props) {
         console.log("type of data -> ", typeof response.data);
       })
       .catch((err) => {
-        swal("Unable to fetch data", err.message);
+        swal({
+          title:"Unable to fetch data",
+          text: `${err.message}`,
+          timer: 1500
+        });
       });
+    setIsLoading(false);
   }, []);
 
   return (
@@ -324,43 +357,28 @@ export default function StudentDetails(props) {
 
       <Sidebar />
 
-      <Typography
-        variant="h4"
-        component="div"
-        sx={{
-          textAlign: "center",
-          margin: "120px auto 20px 235px",
-          color: "black",
-          fontWeight: "bold",
-          textDecoration: "underline",
-        }}
-      >
-        Student Details
-      </Typography>
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          <Typography variant="h4" component="div" className="typographyText">
+            Student Details
+          </Typography>
 
-      <div
-        style={{
-          height: 670,
-          width: "84%",
-          textAlign: "center",
-          margin: "30px 30px 30px 235px",
-          background: "white",
-          border: "2px solid black",
-          // display: "flex"
-        }}
-      >
-        <DataGrid
-          rows={data}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
-          // checkboxSelection
-          // disableSelectionOnClick
-          // onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
-          getRowId={(rows) => rows.StudentID}
-          // {...data}
-        />
-      </div>
+          <div className="gridBoxContainer">
+            <DataGrid
+              rows={data}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              // checkboxSelection
+              // disableSelectionOnClick
+              // onSelectionModelChange ={ (ids) => onCheckboxClick(ids)}
+              getRowId={(rows) => rows.StudentID}
+              // {...data}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

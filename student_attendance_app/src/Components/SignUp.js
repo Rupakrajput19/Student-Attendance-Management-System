@@ -25,6 +25,7 @@ function SignUp(props) {
   };
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const Errors_check = (InputValues) => {
     let errors = {};
@@ -87,7 +88,7 @@ function SignUp(props) {
     
     if (!Errors_check(details)) {
       console.log("details:--", details);
-      <Ring />
+      setIsLoading(true);
       axios
         .post(APIs.USER, {
           name,
@@ -107,6 +108,7 @@ function SignUp(props) {
               title: "User Succesfully Registered",
               text: "Please Login with your Credentials!",
               icon: "success",
+              timer: 1500,
             });
             Navigator("/", { replace: "true" });
           } else if (
@@ -119,13 +121,15 @@ function SignUp(props) {
               title: `${response.data}!`,
               text: `${response.data} with us, please login with your registered details or you can forgot your password!`,
               icon: "error",
+              timer: 1500,
             });
           }
           // else{
           //   swal({
           //     title: "Something went wrong!",
           //     text: "Unable to get response from backend, please try again later!",
-          //     icon: "error"
+          //     icon: "error",
+          //timer: 1500
           //   });
           // }
         })
@@ -134,6 +138,7 @@ function SignUp(props) {
             title: `Something went wrong: ${errors}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
+            timer: 1500,
           });
           // debugger
           // alert(`Something went wrong: ${errors}`);
@@ -141,11 +146,15 @@ function SignUp(props) {
           // alert(`Something went wrong: ${errors.request.response}`);
           // alert(`Something went wrong: ${errors.request.responseText}`);
         });
+      setIsLoading(false);
     }
   };
 
   return (
     <>
+    
+    {isLoading && <Ring />}
+     {!isLoading && (
       <div className="home_style">
         <img
           src={registration_image}
@@ -253,6 +262,7 @@ function SignUp(props) {
           </Typography>
         </Box>
       </div>
+     )}
     </>
   );
 }

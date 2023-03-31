@@ -30,7 +30,7 @@ CREATE TABLE [dbo].[Students](
 	[CreatedBy] [varchar](100) NULL,
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [varchar](100) NULL,
-	[ModifiedOn] [varchar](100) NULL,
+	[ModifiedOn] [datetime] NULL,
 	[Photo] [varchar](500) NULL,
  CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
 (

@@ -75,7 +75,7 @@ namespace Students.Controllers
                 string query = @"Update dbo.[Users] SET
                             Password = '" + fp.Password + @"' 
                             ,ConfirmPassword = '" + fp.ConfirmPassword + @"'
-                            ,ModifiedOn = '" + currentDateTime + @"'
+                            ,ModifiedOn = 'GETDATE()'
                             ,ModifiedBy = '" + Security.UserName + @"'
                             WHERE
                             Email = '" + fp.UserInput + @"' OR UserName = '" + fp.UserInput + @"' AND Mobile = '" + fp.Mobile + @"'

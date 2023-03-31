@@ -10,7 +10,7 @@ namespace Students.Models
         #region Attendances Properties
 
         public int AttendanceID { get; set; }
-        public DateTime? AttendanceDate { get; set; }
+        public string? AttendanceDate { get; set; }
         public int StudentID { get; set; }
         public string? ClassName { get; set; }
         public bool? IsPresent { get; set; }
