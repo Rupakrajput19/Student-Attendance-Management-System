@@ -2,8 +2,9 @@ import { React, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Checkbox from "@mui/material/Checkbox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import swal from "sweetalert";
@@ -126,7 +127,9 @@ const columns = [
           className="d-flex justify-content-center aligh-item-center"
           style={{ cursor: "pointer" }}
         >
-          <EditIcon onClick={updateData} />
+        <Button variant="contained" color="primary" onClick={HandleEdit}>
+          <EditIcon />
+        </Button>
         </div>
       );
     },
@@ -142,7 +145,10 @@ const columns = [
           className="d-flex justify-content-center aligh-item-center"
           style={{ cursor: "pointer" }}
         >
-          <DeleteIcon onClick={() => deleteData(record.id)} />
+          
+          <Button variant="contained" color="error" onClick={() => Handledelete(record.id)} >
+          <DeleteIcon />
+          </Button>
         </div>
       );
     },
@@ -158,7 +164,7 @@ const rows = [];
 //     console.log(selectedRowsData);
 // };
 
-const updateData = (params) => {
+const HandleEdit = (params) => {
   const id = params.UserID;
   // debugger;
   axios
@@ -184,7 +190,7 @@ const updateData = (params) => {
       });
 };
 
-const deleteData = (id) => {
+const Handledelete = (id) => {
   swal({
     title: "Are you sure?",
     text: "Do You Really Want To Delete This Student ?",

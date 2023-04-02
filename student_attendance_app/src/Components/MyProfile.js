@@ -115,7 +115,7 @@ export default function MyProfile(props) {
         studentid,
       })
       .then((response) => {
-        debugger;
+        // debugger;
         const fullrecords = response.data;
         const records = fullrecords[0];
         var fullname = records.Name;

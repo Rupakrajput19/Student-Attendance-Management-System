@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/home" element={<Home   pageTitle={pageTitle}/>} />
           <Route exact path="/attendanceList" element={<AttendanceList   pageTitle={pageTitle}/>} />
           <Route exact path="/form" element={<StudentForm   pageTitle={pageTitle}/>} />
-          <Route exact path="/editStudent" element={<EditStudentForm   pageTitle={pageTitle}/>} />
+          <Route exact path="/editStudent/:StudentID" element={<EditStudentForm   pageTitle={pageTitle}/>} />
           {/* <Route exact path="/forgotPassword" element={<ForgotPassword  pageTitle={pageTitle}/>} /> */}
           <Route exact path="/usersList" element={<UsersList pageTitle={pageTitle}/>} />
           {/* <Route exact path="/attendance" element={<Attendance pageTitle={pageTitle}/>} /> */}

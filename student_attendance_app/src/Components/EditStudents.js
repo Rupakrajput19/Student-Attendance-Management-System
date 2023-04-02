@@ -9,7 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Variables } from "../Variables";
@@ -18,12 +18,50 @@ import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
 import moment from "moment";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
-function StudentForm(props) {
-  document.title = `Form - ${props.pageTitle}`;
+function EditStudentForm(props) {
+  document.title = `Edit - ${props.pageTitle}`;
   const Navigator = useNavigate();
+  const location = useLocation();
+  const student = location.state.StudentData;
+
+  // const id = student.StudentID;
+  // const name = student.Name;
+  // const email = student.Email;
+  // const mobile = student.Mobile;
+  // const gender = student.Gender;
+  // const className = student.ClassName;
+  // const dateOfBirth = student.DateOfBirth;
+  // const addmissionDate = student.AddmissionDate;
+  // const registrationId = student.RegistrationID;
+  // const fatherName = student.FatherName;
+  // const motherName = student.MotherName;
+  // const address = student.Address;
+  // const city = student.City;
+  // const state = student.State;
+  // const country = student.Country;
+  // const pincode = student.Pincode;
+  const StudentDetail = {
+    StudentID: student.StudentID,
+    Name: student.Name,
+    Email: student.Email,
+    Mobile: student.Mobile,
+    Gender: student.Gender,
+    ClassName: student.ClassName,
+    DateOfBirth: student.DateOfBirth,
+    AddmissionDate: student.AddmissionDate,
+    RegistrationID: student.RegistrationID,
+    FatherName: student.FatherName,
+    MotherName: student.MotherName,
+    Address: student.Address,
+    City: student.City,
+    State: student.State,
+    Country: student.Country,
+    Pincode: student.Pincode,
+  }
   const intitial = {
+    id: "",
     name: "",
     email: "",
     className: "",
@@ -39,9 +77,9 @@ function StudentForm(props) {
     country: "",
     pincode: "",
   };
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState(StudentDetail);
   const [errors, setErrors] = useState({});
-  const [genders, setGender] = useState('');
+  const [genders, setGender] = useState("");
   const [open, setOpen] = useState(false);
   // const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,48 +100,16 @@ function StudentForm(props) {
     var today = new Date();
     today = moment(today).format("YYYY-MM-DD");
     const dateExceededText = "Can't be Greater than Current Date!";
-
-    // if (InputValues.name === "") {
-    //   errors.name = "Please Enter Full Name!";
-    // } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
-    //   errors.name = "Please Enter Name Between 3-30 Characters!";
-    // } else if (!isNaN(InputValues.name)) {
-    //   errors.name = "Only Characters Allowed In Name!";
-    // } else if (InputValues.registrationId === "") {
-    //   errors.registrationId = "Please Enter Registration Id!";
-    // } else if (InputValues.addmissionDate === "") {
-    //   errors.addmissionDate = "Please Enter Addmission Date!";
-    // } else if (InputValues.addmissionDate > today){
-    //   errors.addmissionDate = `Addmission Date ${dateExceededText}`;
-    // } else if (InputValues.className === "") {
-    //   errors.className = "Please Enter Class Name!";
-    // } else 
-    // if (InputValues.mobile === "") {
-    //   errors.mobile = "Please Enter Mobile No.!";
-    // } else if (isNaN(InputValues.mobile)) {
-    //   errors.mobile = "Only No. Allowed In Mobile!";
-    // } else if (
-    //   InputValues.mobile.length < 10 ||
-    //   InputValues.mobile.length > 12
-    // ) {
-    //   errors.mobile = "Please Enter 10-12 Digits No.!";
-    // } else 
     if (genders == undefined) {
       errors.gender = "Please Select Gender!";
-    } 
-    // else if (InputValues.email === "") {
-    //   errors.email = "Please Enter Email!";
-    // } else if (!validEmail) {
-    //   errors.email = "Enter Valid Email! ex:abc@gmail.com";
-    // } 
-    else if (InputValues.dateOfBirth === "") {
+    } else if (InputValues.dateOfBirth === "") {
       errors.dateOfBirth = "Please Enter Date of Birth!";
-    } 
+    }
     // else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
     //   errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
     //   errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
-    // } 
-    else if (InputValues.dateOfBirth >= today){
+    // }
+    else if (InputValues.dateOfBirth >= today) {
       errors.dateOfBirth = `Date of Birth  ${dateExceededText}`;
     } else if (InputValues.fatherName === "") {
       errors.fatherName = "Please Enter Father Name!";
@@ -164,6 +170,7 @@ function StudentForm(props) {
       console.log("details:--", details);
       console.log("gender value:--", Gender);
       setIsLoading(true);
+      debugger
       axios
         .put(APIs.STUDENTS, {
           StudentID,
@@ -181,12 +188,12 @@ function StudentForm(props) {
           City,
           State,
           Country,
-          Pincode
+          Pincode,
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
           if (
-            response.data == "Student Succesfully Updated" &&
+            response.data == "Student Updated Successfully" &&
             response.status == 200
           ) {
             swal({
@@ -196,7 +203,7 @@ function StudentForm(props) {
               timer: 1500,
             });
             Navigator("/student_details", { replace: "true" });
-          } 
+          }
         })
         .catch((errors) => {
           swal({
@@ -206,366 +213,398 @@ function StudentForm(props) {
             timer: 1500,
           });
         });
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
-
-  const studentid = 5; //need to get studentId
-
   useEffect(() => {
-    axios
-    .post(APIs.MYPROFILE, {
-      studentid
-    })
-    .then((response) => {
-        // debugger
-        const fullrecords = response.data;
-        const records = fullrecords[0];
-        setDetails(records);
-        setGender(records.Gender);
-        console.log("Data->", response.data);
-        console.log("type of data -> ", typeof response.data);
-      })
-      .catch((err) => {        
-        swal({
-        title:"Unable to fetch data",
-        text: `${err.message}`,
-        timer: 1500
-      });
-      });
-  }, []);
+    setDetails(StudentDetail);
+  })
+  // debugger
+  // const studentid = id;//5; //need to get studentId
+  // useEffect(() => {
+  //   axios
+  //   .post(APIs.MYPROFILE, {
+  //     studentid
+  //   })
+  //   .then((response) => {
+  //       // debugger
+  //       const fullrecords = response.data;
+  //       const records = fullrecords[0];
+  //       setDetails(records);
+  //       // setGender(records.Gender);
+  //       setGender('Male');
+  //       console.log("Data->", response.data);
+  //       console.log("type of data -> ", typeof response.data);
+  //     })
+  //     .catch((err) => {
+  //       swal({
+  //       title:"Unable to fetch data",
+  //       text: `${err.message}`,
+  //       timer: 1500
+  //     });
+  //     });
+  // }, []);
 
   return (
     <>
-    {isLoading && <Ring />}
-     {!isLoading && (
-      <div>
-      <Header />
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div>
+          <Header />
 
-      <Sidebar />
+          <Sidebar />
 
-      <Typography
-        variant="h4"
-        component="div"
-        className="typographyText"
-      >
-        Edit Student Details
-      </Typography>
-      <div className="student_form" style={{ marginLeft: "250Px" }}>
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="RollNo"
-            type="number"
-            name="studentId"
-            label="Roll No."
-            variant="outlined"
-            className="input_field"
-            value={details.StudentID}
-            // disabled
-            focused 
-          />
-          <TextField
-            id="Name"
-            type="text"
-            name="name"
-            label="Full Name "
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.Name}
-            onChange={InputChange}
-            // disabled
-            focused 
-          />
-          {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
-          <TextField
-            id="RegistrationId"
-            type="text"
-            name="registrationId"
-            label="RegistrationId"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.RegistrationID}
-            onChange={InputChange}
-            focused 
-            // disabled
-          />
-          {errors.registrationId ? (
-            <p className="clear_error">{errors.registrationId}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="AddmissionDate"
-            type="text"
-            name="addmissionDate"
-            label="Addmission Date"
-            variant="outlined"
-            className="input_field"
-            required
-            // value={details.AddmissionDate}
-            value={dayjs(details.AddmissionDate).format("YYYY-MM-DD")}
-            onChange={InputChange}
-            // disabled
-            focused 
-          />
-          {errors.addmissionDate ? (
-            <p className="clear_error">{errors.addmissionDate}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="ClassName"
-            type="text"
-            name="className"
-            label="Class Name "
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.ClassName}
-            onChange={InputChange}
-            // disabled
-            focused 
-          />
-          {errors.className ? (
-            <p className="clear_error">{errors.className}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Mobile"
-            type="tel"
-            name="mobile"
-            label="Mobile"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.Mobile}
-            onChange={InputChange}
-            // disabled
-            focused 
-          />
-          {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
-        </Box>
+          <Typography variant="h4" component="div" className="typographyText">
+            Edit Student Details
+          </Typography>
+          <div className="student_form" style={{ marginLeft: "250Px" }}>
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="RollNo"
+                type="number"
+                name="studentId"
+                label="Roll No."
+                variant="outlined"
+                className="input_field"
+                defaultValue={details.StudentID}
+                // defaultValue={id}
+                disabled
+                focused
+              />
+              <TextField
+                id="Name"
+                type="text"
+                name="name"
+                label="Full Name "
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Name}
+                // defaultValue={name}
+                onChange={InputChange}
+                // disabled
+                focused
+              />
+              {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
+              <TextField
+                id="RegistrationId"
+                type="text"
+                name="registrationId"
+                label="RegistrationId"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.RegistrationID}
+                // defaultValue={registrationId}
+                onChange={InputChange}
+                focused
+                disabled
+              />
+              {errors.registrationId ? (
+                <p className="clear_error">{errors.registrationId}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="AddmissionDate"
+                type="date"
+                name="addmissionDate"
+                label="Addmission Date"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={dayjs(details.AddmissionDate).format("YYYY-MM-DD")}
+                // defaultValue={dayjs(addmissionDate).format("YYYY-MM-DD")}
+                onChange={InputChange}
+                // disabled
+                focused
+              />
+              {errors.addmissionDate ? (
+                <p className="clear_error">{errors.addmissionDate}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="ClassName"
+                type="text"
+                name="className"
+                label="Class Name "
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.ClassName}
+                // defaultValue={className}
+                onChange={InputChange}
+                // disabled
+                focused
+              />
+              {errors.className ? (
+                <p className="clear_error">{errors.className}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Mobile"
+                type="tel"
+                name="mobile"
+                label="Mobile"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Mobile}
+                // defaultValue={mobile}
+                onChange={InputChange}
+                // disabled
+                focused
+              />
+              {errors.mobile ? (
+                <p className="clear_error">{errors.mobile}</p>
+              ) : (
+                ""
+              )}
+            </Box>
 
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-controlled-open-select-label">
-              Gender
-            </InputLabel>
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select gender"
-              name="gender"
-              label="Gender"
-              className="input_field"
-              required
-              open={open}
-              value={genders}
-              onClose={handleClose}
-              onOpen={handleOpen}
-              onChange={handleChange}
-              focused 
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-controlled-open-select-label">
+                  Gender
+                </InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select gender"
+                  name="gender"
+                  label="Gender"
+                  className="input_field"
+                  required
+                  open={open}
+                  defaultValue={genders}
+                  // defaultValue={gender}
+                  onClose={handleClose}
+                  onOpen={handleOpen}
+                  onChange={handleChange}
+                  focused
+                >
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                  <MenuItem value={"Transgender"}>Transgender</MenuItem>
+                </Select>
+              </FormControl>
+              {errors.gender ? (
+                <p className="clear_error">{errors.gender}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Email"
+                type="email"
+                name="email"
+                label="Email ID"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Email}
+                // defaultValue={email}
+                onChange={InputChange}
+                focused
+                disabled
+              />
+              {errors.email ? (
+                <p className="clear_error">{errors.email}</p>
+              ) : (
+                ""
+              )}
+
+              <TextField
+                id="DateOfBirth"
+                type="date"
+                name="dateOfBirth"
+                label="Date of Birth"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={dayjs(details.DateOfBirth).format("YYYY-MM-DD")}
+                // defaultValue={dayjs(dateOfBirth).format("YYYY-MM-DD")}
+                onChange={InputChange}
+                focused
+              />
+              {errors.dateOfBirth ? (
+                <p className="clear_error">{errors.dateOfBirth}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="FatherName"
+                type="text"
+                name="fatherName"
+                label="Father Name "
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.FatherName}
+                // defaultValue={fatherName}
+                onChange={InputChange}
+                focused
+              />
+              {errors.fatherName ? (
+                <p className="clear_error">{errors.fatherName}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="MotherName"
+                type="text"
+                name="motherName"
+                label="Mother Name "
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.MotherName}
+                // defaultValue={motherName}
+                onChange={InputChange}
+                focused
+              />
+              {errors.motherName ? (
+                <p className="clear_error">{errors.motherName}</p>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="contained"
+                id="submit_btn"
+                onClick={() => {
+                  // setDetails(intitial);
+                  Navigator("/student_details", { replace: "true" });
+                }}
               >
-              <MenuItem value={"Male"}>Male</MenuItem>
-              <MenuItem value={"Female"}>Female</MenuItem>
-              <MenuItem value={"Transgender"}>Transgender</MenuItem>
-            </Select>
-          </FormControl>
-          {errors.gender ? <p className="clear_error">{errors.gender}</p> : ""}
-          <TextField
-            id="Email"
-            type="email"
-            name="email"
-            label="Email ID"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.Email}
-            onChange={InputChange}
-            focused 
-            // disabled
-          />
-          {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
+                Cancel
+              </Button>
+            </Box>
 
-          <TextField
-            id="DateOfBirth"
-            type="text"
-            name="dateOfBirth"
-            label="Date of Birth"
-            variant="outlined"
-            className="input_field"
-            required
-            // value={details.DateOfBirth}
-            value={dayjs(details.DateOfBirth).format("YYYY-MM-DD")}
-            onChange={InputChange}
-            focused 
-            />
-          {errors.dateOfBirth ? (
-            <p className="clear_error">{errors.dateOfBirth}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="FatherName"
-            type="text"
-            name="fatherName"
-            label="Father Name "
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.FatherName}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.fatherName ? (
-            <p className="clear_error">{errors.fatherName}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="MotherName"
-            type="text"
-            name="motherName"
-            label="Mother Name "
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.MotherName}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.motherName ? (
-            <p className="clear_error">{errors.motherName}</p>
-          ) : (
-            ""
-          )}
-          <Button
-            variant="contained"
-            id="submit_btn"
-            onClick={() => {
-              // setDetails(intitial);
-              Navigator("/student_details", { replace: "true" });
-            }}
-          >
-            Cancel
-          </Button>
-        </Box>
-
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="Address"
-            type="text"
-            name="address"
-            label="Address"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.Address}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.address ? (
-            <p className="clear_error">{errors.address}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="City"
-            type="text"
-            name="city"
-            label="City"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.City}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
-          <TextField
-            id="State"
-            type="text"
-            name="state"
-            label="State"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.State}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.state ? <p className="clear_error">{errors.state}</p> : ""}
-          <TextField
-            id="Country"
-            type="text"
-            name="country"
-            label="Country"
-            variant="outlined"
-            className="input_field"
-            required
-            value={details.Country}
-            onChange={InputChange}
-            focused 
-          />
-          {errors.country ? (
-            <p className="clear_error">{errors.country}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Pincode"
-            type="number"
-            name="pincode"
-            label="Pincode"
-            variant="outlined"
-            className="input_field"
-            required
-            // value={details.Pincode}
-            onChange={InputChange}
-            value={details.Pincode}
-            focused 
-          />
-          {errors.pincode ? (
-            <p className="clear_error">{errors.pincode}</p>
-          ) : (
-            ""
-          )}
-          <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
-            Save
-          </Button>
-        </Box>
-      </div>
-      </div>
-     )}
+            <Box
+              className="registration_form"
+              component="form"
+              sx={{
+                "& > :not(style)": { m: 1, width: "30ch" },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <TextField
+                id="Address"
+                type="text"
+                name="address"
+                label="Address"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Address}
+                // defaultValue={address}
+                onChange={InputChange}
+                focused
+              />
+              {errors.address ? (
+                <p className="clear_error">{errors.address}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="City"
+                type="text"
+                name="city"
+                label="City"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.City}
+                // defaultValue={city}
+                onChange={InputChange}
+                focused
+              />
+              {errors.city ? <p className="clear_error">{errors.city}</p> : ""}
+              <TextField
+                id="State"
+                type="text"
+                name="state"
+                label="State"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.State}
+                // defaultValue={state}
+                onChange={InputChange}
+                focused
+              />
+              {errors.state ? (
+                <p className="clear_error">{errors.state}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Country"
+                type="text"
+                name="country"
+                label="Country"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Country}
+                // defaultValue={country}
+                onChange={InputChange}
+                focused
+              />
+              {errors.country ? (
+                <p className="clear_error">{errors.country}</p>
+              ) : (
+                ""
+              )}
+              <TextField
+                id="Pincode"
+                type="number"
+                name="pincode"
+                label="Pincode"
+                variant="outlined"
+                className="input_field"
+                required
+                defaultValue={details.Pincode}
+                // defaultValue={pincode}
+                onChange={InputChange}
+                focused
+              />
+              {errors.pincode ? (
+                <p className="clear_error">{errors.pincode}</p>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="contained"
+                id="submit_btn"
+                onClick={onSubmitClick}
+              >
+                Save
+              </Button>
+            </Box>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
-export default StudentForm;
+export default EditStudentForm;

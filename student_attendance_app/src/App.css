@@ -35,6 +35,7 @@ body,
   padding: 5px 10px;
   font-size: larger;
   font-weight: 100;
+  cursor: pointer;
 }
 
 .header_btn:hover {
@@ -477,11 +478,11 @@ footer {
   .registration_form {
     padding: 30px 0;
   }
-  .gridBoxContainer {
+  /* .gridBoxContainer {
     height: auto !important;
     width: 84% !important;
     margin: 30px 30px 30px 235px !important;
-  }
+  } */
 }
 
 @media screen and (max-width: 599px) {

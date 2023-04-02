@@ -176,7 +176,7 @@ namespace Students.Controllers
                             ,IsActive = '" + student.IsActive + @"'
                             ,Photo = '" + student.Photo + @"'
                             ,ModifiedBy = '" + student.Name + @"'
-                            ,ModifiedOn = 'GETDATE()'
+                            ,ModifiedOn = GETDATE()
                             WHERE
                             StudentID = '" + student.StudentID + @"'
                             ";
