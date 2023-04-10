@@ -49,7 +49,7 @@ const columns = [
     width: 150,
   },
   {
-    field: "IsPresent",
+    field: "IsPresents",
     fontWeight: "bold",
     headerName: "Is Present",
     type: "string",

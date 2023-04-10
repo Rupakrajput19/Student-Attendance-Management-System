@@ -7,19 +7,15 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
-import {
-  useNavigate,
-  useLocation,
-  createSearchParams,
-} from "react-router-dom";
+import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import { APIs } from "../APIs";
 import { Ring } from "../Ring";
 import moment from "moment";
 import Button from "@mui/material/Button";
-import EditStudents from "../Components/EditStudents";
+import EditStudents from "./EditStudents";
 import "@mui/icons-material";
 
-export default function StudentDetails(props) {
+export default function StudentsList(props) {
   document.title = `Student Details - ${props.pageTitle}`;
   const Navigator = useNavigate();
   const [data, setData] = useState([]);
@@ -39,8 +35,8 @@ export default function StudentDetails(props) {
       fontWeight: "bold",
       headerName: "Registration Id",
       type: "string",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 120,
     },
     {
@@ -48,8 +44,8 @@ export default function StudentDetails(props) {
       fontWeight: "bold",
       headerName: "Class Name",
       type: "string",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 120,
     },
     {
@@ -79,8 +75,8 @@ export default function StudentDetails(props) {
       fontWeight: "bold",
       headerName: "Date of birth",
       type: "date",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 200,
       valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY"),
     },
@@ -88,8 +84,8 @@ export default function StudentDetails(props) {
       field: "Gender",
       fontWeight: "bold",
       headerName: "Gender",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 140,
     },
     {
@@ -97,8 +93,8 @@ export default function StudentDetails(props) {
       fontWeight: "bold",
       headerName: "Mobile No.",
       type: "string",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 120,
     },
     {
@@ -107,7 +103,7 @@ export default function StudentDetails(props) {
       headerName: "Email",
       type: "email",
       sortable: false,
-      filterable: false,
+      filterable: true,
       width: 200,
     },
     {
@@ -124,18 +120,18 @@ export default function StudentDetails(props) {
       fontWeight: "bold",
       headerName: "Addmission Date",
       type: "string",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 200,
       valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY"),
     },
     {
-      field: "IsActive",
+      field: "IsActives",
       fontWeight: "bold",
       headerName: "Is Active",
       type: "string",
-      sortable: false,
-      filterable: false,
+      sortable: true,
+      filterable: true,
       width: 100,
     },
     // {
@@ -200,7 +196,11 @@ export default function StudentDetails(props) {
             className="d-flex justify-content-center aligh-item-center"
             style={{ cursor: "pointer" }}
           >
-            <Button variant="contained" color="primary" onClick={() => HandleEdit(record)} >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => HandleEdit(record)}
+            >
               <EditIcon />
             </Button>
           </div>
@@ -220,7 +220,11 @@ export default function StudentDetails(props) {
             className="d-flex justify-content-center aligh-item-center"
             style={{ cursor: "pointer" }}
           >
-            <Button variant="contained" color="error" onClick={() => Handledelete(record.id)} >
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => Handledelete(record)}
+            >
               <DeleteIcon />
             </Button>
           </div>
@@ -241,13 +245,15 @@ export default function StudentDetails(props) {
   };
 
   const HandleEdit = (record) => {
-    debugger;
     const data = record.row;
     // <EditStudents StudentData={record.row}/>
-    Navigator(`/editStudent/${data.StudentID}`, { state: { StudentData: data } });
+    Navigator(`/editStudent/${data.StudentID}`, {
+      state: { StudentData: data },
+    });
   };
 
-  const Handledelete = (id) => {
+  const Handledelete = (record) => {
+    const data = record.row;
     swal({
       title: "Are you sure?",
       text: "Do You Really Want To Delete This Student ?",
@@ -257,7 +263,7 @@ export default function StudentDetails(props) {
     }).then((willDelete) => {
       if (willDelete) {
         axios
-          .delete(`${APIs.STUDENTS}/${id}`)
+          .delete(`${APIs.STUDENTS}/${data.StudentID}`)
           .then((res) => {
             if (
               res.data === "Student Deleted Successfully" &&

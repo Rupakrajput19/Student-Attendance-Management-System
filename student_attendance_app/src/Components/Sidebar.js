@@ -35,106 +35,107 @@ export default function Sidebar(props) {
   const drawerMargin = "95px 0 0 0";
   const drawerBorder = "2px solid black";
   const isAdmin = true; //props.IsAdmin
-  const studentName = 'Ritu Kumar' // will come from props users props.Name
+  const studentName = "Ritu Kumar"; // will come from props users props.Name
   const drawer = (
     <div>
       <List>
-        &nbsp; &nbsp; Hi, <b>{studentName}</b> {isAdmin ? "(Admin)" : "(Student)"}
+        &nbsp; &nbsp; Hi, <b>{studentName}</b>{" "}
+        {isAdmin ? "(Admin)" : "(Student)"}
       </List>
       <Divider />
       <List>
-        <ListItem>
-          <Link to="/profile" className="login_btn">
+        <Link to="/profile" className="login_btn">
+          <ListItem>
             <ListItemButton>
               <AccountCircleIcon />
               My Profile
             </ListItemButton>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <Divider />
         {isAdmin ? (
-          <ListItem>
-            <Link to="/student_details" className="login_btn">
+          <Link to="/studentList" className="login_btn">
+            <ListItem>
               <ListItemButton>
                 <DocumentScannerIcon />
                 Student Details
               </ListItemButton>
-            </Link>
-          </ListItem>
+            </ListItem>
+          </Link>
         ) : (
           ""
         )}
         <Divider />
-        <ListItem>
-          <Link to="/attendanceList" className="login_btn">
+        <Link to="/attendanceList" className="login_btn">
+          <ListItem>
             <ListItemButton>
               <PunchClockIcon />
               Attendance Sheet
             </ListItemButton>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <Divider />
-        {/* <ListItem>
-          <Link to="/marksheet" className="login_btn">
+        {/* <Link to="/marksheet" className="login_btn">
+        <ListItem>
             <ListItemButton>
               <ContentPasteIcon />
               Marksheet
             </ListItemButton>
-          </Link>
-        </ListItem> */}
+        </ListItem>
+          </Link> */}
         <Divider />
-        <ListItem>
-          <Link to="/events" className="login_btn">
+        <Link to="/events" className="login_btn">
+          <ListItem>
             <ListItemButton>
               <EventIcon />
               Events
             </ListItemButton>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <Divider />
-        <ListItem>
-          <Link to="/contactUs" className="login_btn">
+        <Link to="/contactUs" className="login_btn">
+          <ListItem>
             <ListItemButton>
               <ContactsIcon />
               Contact Us
             </ListItemButton>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
         <Divider />
         {isAdmin ? (
-          <ListItem>
-            <Link to="/form" className="login_btn">
+          <Link to="/form" className="login_btn">
+            <ListItem>
               <ListItemButton>
                 <AddBoxIcon />
                 Add New Student
               </ListItemButton>
-            </Link>
-          </ListItem>
+            </ListItem>
+          </Link>
         ) : (
           ""
         )}
         <Divider />
         {isAdmin ? (
-          <ListItem>
-            <Link to="/usersList" className="login_btn">
+          <Link to="/usersList" className="login_btn">
+            <ListItem>
               <ListItemButton>
                 <AccountCircleIcon />
                 All Users List
               </ListItemButton>
-            </Link>
-          </ListItem>
+            </ListItem>
+          </Link>
         ) : (
           ""
         )}
         <Divider />
-        <ListItem>
-          <Link to="/login" className="login_btn">
+        <Link to="/login" className="login_btn">
+          <ListItem>
             <ListItemButton>
               <LogoutIcon />
               Logout
             </ListItemButton>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
       </List>
       <Divider />
     </div>

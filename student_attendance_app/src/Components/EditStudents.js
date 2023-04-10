@@ -9,6 +9,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -25,7 +27,7 @@ function EditStudentForm(props) {
   const Navigator = useNavigate();
   const location = useLocation();
   const student = location.state.StudentData;
-
+  console.log(student);
   // const id = student.StudentID;
   // const name = student.Name;
   // const email = student.Email;
@@ -42,44 +44,47 @@ function EditStudentForm(props) {
   // const state = student.State;
   // const country = student.Country;
   // const pincode = student.Pincode;
-  const StudentDetail = {
-    StudentID: student.StudentID,
-    Name: student.Name,
-    Email: student.Email,
-    Mobile: student.Mobile,
-    Gender: student.Gender,
-    ClassName: student.ClassName,
-    DateOfBirth: student.DateOfBirth,
-    AddmissionDate: student.AddmissionDate,
-    RegistrationID: student.RegistrationID,
-    FatherName: student.FatherName,
-    MotherName: student.MotherName,
-    Address: student.Address,
-    City: student.City,
-    State: student.State,
-    Country: student.Country,
-    Pincode: student.Pincode,
-  }
-  const intitial = {
-    id: "",
-    name: "",
-    email: "",
-    className: "",
-    addmissionDate: "",
-    registrationId: "",
-    fatherName: "",
-    motherName: "",
-    mobile: "",
-    dateOfBirth: "",
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    pincode: "",
+  const studentDetail = {
+    studentId: student.StudentID,
+    name: student.Name,
+    email: student.Email,
+    mobile: student.Mobile,
+    gender: student.Gender,
+    className: student.ClassName,
+    dateOfBirth: student.DateOfBirth,
+    addmissionDate: student.AddmissionDate,
+    registrationId: student.RegistrationID,
+    fatherName: student.FatherName,
+    motherName: student.MotherName,
+    address: student.Address,
+    city: student.City,
+    state: student.State,
+    country: student.Country,
+    pincode: student.Pincode,
+    isActive: student.IsActive
   };
-  const [details, setDetails] = useState(StudentDetail);
+  // const intitial = {
+  //   id: "",
+  //   name: "",
+  //   email: "",
+  //   className: "",
+  //   addmissionDate: "",
+  //   registrationId: "",
+  //   fatherName: "",
+  //   motherName: "",
+  //   mobile: "",
+  //   dateOfBirth: "",
+  //   address: "",
+  //   city: "",
+  //   state: "",
+  //   country: "",
+  //   pincode: "",
+  // };
+
+  const [details, setDetails] = useState(studentDetail); 
   const [errors, setErrors] = useState({});
-  const [genders, setGender] = useState("");
+  const [genders, setGender] = useState(studentDetail.gender);
+  const [isActives, setActive] = useState(studentDetail.isActive);
   const [open, setOpen] = useState(false);
   // const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -92,24 +97,67 @@ function EditStudentForm(props) {
     setOpen(true);
   };
 
+  const onCheckboxClick = () => {
+    debugger
+    const checked = document.getElementById("isActive").checked;
+    const checkbox_text = document.getElementById("checkbox_text");
+    if (checked) {
+      // when checked box is checked
+      setActive(true);
+      // checkbox_text.innerHTML = "";
+    } else {
+      // when checked box is unchecked
+      setActive(false);
+      // checkbox_text.innerHTML = "Student is Not Active";
+    }
+  };
+
   const Errors_check = (InputValues) => {
     let errors = {};
-    // let inputEmail = InputValues.email.trim();
-    // let validEmail = inputEmail.match(Variables.EmailRegex);
+    let inputEmail = InputValues.email.trim();
+    let validEmail = inputEmail.match(Variables.EmailRegex);
+    let dob = InputValues.dateOfBirth;
+    let ad = InputValues.addmissionDate;
 
     var today = new Date();
     today = moment(today).format("YYYY-MM-DD");
     const dateExceededText = "Can't be Greater than Current Date!";
-    if (genders == undefined) {
+
+    if (InputValues.name === "") {
+      errors.name = "Please Enter Full Name!";
+    } else if (InputValues.name.length < 3 || InputValues.name.length > 30) {
+      errors.name = "Please Enter Name Between 3-30 Characters!";
+    } else if (!isNaN(InputValues.name)) {
+      errors.name = "Only Characters Allowed In Name!";
+    } else if (InputValues.registrationId === "") {
+      errors.registrationId = "Please Enter Registration Id!";
+    } else if (InputValues.addmissionDate === "") {
+      errors.addmissionDate = "Please Enter Addmission Date!";
+    } else if (InputValues.addmissionDate > today) {
+      errors.addmissionDate = `Addmission Date ${dateExceededText}`;
+    } else if (InputValues.className === "") {
+      errors.className = "Please Enter Class Name!";
+    } else if (InputValues.mobile === "") {
+      errors.mobile = "Please Enter Mobile No.!";
+    } else if (isNaN(InputValues.mobile)) {
+      errors.mobile = "Only No. Allowed In Mobile!";
+    } else if (
+      InputValues.mobile.length < 10 ||
+      InputValues.mobile.length > 12
+    ) {
+      errors.mobile = "Please Enter 10-12 Digits No.!";
+    } else if (genders == undefined) {
       errors.gender = "Please Select Gender!";
+    } else if (InputValues.email === "") {
+      errors.email = "Please Enter Email!";
+    } else if (!validEmail) {
+      errors.email = "Enter Valid Email! ex:abc@gmail.com";
     } else if (InputValues.dateOfBirth === "") {
       errors.dateOfBirth = "Please Enter Date of Birth!";
-    }
-    // else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
-    //   errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
-    //   errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
-    // }
-    else if (InputValues.dateOfBirth >= today) {
+    } else if (InputValues.dateOfBirth == InputValues.addmissionDate) {
+      errors.dateOfBirth = "Date of Birth and Addmission Date Can't be Same";
+      errors.addmissionDate = "Addmission Date and Date of Birth Can't be Same";
+    } else if (InputValues.dateOfBirth >= today) {
       errors.dateOfBirth = `Date of Birth  ${dateExceededText}`;
     } else if (InputValues.fatherName === "") {
       errors.fatherName = "Please Enter Father Name!";
@@ -146,49 +194,52 @@ function EditStudentForm(props) {
 
   const onSubmitClick = (events) => {
     const {
-      StudentID,
-      Name,
-      Email,
-      Mobile,
-      ClassName,
-      DateOfBirth,
-      AddmissionDate,
-      RegistrationID,
-      FatherName,
-      MotherName,
-      Address,
-      City,
-      State,
-      Country,
-      Pincode,
+      studentId,
+      name,
+      email,
+      mobile,
+      className,
+      dateOfBirth,
+      addmissionDate,
+      registrationId,
+      fatherName,
+      motherName,
+      address,
+      city,
+      state,
+      country,
+      pincode,
     } = details;
-    const Gender = genders;
+    const gender = genders;
+    const isActive = isActives;
 
     events.preventDefault();
 
     if (!Errors_check(details)) {
       console.log("details:--", details);
-      console.log("gender value:--", Gender);
+      console.log("gender value:--", gender);
+      console.log("isActive value:--", isActive);
       setIsLoading(true);
-      debugger
+      debugger;
       axios
         .put(APIs.STUDENTS, {
-          StudentID,
-          Name,
-          Email,
-          Mobile,
-          ClassName,
-          Gender,
-          DateOfBirth,
-          AddmissionDate,
-          RegistrationID,
-          FatherName,
-          MotherName,
-          Address,
-          City,
-          State,
-          Country,
-          Pincode,
+          studentId,
+          name,
+          email,
+          mobile,
+          className,
+          gender,
+          dateOfBirth,
+          addmissionDate,
+          registrationId,
+          fatherName,
+          motherName,
+          address,
+          city,
+          state,
+          country,
+          pincode,
+          isActive
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -198,11 +249,11 @@ function EditStudentForm(props) {
           ) {
             swal({
               title: `${response.data}`,
-              // text: "!",
+              text: `Student Id - ${studentId}`,
               icon: "success",
               timer: 1500,
             });
-            Navigator("/student_details", { replace: "true" });
+            Navigator("/studentList", { replace: "true" });
           }
         })
         .catch((errors) => {
@@ -217,9 +268,10 @@ function EditStudentForm(props) {
     }
   };
 
-  useEffect(() => {
-    setDetails(StudentDetail);
-  })
+  // useEffect(() => {
+  //   setDetails(studentDetail);
+  // });
+
   // debugger
   // const studentid = id;//5; //need to get studentId
   // useEffect(() => {
@@ -275,7 +327,7 @@ function EditStudentForm(props) {
                 label="Roll No."
                 variant="outlined"
                 className="input_field"
-                defaultValue={details.StudentID}
+                defaultValue={details.studentId}
                 // defaultValue={id}
                 disabled
                 focused
@@ -288,7 +340,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Name}
+                defaultValue={details.name}
                 // defaultValue={name}
                 onChange={InputChange}
                 // disabled
@@ -303,7 +355,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.RegistrationID}
+                defaultValue={details.registrationId}
                 // defaultValue={registrationId}
                 onChange={InputChange}
                 focused
@@ -322,7 +374,9 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={dayjs(details.AddmissionDate).format("YYYY-MM-DD")}
+                defaultValue={dayjs(details.addmissionDate).format(
+                  "YYYY-MM-DD"
+                )}
                 // defaultValue={dayjs(addmissionDate).format("YYYY-MM-DD")}
                 onChange={InputChange}
                 // disabled
@@ -341,7 +395,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.ClassName}
+                defaultValue={details.className}
                 // defaultValue={className}
                 onChange={InputChange}
                 // disabled
@@ -360,7 +414,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Mobile}
+                defaultValue={details.mobile}
                 // defaultValue={mobile}
                 onChange={InputChange}
                 // disabled
@@ -394,8 +448,8 @@ function EditStudentForm(props) {
                   className="input_field"
                   required
                   open={open}
-                  defaultValue={genders}
-                  // defaultValue={gender}
+                  defaultValue={details.gender}
+                  // defaultValue={genders}
                   onClose={handleClose}
                   onOpen={handleOpen}
                   onChange={handleChange}
@@ -419,7 +473,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Email}
+                defaultValue={details.email}
                 // defaultValue={email}
                 onChange={InputChange}
                 focused
@@ -439,7 +493,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={dayjs(details.DateOfBirth).format("YYYY-MM-DD")}
+                defaultValue={dayjs(details.dateOfBirth).format("YYYY-MM-DD")}
                 // defaultValue={dayjs(dateOfBirth).format("YYYY-MM-DD")}
                 onChange={InputChange}
                 focused
@@ -457,7 +511,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.FatherName}
+                defaultValue={details.fatherName}
                 // defaultValue={fatherName}
                 onChange={InputChange}
                 focused
@@ -475,7 +529,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.MotherName}
+                defaultValue={details.motherName}
                 // defaultValue={motherName}
                 onChange={InputChange}
                 focused
@@ -490,7 +544,7 @@ function EditStudentForm(props) {
                 id="submit_btn"
                 onClick={() => {
                   // setDetails(intitial);
-                  Navigator("/student_details", { replace: "true" });
+                  Navigator("/studentList", { replace: "true" });
                 }}
               >
                 Cancel
@@ -514,7 +568,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Address}
+                defaultValue={details.address}
                 // defaultValue={address}
                 onChange={InputChange}
                 focused
@@ -532,7 +586,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.City}
+                defaultValue={details.city}
                 // defaultValue={city}
                 onChange={InputChange}
                 focused
@@ -546,7 +600,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.State}
+                defaultValue={details.state}
                 // defaultValue={state}
                 onChange={InputChange}
                 focused
@@ -564,7 +618,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Country}
+                defaultValue={details.country}
                 // defaultValue={country}
                 onChange={InputChange}
                 focused
@@ -582,7 +636,7 @@ function EditStudentForm(props) {
                 variant="outlined"
                 className="input_field"
                 required
-                defaultValue={details.Pincode}
+                defaultValue={details.pincode}
                 // defaultValue={pincode}
                 onChange={InputChange}
                 focused
@@ -592,6 +646,29 @@ function EditStudentForm(props) {
               ) : (
                 ""
               )}
+              
+              <FormControlLabel
+                control={
+                  <Checkbox
+                  // checked={details.isActive}
+                    defaultChecked={details.isActive}
+                    id="isActive"
+                    name="isActive"
+                    // color="primary"
+                    sx={{
+                      color: "red",
+                      "&.Mui-checked": {
+                        color: "blue",
+                      },
+                    }}
+                  />
+                }
+                label="Is Student Active ?"
+                onChange={onCheckboxClick}
+              />
+              {/* <p className="clear_errors" id="checkbox_text">
+                Is Student Active ?
+              </p> */}
               <Button
                 variant="contained"
                 id="submit_btn"

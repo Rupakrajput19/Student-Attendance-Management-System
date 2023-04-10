@@ -14,9 +14,10 @@ import ContactUs from "./Components/ContactUs";
 import Events from "./Components/Events";
 import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
-import StudentDetails from "./Components/StudentDetails";
+import StudentsList from "./Components/StudentsList";
 import ForgotPassword from "./Components/ForgotPassword";
 import UsersList from "./Components/UsersList";
+import EditUsers from "./Components/EditUsers";
 
 const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
@@ -28,17 +29,18 @@ function App() {
           <Route exact path="/" element={<Login PageTitle='Login' pageTitle={pageTitle}/>} />
           <Route exact path="/login" element={<Login PageTitle='Login'  pageTitle={pageTitle}/>} />
           <Route exact path="/Signup" element={<SignUp PageTitle='Registered'  pageTitle={pageTitle}/>} />
-          <Route exact path="/home" element={<Home   pageTitle={pageTitle}/>} />
+          <Route exact path="/home" element={<Home pageTitle={pageTitle}/>} />
           <Route exact path="/attendanceList" element={<AttendanceList   pageTitle={pageTitle}/>} />
-          <Route exact path="/form" element={<StudentForm   pageTitle={pageTitle}/>} />
+          <Route exact path="/form" element={<StudentForm pageTitle={pageTitle}/>} />
           <Route exact path="/editStudent/:StudentID" element={<EditStudentForm   pageTitle={pageTitle}/>} />
           {/* <Route exact path="/forgotPassword" element={<ForgotPassword  pageTitle={pageTitle}/>} /> */}
           <Route exact path="/usersList" element={<UsersList pageTitle={pageTitle}/>} />
+          <Route exact path="/editUser/:UserID" element={<EditUsers pageTitle={pageTitle}/>} />
           {/* <Route exact path="/attendance" element={<Attendance pageTitle={pageTitle}/>} /> */}
 
 
           <Route exact path="/profile" element={<MyProfile WIP_text={text}  pageTitle={pageTitle}/>} />
-          <Route exact path="/student_details" element={<StudentDetails WIP_text={text}  pageTitle={pageTitle}/>} />
+          <Route exact path="/studentList" element={<StudentsList WIP_text={text}  pageTitle={pageTitle}/>} />
           <Route exact path="/marksheet" element={<Marksheet WIP_text={textFuture}  pageTitle={pageTitle}/>} />
           <Route exact path="/events" element={<Events WIP_text={textFuture}  pageTitle={pageTitle}/>} />
           <Route exact path="/contactUs" element={<ContactUs WIP_text={text}  pageTitle={pageTitle}/>} />

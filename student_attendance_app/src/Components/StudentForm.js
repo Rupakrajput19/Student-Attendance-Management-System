@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -40,9 +42,10 @@ function StudentForm(props) {
   };
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
-  const [genders, setGender] = useState(intitial.gender);
+  const [genders, setGender] = useState("");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isActives, setActive] = useState(true);
 
   const handleClose = () => {
     setOpen(false);
@@ -52,13 +55,27 @@ function StudentForm(props) {
     setOpen(true);
   };
 
+  const onCheckboxClick = () => {
+    debugger
+    const checked = document.getElementById("isActive").checked;
+    const checkbox_text = document.getElementById("checkbox_text");
+    if (checked) {
+      // when checked box is checked
+      setActive(true);
+      // checkbox_text.innerHTML = "";
+    } else {
+      // when checked box is unchecked
+      setActive(false);
+      // checkbox_text.innerHTML = "Student is Not Active";
+    }
+  };
+
   const Errors_check = (InputValues) => {
     let errors = {};
     let inputEmail = InputValues.email.trim();
     let validEmail = inputEmail.match(Variables.EmailRegex);
     let dob = InputValues.dateOfBirth;
     let ad = InputValues.addmissionDate;
-    debugger;
 
     var today = new Date();
     today = moment(today).format("YYYY-MM-DD");
@@ -148,15 +165,17 @@ function StudentForm(props) {
       city,
       state,
       country,
-      pincode,
+      pincode
     } = details;
     const gender = genders;
+    const isActive = isActives;
 
     events.preventDefault();
 
     if (!Errors_check(details)) {
       console.log("details:--", details);
       console.log("gender value:--", gender);
+      console.log("isActive value:--", isActive);
       setIsLoading(true);
       axios
         .post(APIs.STUDENTS, {
@@ -175,6 +194,7 @@ function StudentForm(props) {
           state,
           country,
           pincode,
+          isActive
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -188,7 +208,7 @@ function StudentForm(props) {
               icon: "success",
               timer: 1500,
             });
-            Navigator("/student_details", { replace: "true" });
+            Navigator("/studentList", { replace: "true" });
           } else if (
             (response.data === "Student Mobile Already Existed" ||
               response.data === "Student Email Already Existed" ||
@@ -521,6 +541,28 @@ function StudentForm(props) {
               ) : (
                 ""
               )}
+               <FormControlLabel
+                control={
+                  <Checkbox
+                  defaultChecked={isActives}
+                    // value={isActives}
+                    id="isActive"
+                    name="isActive"
+                    // color="primary"
+                    sx={{
+                      color: "red",
+                      "&.Mui-checked": {
+                        color: "blue",
+                      },
+                    }}
+                  />
+                }
+                label="Is Student Active ?"
+                onChange={onCheckboxClick}
+              />
+              {/* <p className="clear_errors" id="checkbox_text">
+                Is Student Active ?
+              </p> */}
               <Button
                 variant="contained"
                 id="submit_btn"

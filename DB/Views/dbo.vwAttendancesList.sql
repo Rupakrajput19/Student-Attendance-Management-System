@@ -15,9 +15,12 @@ GO
 
 ALTER VIEW [dbo].[vwAttendancesList]
 AS
-SELECT AttendanceID, CAST(AttendanceDate AS DATE) AS AttendanceDate, Attendances.StudentID, vwStudentsList.Name AS StudentName, vwStudentsList.ClassName, IsPresent, IsDeleted, Attendances.CreatedBy, Attendances.CreatedOn, Attendances.ModifiedBy, Attendances.ModifiedOn  FROM Attendances 
-INNER JOIN vwStudentsList ON vwStudentsList.StudentID = Attendances.StudentID
-WHERE Attendances.IsDeleted = 0 
+   SELECT AttendanceID, AttendanceDate, Attendances.StudentID, vwStudentsList.Name AS StudentName, vwStudentsList.ClassName, 
+          CASE WHEN IsPresent = 1 THEN 'Yes' ELSE 'No' END AS IsPresents, IsPresent, IsDeleted,
+	    CASE WHEN IsDeleted = 1 THEN 'Yes' ELSE 'No' END AS IsDeleteds, Attendances.CreatedBy, 
+	    Attendances.CreatedOn, Attendances.ModifiedBy, Attendances.ModifiedOn FROM Attendances 
+   INNER JOIN vwStudentsList ON vwStudentsList.StudentID = Attendances.StudentID
+   WHERE Attendances.IsDeleted = 0 
 GO
 
 

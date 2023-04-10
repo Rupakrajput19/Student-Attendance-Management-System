@@ -119,7 +119,6 @@ export default function Attendance() {
 
     if (!Errors_check(details)) {
       setIsLoading(true);
-      debugger
       axios
         .put(APIs.ATTEDNDANCES, {
           studentId,
@@ -128,7 +127,6 @@ export default function Attendance() {
           ispresent,
         })
         .then((result) => {
-      debugger
           console.log("Response from backend -> ", result);
           if (
             result.data == "Attendance Added Successfully" &&

@@ -25,7 +25,7 @@ namespace Students.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM dbo.[Users] ORDER BY Name ASC"; // WHERE IsDeleted = " + (int)Deleted.notDeleted;
+            string query = @"SELECT *, CASE WHEN IsAdmin = 1 THEN 'Yes' ELSE 'No' END AS IsAdmins, CASE WHEN IsDeleted = 1 THEN 'Yes' ELSE 'No' END AS IsDeleteds FROM dbo.[Users] ORDER BY Name ASC"; // WHERE IsDeleted = " + (int)Deleted.notDeleted;
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -147,7 +147,7 @@ namespace Students.Controllers
                             ,ConfirmPassword = '" + user.ConfirmPassword + @"'
                             ,IsAdmin = '" + user.IsAdmin + @"'  
                             ,ModifiedBy = '" + user.UserName + @"'
-                            ,ModifiedOn = 'GETDATE()'
+                            ,ModifiedOn = GETDATE()
                             WHERE
                             UserID = '" + user.UserID + @"'
                             ";
