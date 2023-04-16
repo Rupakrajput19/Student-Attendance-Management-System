@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj": {}
+    "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\Students.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj": {
+    "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\Students.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj",
+        "projectUniqueName": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\Students.csproj",
         "projectName": "Students",
-        "projectPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj",
+        "projectPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\Students.csproj",
         "packagesPath": "C:\\Users\\Ritu Kumar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\obj\\",
+        "outputPath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ritu Kumar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -57,6 +57,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.2, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -8,7 +8,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Students.Enums;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
+using Newtonsoft.Json;
 
 namespace Students.Controllers
 {
@@ -104,7 +104,7 @@ namespace Students.Controllers
 
         [Route("SaveFile/{id}")]
         [HttpPost]
-        public JsonResult SaveFile(int id)
+        public JsonResult SaveFile(int id, Student student) //IFormFile image)
         {
             try
             {
@@ -118,36 +118,36 @@ namespace Students.Controllers
                     postedFile.CopyTo(stream);
                 }
 
-                //{
-                //    string query = @"UPDATE dbo.[Students] SET 
-                //                     Photo = '" + filesName + @"'
-                //                     WHERE
-                //                     StudentID = '" + id + @"'
-                //                     ";
+                {
+                    string query = @"UPDATE dbo.[Students] SET 
+                                     Photo = '" + filesName + @"'
+                                     WHERE
+                                     StudentID = '" + id + @"'
+                                     ";
 
-                //    DataTable table = new DataTable();
-                //    string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
-                //    SqlDataReader myReader;
+                    DataTable table = new DataTable();
+                    string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+                    SqlDataReader myReader;
 
 
-                //    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
-                //    {
-                //        myCon.Open();
-                //        using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                //        {
-                //            myReader = myCommand.ExecuteReader();
-                //            table.Load(myReader);
+                    using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                    {
+                        myCon.Open();
+                        using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                        {
+                            myReader = myCommand.ExecuteReader();
+                            table.Load(myReader);
 
-                //            myReader.Close();
-                //            myCon.Close();
-                //        }
-                //    }
-                //}
-                return new JsonResult(filesName, "Student Profile Image Successfully Updated");
+                            myReader.Close();
+                            myCon.Close();
+                        }
+                    }
+                }
+                return new JsonResult(new { FileName = filesName, Message = "Student Profile Image Successfully Updated" });
             }
             catch (Exception)
             {
-                return new JsonResult("avatar.png");
+                return new JsonResult(new { FileName = "student_profile.jpg", Message = "Unable to Update Profile Image, Please try again!" });
             }
         }
     }

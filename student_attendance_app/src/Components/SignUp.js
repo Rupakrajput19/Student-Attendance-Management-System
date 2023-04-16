@@ -23,11 +23,12 @@ function SignUp(props) {
     password: "",
     confirmPassword: "",
   };
+
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
     let nam = InputValues.name.trim();
     let eml = InputValues.email.trim();
@@ -78,15 +79,15 @@ function SignUp(props) {
     const { name, value } = events.target;
     const tempDetails = { ...details, [name]: value };
     setDetails(tempDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const onSubmitClick = (events) => {
     const { name, email, mobile, username, password, confirmPassword } =
       details;
     events.preventDefault();
-    
-    if (!Errors_check(details)) {
+
+    if (!checkErrors(details)) {
       console.log("details:--", details);
       setIsLoading(true);
       axios
@@ -99,7 +100,7 @@ function SignUp(props) {
           confirmPassword,
         })
         .then((response) => {
-          debugger;
+          setIsLoading(true);
           if (
             response.data == "Users Successfully Registered" &&
             response.status == 200
@@ -111,11 +112,12 @@ function SignUp(props) {
               timer: 1500,
             });
             Navigator("/", { replace: "true" });
+            setIsLoading(false);
           } else if (
             (response.data == "UserName Already Registered" ||
-            response.data == "Email Already Registered"||
-            response.data == "Mobile No. Already Registered") &&
-              response.status == 200
+              response.data == "Email Already Registered" ||
+              response.data == "Mobile No. Already Registered") &&
+            response.status == 200
           ) {
             swal({
               title: `${response.data}!`,
@@ -123,6 +125,7 @@ function SignUp(props) {
               icon: "error",
               timer: 1500,
             });
+            setIsLoading(false);
           }
           // else{
           //   swal({
@@ -145,124 +148,127 @@ function SignUp(props) {
           // alert(`Something went wrong: ${errors.response.data}`);
           // alert(`Something went wrong: ${errors.request.response}`);
           // alert(`Something went wrong: ${errors.request.responseText}`);
+          setIsLoading(false);
         });
-      setIsLoading(false);
     }
   };
 
   return (
     <>
-    
-    {isLoading && <Ring />}
-     {!isLoading && (
-      <div className="home_style">
-        <img
-          src={registration_image}
-          alt="Registration Img"
-          className="registration_img"
-        />
-        <Box
-          className="registration_form"
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "30ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <Typography id="text_home_regis">Welcome!</Typography>
-          <Typography id="text_home">{props.PageTitle} at portal</Typography>
-          <TextField
-            id="Name"
-            type="name"
-            name="name"
-            label="Name "
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
+      {isLoading && <Ring />}
+      {!isLoading && (
+        <div className="home_style">
+          <img
+            src={registration_image}
+            alt="Registration Img"
+            className="registration_img"
           />
-          {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
-          <TextField
-            id="Email"
-            type="email"
-            name="email"
-            label="Email ID"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
-          <TextField
-            id="Mobile"
-            type="tel"
-            name="mobile"
-            label="Mobile"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.mobile ? <p className="clear_error">{errors.mobile}</p> : ""}
-          <TextField
-            id="Username"
-            type="text"
-            name="username"
-            label="Username"
-            variant="outlined"
-            className="input_field"
-            value={details.username}
-            required
-            onChange={InputChange}
-          />
-          {errors.username ? (
-            <p className="clear_error">{errors.username}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="Password"
-            type="password"
-            name="password"
-            label="Password"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.password ? (
-            <p className="clear_error">{errors.password}</p>
-          ) : (
-            ""
-          )}
-          <TextField
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            label="Confirm Password"
-            variant="outlined"
-            className="input_field"
-            required
-            onChange={InputChange}
-          />
-          {errors.confirmPassword ? (
-            <p className="clear_error">{errors.confirmPassword}</p>
-          ) : (
-            ""
-          )}
-          <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
-            Submit
-          </Button>
-          <Typography className="login_link">
-            <p>Already have an account?</p>
-            <Link to="/login" className="login_btn">
-              Login
-            </Link>
-          </Typography>
-        </Box>
-      </div>
-     )}
+          <Box
+            className="registration_form"
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "30ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <Typography id="text_home_regis">Welcome!</Typography>
+            <Typography id="text_home">{props.PageTitle} at portal</Typography>
+            <TextField
+              id="Name"
+              type="name"
+              name="name"
+              label="Name "
+              variant="outlined"
+              className="input_field"
+              required
+              onChange={InputChange}
+            />
+            {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
+            <TextField
+              id="Email"
+              type="email"
+              name="email"
+              label="Email ID"
+              variant="outlined"
+              className="input_field"
+              required
+              onChange={InputChange}
+            />
+            {errors.email ? <p className="clear_error">{errors.email}</p> : ""}
+            <TextField
+              id="Mobile"
+              type="tel"
+              name="mobile"
+              label="Mobile"
+              variant="outlined"
+              className="input_field"
+              required
+              onChange={InputChange}
+            />
+            {errors.mobile ? (
+              <p className="clear_error">{errors.mobile}</p>
+            ) : (
+              ""
+            )}
+            <TextField
+              id="Username"
+              type="text"
+              name="username"
+              label="Username"
+              variant="outlined"
+              className="input_field"
+              value={details.username}
+              required
+              onChange={InputChange}
+            />
+            {errors.username ? (
+              <p className="clear_error">{errors.username}</p>
+            ) : (
+              ""
+            )}
+            <TextField
+              id="Password"
+              type="password"
+              name="password"
+              label="Password"
+              variant="outlined"
+              className="input_field"
+              required
+              onChange={InputChange}
+            />
+            {errors.password ? (
+              <p className="clear_error">{errors.password}</p>
+            ) : (
+              ""
+            )}
+            <TextField
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              label="Confirm Password"
+              variant="outlined"
+              className="input_field"
+              required
+              onChange={InputChange}
+            />
+            {errors.confirmPassword ? (
+              <p className="clear_error">{errors.confirmPassword}</p>
+            ) : (
+              ""
+            )}
+            <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
+              Submit
+            </Button>
+            <Typography className="login_link">
+              <p>Already have an account?</p>
+              <Link to="/login" className="login_btn">
+                Login
+              </Link>
+            </Typography>
+          </Box>
+        </div>
+      )}
     </>
   );
 }

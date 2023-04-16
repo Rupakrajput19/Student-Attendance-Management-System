@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ANi52+2Ij52dqQB9Cq/nUXzOgkU8YgHOf2a9GjO8339y/5I1EQKpPQBvfrrpZ7wjOhbiwBCra1kz+tGHIQdEIg==",
+  "dgSpecHash": "zOoRACX3dlnEMfEPYqbegVp74q60E8T/DARCobofsjJE86DoklDMKC6V0eLX6AkFyb3KimIme2QOlRR6RpTlPA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student Attendance Management System\\Backend_C#\\Students\\Students.csproj",
+  "projectFilePath": "C:\\Users\\Ritu Kumar\\OneDrive\\Desktop\\Student_Attendance_Management_System\\Backend_C#\\Students\\Students.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ritu Kumar\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Ritu Kumar\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -6,13 +6,16 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import swal from "sweetalert";
-import axios, { isCancel, AxiosError } from "axios";
+import axios from "axios";
 import { APIs } from "../APIs";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
+import { Variables } from "../Variables";
+import { Image } from "@mui/icons-material";
 
 export default function MyProfile(props) {
   document.title = `MyProfile - ${props.pageTitle}`;
-  const studentImage = "";
+  const imageURL =
+    "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/Backend_C#/Students/Photos";
   var studentName = "Ritu Kumar";
   studentName = studentName.toString();
 
@@ -79,37 +82,13 @@ export default function MyProfile(props) {
   //   }
   // });
 
-  const editDetails = () => {
-    debugger;
-    const dobfields = document.getElementById("dateOfBirth");
-    const efields = document.getElementById("email");
-    const mfields = document.getElementById("mobileNo");
-    const fnfields = document.getElementById("fatherName");
-    const mnfields = document.getElementById("motherName");
-    const afields = document.getElementById("address");
-    const cfields = document.getElementById("city");
-    const sfields = document.getElementById("state");
-    const cyfields = document.getElementById("country");
-    const pfields = document.getElementById("pincode");
-    // dobfields.disabled = false;
-    // efields.disabled = false;
-    // mfields.disabled = false;
-    // fnfields.disabled = false;
-    // mnfields.disabled = false;
-    // afields.disabled = false;
-    // cfields.disabled = false;
-    // sfields.disabled = false;
-    // cyfields.disabled = false;
-    // pfields.disabled = false;
-  };
-
   const [details, setDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const studentid = 5; //need to get studentId
+  const studentid = 2; //need to get studentId
 
-  useEffect(() => {
-    setIsLoading(true);
+  const fetchingProfileData = () => {
     axios
       .post(APIs.MYPROFILE, {
         studentid,
@@ -135,7 +114,10 @@ export default function MyProfile(props) {
         var country = records.Country;
         var pincode = records.Pincode;
         var photo = records.Photo;
+        const studentImageURL = `${Variables.ImagePath}/${records.Photo}`;
         setDetails(records);
+        setSelectedImage(studentImageURL);
+        console.log("Image URL->", studentImageURL);
         console.log("Data->", response.data);
         console.log("type of data -> ", typeof response.data);
       })
@@ -146,6 +128,73 @@ export default function MyProfile(props) {
           timer: 1500,
         });
       });
+  };
+
+  const filterBySize = (file) => {
+    //filter out images larger than 5MB
+    return file.size <= 5242880;
+  };
+
+  const handleSubmit = (event) => {
+    debugger;
+    event.preventDefault();
+    const selectedImage = event.target.newProfilePhoto.files;
+    const imageFile = selectedImage[0];
+    if (selectedImage.length == 0) {
+      return swal({
+        title: "Please Select an Image to Upload!",
+        // text: "",
+        icon: "warning",
+        timer: 1500,
+        button: "Ok",
+      });
+    } else if (imageFile.size >= 5242880) {
+      return swal({
+        title: "Please Select an Image Lower than 5 MB!",
+        // text: "",
+        icon: "warning",
+        timer: 1500,
+        button: "Ok",
+      });
+    } else {
+      const imageName = imageFile.name;
+      uploadStudentImage(imageFile);
+    }
+  };
+
+  const uploadStudentImage = (imageFile) => {
+    debugger
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    console.log(formData);
+    console.log(typeof formData);
+    axios
+      .post(`${APIs.STUDENTSPHOTO}/${studentid}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        swal({
+          title: `${response.data.Message}`,
+          icon: 'success',
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        swal({
+          title: 'Unable to Upload Image',
+          text: `${error.message}`,
+          timer: 1500,
+        });
+      });
+  };
+  
+  
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchingProfileData();
     setIsLoading(false);
   }, []);
 
@@ -165,43 +214,54 @@ export default function MyProfile(props) {
           <div className="gridBoxContainer">
             {/* <div className="profile-pic-wrapper" title={{studentName}}> */}
             <div className="profile-pic-box">
-              <div className="pic-holder" title={{ studentName }}>
-                {/* <!-- uploaded pic shown here --> */}
-                <img
-                  id="profilePic"
-                  className="pic"
-                  src="https://source.unsplash.com/random/150x150?person"
-                  // src={{}}
-                  alt={{ studentName }}
-                />
-
-                <input
-                  className="uploadProfileInput"
-                  type="file"
-                  name="profile_pic"
-                  id="newProfilePhoto"
-                  accept="image/*"
-                  style={{ opacity: "0" }}
-                />
-                <label htmlFor="newProfilePhoto" className="upload-file-block">
-                  <div className="text-center">
-                    <div className="mb-2">
-                      <i className="fa fa-camera fa-2x"></i>
+              <form onSubmit={handleSubmit}>
+                <div className="pic-holder" title={{ studentName }}>
+                  {/* <!-- uploaded pic shown here --> */}
+                  <Image
+                    id="profilePic"
+                    className="pic"
+                    // src="https://source.unsplash.com/random/150x150?person"
+                    src={selectedImage}
+                    // destination={{ url: "my-server.com/upload" }}
+                    // src={require("../../../Backend_C#/Students/Photos/student_profile.jpg")}
+                    // src={process.env.PUBLIC_URL + '/Students/Photos/papa photo.jpg'}
+                    accept="image/*"
+                    fileFilter={filterBySize}
+                    alt={`${studentName} Image`}
+                  />
+                  <input
+                    className="uploadProfileInput"
+                    accept="image/*"
+                    type="file"
+                    name="newProfilePhoto"
+                    id="newProfilePhoto"
+                    style={{ opacity: "0" }}
+                    // onChange={uploadStudentImage}
+                  />
+                  <label
+                    htmlFor="newProfilePhoto"
+                    className="upload-file-block"
+                  >
+                    <div className="text-center">
+                      <div className="mb-2">
+                        <i className="fa fa-camera fa-2x"></i>
+                      </div>
+                      <div className="text-uppercase">
+                        Update <br /> Profile Photo
+                      </div>
                     </div>
-                    <div className="text-uppercase">
-                      Update <br /> Profile Photo
-                    </div>
-                  </div>
-                </label>
-              </div>
-              <h2>Profile Image</h2>
-              <Button
-                variant="contained"
-                className="input_field"
-                id="submit_btn"
-              >
-                Save
-              </Button>
+                  </label>
+                </div>
+                <h2>Profile Image</h2>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className="input_field"
+                  id="submit_btn"
+                >
+                  Upload
+                </Button>
+              </form>
             </div>
 
             <div className="profileData">

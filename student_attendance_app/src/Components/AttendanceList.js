@@ -36,8 +36,7 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 150,
-    valueFormatter: params => 
-    moment(params?.value).format("DD/MM/YYYY"),
+    valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY"),
   },
   {
     field: "ClassName",
@@ -74,8 +73,8 @@ const columns = [
     sortable: false,
     filterable: false,
     width: 200,
-    valueFormatter: params => 
-    moment(params?.value).format("DD/MM/YYYY hh:mm A"),
+    valueFormatter: (params) =>
+      moment(params?.value).format("DD/MM/YYYY hh:mm A"),
   }, // dateTime and date
 ];
 
@@ -106,11 +105,10 @@ export default function AttendanceList(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   const userId = 1; // userId will come from redux
-  const studentId = 15;
+  const studentId = 1;
   const isAdmin = true; // isAdmin will from redux
 
-  useEffect(() => {
-    setIsLoading(true);
+  const fetchingAttendances = () => {
     axios
       .post(APIs.ATTEDNDANCES, {
         userId,
@@ -124,11 +122,16 @@ export default function AttendanceList(props) {
       })
       .catch((err) => {
         swal({
-          title:"Unable to fetch data",
+          title: "Unable to fetch data",
           text: `${err.message}`,
-          timer: 1500
+          timer: 1500,
         });
       });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchingAttendances();
     setIsLoading(false);
   }, []);
 
@@ -142,7 +145,7 @@ export default function AttendanceList(props) {
       {!isLoading && (
         <div>
           {isAdmin ? (
-            <div className="login_link login_btn attendance_modal">
+            <div className="login_link login_btn">
               <Attendance />
             </div>
           ) : (

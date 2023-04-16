@@ -39,8 +39,7 @@ export default function Sidebar(props) {
   const drawer = (
     <div>
       <List>
-        &nbsp; &nbsp; Hi, <b>{studentName}</b>{" "}
-        {isAdmin ? "(Admin)" : "(Student)"}
+        &nbsp; &nbsp; Hi, <b>{studentName}</b> {isAdmin ? "(Admin)" : "(Student)"}
       </List>
       <Divider />
       <List>

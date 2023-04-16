@@ -201,7 +201,9 @@ body,
 }
 
 .attendance_modal {
-  float: right;
+  position: absolute;
+  top: 125px;
+  right: 25px;
   margin: 0 20px 20px auto;
 }
 

@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
-import { useNavigate, useLocation, createSearchParams } from "react-router-dom";
+import { Link, useNavigate, useLocation, createSearchParams } from "react-router-dom";
 import { APIs } from "../APIs";
 import { Ring } from "../Ring";
 import moment from "moment";
@@ -22,7 +22,6 @@ export default function StudentsList(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
-    // { field: "StudentID", headerName: "Student ID", width: 100, fontWeight: "bold" },
     {
       field: "StudentID",
       headerName: "Roll No.",
@@ -160,8 +159,7 @@ export default function StudentsList(props) {
       sortable: false,
       filterable: false,
       width: 200,
-      valueFormatter: (params) =>
-        moment(params?.value).format("DD/MM/YYYY hh:mm A"),
+      valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY hh:mm A"),
     },
     {
       field: "ModifiedBy",
@@ -180,8 +178,7 @@ export default function StudentsList(props) {
       sortable: false,
       filterable: false,
       width: 200,
-      valueFormatter: (params) =>
-        moment(params?.value).format("DD/MM/YYYY hh:mm A"),
+      valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY hh:mm A"),
     },
     {
       field: "Edit",
@@ -199,7 +196,7 @@ export default function StudentsList(props) {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => HandleEdit(record)}
+              onClick={() => handleEdit(record)}
             >
               <EditIcon />
             </Button>
@@ -223,7 +220,7 @@ export default function StudentsList(props) {
             <Button
               variant="contained"
               color="error"
-              onClick={() => Handledelete(record)}
+              onClick={() => handledelete(record)}
             >
               <DeleteIcon />
             </Button>
@@ -244,57 +241,7 @@ export default function StudentsList(props) {
     // console.log(selectedRowsData);
   };
 
-  const HandleEdit = (record) => {
-    const data = record.row;
-    // <EditStudents StudentData={record.row}/>
-    Navigator(`/editStudent/${data.StudentID}`, {
-      state: { StudentData: data },
-    });
-  };
-
-  const Handledelete = (record) => {
-    const data = record.row;
-    swal({
-      title: "Are you sure?",
-      text: "Do You Really Want To Delete This Student ?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        axios
-          .delete(`${APIs.STUDENTS}/${data.StudentID}`)
-          .then((res) => {
-            if (
-              res.data === "Student Deleted Successfully" &&
-              res.status === 200
-            ) {
-              swal({
-                title: `${res.data}!`,
-                icon: "success",
-                timer: 1500,
-              });
-              setInterval(() => {
-                window.location.reload(false);
-              }, 1500);
-            }
-          })
-          .catch((error) => {
-            swal({
-              title: `Something went wrong: ${error.message}`,
-              text: "Unable to get response from backend, please try again later!",
-              icon: "error",
-              timer: 1500,
-            });
-          });
-      } else {
-        return false;
-      }
-    });
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
+  const fetchingStudentData = () => {
     axios
       .get(APIs.STUDENTS)
       .then((response) => {
@@ -310,6 +257,61 @@ export default function StudentsList(props) {
           timer: 1500,
         });
       });
+  };
+
+  const deletingStudent = (id) => {
+    axios
+      .delete(`${APIs.STUDENTS}/${id}`)
+      .then((res) => {
+        if (res.data === "Student Deleted Successfully" && res.status === 200) {
+          swal({
+            title: `${res.data}!`,
+            icon: "success",
+            timer: 1500,
+          });
+          setInterval(() => {
+            window.location.reload(false);
+          }, 1500);
+        }
+      })
+      .catch((error) => {
+        swal({
+          title: `Something went wrong: ${error.message}`,
+          text: "Unable to get response from backend, please try again later!",
+          icon: "error",
+          timer: 1500,
+        });
+      });
+  };
+
+  const handleEdit = (record) => {
+    const data = record.row;
+    // <EditStudents StudentData={record.row}/>
+    Navigator(`/editStudent/${data.StudentID}`, {
+      state: { StudentData: data },
+    });
+  };
+
+  const handledelete = (record) => {
+    const data = record.row;
+    swal({
+      title: "Are you sure?",
+      text: "Do You Really Want To Delete This Student ?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deletingStudent(data.StudentID);
+      } else {
+        return false;
+      }
+    });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchingStudentData();
     setIsLoading(false);
   }, []);
 
@@ -325,6 +327,10 @@ export default function StudentsList(props) {
           <Typography variant="h4" component="div" className="typographyText">
             Student Details
           </Typography>
+
+          <Link to="/form" className="header_btn attendance_modal">
+              Add New Student
+          </Link>
 
           <div className="gridBoxContainer">
             <DataGrid

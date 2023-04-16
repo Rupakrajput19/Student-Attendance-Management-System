@@ -31,7 +31,8 @@ namespace Students.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM dbo.[vwStudentsList] ORDER BY StudentID ASC"; // [vwStudentsList] WHERE [IsDeleted] = " + (int)Deleted.notDeleted;    // use to get all data with deleted [Students]
+            string query = @"SELECT * FROM dbo.[vwStudentsList]"; // [vwStudentsList] WHERE [IsDeleted] = " + (int)Deleted.notDeleted;    // use to get all data with deleted [Students]
+            query = query + @" ORDER BY StudentID ASC";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -113,7 +114,7 @@ namespace Students.Controllers
                              ,'" + student.Country + @"'  
                              ,'" + student.Pincode + @"'  
                              ,'" + student.IsActive + @"'  
-                             ,'" + student.Photo + @"'  
+                             ,'" + "student_profile.jpg" + @"'  
                              )
                             ";
 
@@ -174,7 +175,6 @@ namespace Students.Controllers
                             ,Country = '" + student.Country + @"'
                             ,Pincode = '" + student.Pincode + @"'
                             ,IsActive = '" + student.IsActive + @"'
-                            ,Photo = '" + student.Photo + @"'
                             ,ModifiedBy = '" + student.Name + @"'
                             ,ModifiedOn = GETDATE()
                             WHERE

@@ -4,14 +4,13 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Select from "@mui/material/Select";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Variables } from "../Variables";
@@ -56,7 +55,7 @@ function StudentForm(props) {
   };
 
   const onCheckboxClick = () => {
-    debugger
+    debugger;
     const checked = document.getElementById("isActive").checked;
     const checkbox_text = document.getElementById("checkbox_text");
     if (checked) {
@@ -70,7 +69,7 @@ function StudentForm(props) {
     }
   };
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
     let inputEmail = InputValues.email.trim();
     let validEmail = inputEmail.match(Variables.EmailRegex);
@@ -89,11 +88,15 @@ function StudentForm(props) {
       errors.name = "Only Characters Allowed In Name!";
     } else if (InputValues.registrationId === "") {
       errors.registrationId = "Please Enter Registration Id!";
+    } else if (InputValues.registrationId.length < 5 || InputValues.registrationId.length > 8) {
+      errors.registrationId = "Please Enter 5-8 digit Registration Id!";
     } else if (InputValues.addmissionDate === "") {
       errors.addmissionDate = "Please Enter Addmission Date!";
-    } else if (InputValues.addmissionDate > today) {
-      errors.addmissionDate = `Addmission Date ${dateExceededText}`;
-    } else if (InputValues.className === "") {
+    } 
+    // else if (InputValues.addmissionDate > today) {
+    //   errors.addmissionDate = `Addmission Date ${dateExceededText}`;
+    // }
+     else if (InputValues.className === "") {
       errors.className = "Please Enter Class Name!";
     } else if (InputValues.mobile === "") {
       errors.mobile = "Please Enter Mobile No.!";
@@ -104,7 +107,8 @@ function StudentForm(props) {
       InputValues.mobile.length > 12
     ) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
-    } else if (genders == undefined) {
+      debugger
+    } else if (genders == "") {
       errors.gender = "Please Select Gender!";
     } else if (InputValues.email === "") {
       errors.email = "Please Enter Email!";
@@ -140,7 +144,7 @@ function StudentForm(props) {
     const { name, value } = events.target;
     const tempDetails = { ...details, [name]: value };
     setDetails(tempDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const handleChange = (event) => {
@@ -165,14 +169,14 @@ function StudentForm(props) {
       city,
       state,
       country,
-      pincode
+      pincode,
     } = details;
     const gender = genders;
     const isActive = isActives;
 
     events.preventDefault();
 
-    if (!Errors_check(details)) {
+    if (!checkErrors(details)) {
       console.log("details:--", details);
       console.log("gender value:--", gender);
       console.log("isActive value:--", isActive);
@@ -194,7 +198,7 @@ function StudentForm(props) {
           state,
           country,
           pincode,
-          isActive
+          isActive,
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -453,7 +457,7 @@ function StudentForm(props) {
                 id="submit_btn"
                 onClick={() => {
                   setDetails(intitial);
-                  window.location.reload();
+                  // window.location.reload();
                 }}
               >
                 Cancel
@@ -541,10 +545,10 @@ function StudentForm(props) {
               ) : (
                 ""
               )}
-               <FormControlLabel
+              <FormControlLabel
                 control={
                   <Checkbox
-                  defaultChecked={isActives}
+                    defaultChecked={isActives}
                     // value={isActives}
                     id="isActive"
                     name="isActive"

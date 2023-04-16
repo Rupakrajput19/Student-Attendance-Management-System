@@ -49,7 +49,7 @@ export default function Attendance() {
     setDetails(intitial);
   };
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
 
     const id = InputValues.studentId;
@@ -65,7 +65,7 @@ export default function Attendance() {
     tommorrow = moment(today).subtract(-1, "days").format("YYYY-MM-DD");
     lastFivethDay = moment(today).subtract(5, "days").format("YYYY-MM-DD");
 
-    // Checking entered date is Sunday
+    // Checking entered date is "Sunday"
     const inputDate = new Date(ad);
     const inputDateday = inputDate.toLocaleString("en-us", { weekday: "long" });
 
@@ -93,7 +93,7 @@ export default function Attendance() {
     const { name, value } = events.target;
     const InputDetails = { ...details, [name]: value };
     setDetails(InputDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const onCheckboxClick = () => {
@@ -117,7 +117,7 @@ export default function Attendance() {
     console.log("Student is present:--", ispresent ? "Yes" : "No");
     console.log("Student Attendance Details:--", details, isPresents);
 
-    if (!Errors_check(details)) {
+    if (!checkErrors(details)) {
       setIsLoading(true);
       axios
         .put(APIs.ATTEDNDANCES, {

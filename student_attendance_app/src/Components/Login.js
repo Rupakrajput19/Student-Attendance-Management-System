@@ -35,14 +35,15 @@ function Login(props) {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
+    let inputUsername = InputValues.username.trim();
     let inputPassword = InputValues.password.trim();
     let validPassword = inputPassword.match(Variables.PasswordRegex);
 
-    if (InputValues.username.trim() === "") {
+    if (inputUsername === "") {
       errors.username = "Please Enter Your Username or Email!";
-    } else if (InputValues.password.trim() === "") {
+    } else if (inputPassword === "") {
       errors.password = "Please Enter Your Password!";
     } else if (!validPassword) {
       errors.password =
@@ -57,32 +58,34 @@ function Login(props) {
     const { name, value } = events.target;
     const tempDetails = { ...details, [name]: value };
     setDetails(tempDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const onSubmitClick = (events) => {
     const { username, password } = details;
     events.preventDefault();
-
-    if (!Errors_check(details)) {
-      setIsLoading(true);
+    
+    if (!checkErrors(details)) {
       console.log("details:--", details);
+      setIsLoading(true);
       axios
         .post(APIs.LOGIN, { username, password })
         .then((result) => {
-          // setIsLoading(true);
+          setIsLoading(true);
           console.log("Response from backend -> ", result);
           if (result.data.length == 1 && result.status == 200) {
             if (
               (result.data[0].UserName == username ||
+                result.data[0].UserID == username ||
                 result.data[0].Email == username) &&
               result.data[0].Password == password
             ) {
               // actions.userAdminCheck(result.data[0].IsAdmin);
               // userAdminCheck(result.data[0].IsAdmin);
-              setTimeout(() => {
-                Navigator("/home", { replace: true });
-              }, 3000);
+              // setTimeout(() => {
+              Navigator("/home", { replace: true });
+              // }, 3000);
+              setIsLoading(false);
             }
             console.log(`UserID:-> ${result.data[0].UserID} \n
                       Name:-> ${result.data[0].Name} \n
@@ -94,6 +97,7 @@ function Login(props) {
                       `);
           } else {
             setDetails(intitial);
+            setIsLoading(false);
             return swal({
               title: "Login Failed!",
               text: "Invalid login credentials ... \n If you are new user please signup/registered your self.",
@@ -102,19 +106,16 @@ function Login(props) {
               button: "Try Again",
             });
           }
-          // setIsLoading(false);
         })
         .catch((error) => {
-          // setIsLoading(true);
           swal({
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
             timer: 1500,
           });
-          // setIsLoading(false);
+          setIsLoading(false);
         });
-      setIsLoading(false);
     }
   };
 

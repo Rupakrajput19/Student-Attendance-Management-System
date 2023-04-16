@@ -17,18 +17,18 @@ builder.Services.AddSwaggerGen();
 
 // Disable Cors Security Policy
 
-////var provider = builder.Services.BuildServiceProvider();
-////var configuration = provider.GetService<IConfiguration>();
+//var provider = builder.Services.BuildServiceProvider();
+//var configuration = provider.GetService<IConfiguration>();
 
-////builder.Services.AddCors(options =>
-////{
-////    var frontentUrl = configuration.GetValue<string>("Frontend_Url");
+//builder.Services.AddCors(options =>
+//{
+//    var frontentUrl = configuration.GetValue<string>("Frontend_Url");
 
-////    options.AddDefaultPolicy(builder =>
-////    {
-////        builder.WithOrigins(frontentUrl).AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-////    });
-////});
+//    options.AddDefaultPolicy(builder =>
+//    {
+//        builder.WithOrigins(frontentUrl).AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+//    });
+//});
 
 
 builder.Services.AddCors(c =>

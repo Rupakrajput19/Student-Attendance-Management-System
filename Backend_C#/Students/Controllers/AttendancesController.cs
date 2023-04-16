@@ -43,10 +43,10 @@ namespace Students.Controllers
                 }
             }
 
-            string forAllAttendance = @"SELECT * FROM dbo.[vwAttendancesList] ORDER BY CreatedOn DESC"; // StudentName ASC
-            string forUserAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + " ORDER BY CreatedOn DESC";
+            string forAllStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] ORDER BY CreatedOn DESC"; // StudentName ASC
+            string forSingleStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + " ORDER BY CreatedOn DESC";
 
-            string query = userIsAdminStatus ? forAllAttendance : forUserAttendance;
+            string query = userIsAdminStatus ? forAllStudentsAttendance : forSingleStudentsAttendance;
             //string query = @"SELECT * FROM dbo.[Attendances] WHERE [IsDeleted] = " + (int)Deleted.notDeleted + " ORDER BY StudentName ASC";
 
 

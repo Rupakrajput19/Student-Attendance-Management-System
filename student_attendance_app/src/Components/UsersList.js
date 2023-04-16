@@ -137,7 +137,7 @@ export default function UsersList(props) {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => HandleEdit(record)}
+              onClick={() => handleEdit(record)}
             >
               <EditIcon />
             </Button>
@@ -159,7 +159,7 @@ export default function UsersList(props) {
             <Button
               variant="contained"
               color="error"
-              onClick={() => Handledelete(record)}
+              onClick={() => handledelete(record)}
             >
               <DeleteIcon />
             </Button>
@@ -178,55 +178,7 @@ export default function UsersList(props) {
   //     console.log(selectedRowsData);
   // };
 
-  const HandleEdit = (record) => {
-    const data = record.row;
-    // <EditStudents UserData={record.row}/>
-    Navigator(`/editUser/${data.UserID}`, { state: { UserData: data } });
-  };
-
-  const Handledelete = (record) => {
-    const data = record.row;
-    swal({
-      title: "Are you sure?",
-      text: `This action will set ${data.Name} (${data.UserID}) User to delete but still this will shown here with is deleted "Yes"`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        axios
-          .delete(`${APIs.USER}/${data.UserID}`)
-          .then((res) => {
-            if (
-              res.data === "User Deleted Successfully" &&
-              res.status === 200
-            ) {
-              swal({
-                title: `${res.data}!`,
-                icon: "success",
-                timer: 1500,
-              });
-              setInterval(() => {
-                window.location.reload(false);
-              }, 1500);
-            }
-          })
-          .catch((error) => {
-            swal({
-              title: `Something went wrong: ${error.message}`,
-              text: "Unable to get response from backend, please try again later!",
-              icon: "error",
-              timer: 1500,
-            });
-          });
-      } else {
-        return false;
-      }
-    });
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
+  const fetchingUsersData = () => {
     axios
       .get(APIs.USER)
       .then((response) => {
@@ -242,6 +194,59 @@ export default function UsersList(props) {
           timer: 1500,
         });
       });
+  };
+
+  const deletingUser = (id) => {
+    axios
+      .delete(`${APIs.USER}/${id}`)
+      .then((res) => {
+        if (res.data === "User Deleted Successfully" && res.status === 200) {
+          swal({
+            title: `${res.data}!`,
+            icon: "success",
+            timer: 1500,
+          });
+          setInterval(() => {
+            window.location.reload(false);
+          }, 1500);
+        }
+      })
+      .catch((error) => {
+        swal({
+          title: `Something went wrong: ${error.message}`,
+          text: "Unable to get response from backend, please try again later!",
+          icon: "error",
+          timer: 1500,
+        });
+      });
+  };
+
+  const handleEdit = (record) => {
+    const data = record.row;
+    // <EditStudents UserData={record.row}/>
+    Navigator(`/editUser/${data.UserID}`, { state: { UserData: data } });
+  };
+
+  const handledelete = (record) => {
+    const data = record.row;
+    swal({
+      title: "Are you sure?",
+      text: `This action will set ${data.Name} (${data.UserID}) User to delete but still this will shown here with is deleted "Yes" and ${data.Name} will not be able to perform any actions...`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deletingUser(data.UserID);
+      } else {
+        return false;
+      }
+    });
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchingUsersData();
     setIsLoading(false);
   }, []);
 

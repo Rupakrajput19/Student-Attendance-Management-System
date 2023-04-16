@@ -61,7 +61,7 @@ function EditStudentForm(props) {
     state: student.State,
     country: student.Country,
     pincode: student.Pincode,
-    isActive: student.IsActive
+    isActive: student.IsActive,
   };
   // const intitial = {
   //   id: "",
@@ -81,7 +81,7 @@ function EditStudentForm(props) {
   //   pincode: "",
   // };
 
-  const [details, setDetails] = useState(studentDetail); 
+  const [details, setDetails] = useState(studentDetail);
   const [errors, setErrors] = useState({});
   const [genders, setGender] = useState(studentDetail.gender);
   const [isActives, setActive] = useState(studentDetail.isActive);
@@ -98,7 +98,7 @@ function EditStudentForm(props) {
   };
 
   const onCheckboxClick = () => {
-    debugger
+    debugger;
     const checked = document.getElementById("isActive").checked;
     const checkbox_text = document.getElementById("checkbox_text");
     if (checked) {
@@ -112,7 +112,7 @@ function EditStudentForm(props) {
     }
   };
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
     let inputEmail = InputValues.email.trim();
     let validEmail = inputEmail.match(Variables.EmailRegex);
@@ -131,11 +131,15 @@ function EditStudentForm(props) {
       errors.name = "Only Characters Allowed In Name!";
     } else if (InputValues.registrationId === "") {
       errors.registrationId = "Please Enter Registration Id!";
+    } else if (InputValues.registrationId.length < 5 || InputValues.registrationId.length > 8) {
+      errors.registrationId = "Please Enter 5-8 digit Registration Id!";
     } else if (InputValues.addmissionDate === "") {
       errors.addmissionDate = "Please Enter Addmission Date!";
-    } else if (InputValues.addmissionDate > today) {
-      errors.addmissionDate = `Addmission Date ${dateExceededText}`;
-    } else if (InputValues.className === "") {
+    }
+    //  else if (InputValues.addmissionDate > today) {
+    //   errors.addmissionDate = `Addmission Date ${dateExceededText}`;
+    // }
+     else if (InputValues.className === "") {
       errors.className = "Please Enter Class Name!";
     } else if (InputValues.mobile === "") {
       errors.mobile = "Please Enter Mobile No.!";
@@ -146,7 +150,7 @@ function EditStudentForm(props) {
       InputValues.mobile.length > 12
     ) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
-    } else if (genders == undefined) {
+    } else if (genders == "") {
       errors.gender = "Please Select Gender!";
     } else if (InputValues.email === "") {
       errors.email = "Please Enter Email!";
@@ -182,7 +186,7 @@ function EditStudentForm(props) {
     const { name, value } = events.target;
     const tempDetails = { ...details, [name]: value };
     setDetails(tempDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const handleChange = (event) => {
@@ -215,7 +219,7 @@ function EditStudentForm(props) {
 
     events.preventDefault();
 
-    if (!Errors_check(details)) {
+    if (!checkErrors(details)) {
       console.log("details:--", details);
       console.log("gender value:--", gender);
       console.log("isActive value:--", isActive);
@@ -239,7 +243,7 @@ function EditStudentForm(props) {
           state,
           country,
           pincode,
-          isActive
+          isActive,
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -267,36 +271,6 @@ function EditStudentForm(props) {
       setIsLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   setDetails(studentDetail);
-  // });
-
-  // debugger
-  // const studentid = id;//5; //need to get studentId
-  // useEffect(() => {
-  //   axios
-  //   .post(APIs.MYPROFILE, {
-  //     studentid
-  //   })
-  //   .then((response) => {
-  //       // debugger
-  //       const fullrecords = response.data;
-  //       const records = fullrecords[0];
-  //       setDetails(records);
-  //       // setGender(records.Gender);
-  //       setGender('Male');
-  //       console.log("Data->", response.data);
-  //       console.log("type of data -> ", typeof response.data);
-  //     })
-  //     .catch((err) => {
-  //       swal({
-  //       title:"Unable to fetch data",
-  //       text: `${err.message}`,
-  //       timer: 1500
-  //     });
-  //     });
-  // }, []);
 
   return (
     <>
@@ -417,7 +391,7 @@ function EditStudentForm(props) {
                 defaultValue={details.mobile}
                 // defaultValue={mobile}
                 onChange={InputChange}
-                // disabled
+                disabled
                 focused
               />
               {errors.mobile ? (
@@ -646,11 +620,11 @@ function EditStudentForm(props) {
               ) : (
                 ""
               )}
-              
+
               <FormControlLabel
                 control={
                   <Checkbox
-                  // checked={details.isActive}
+                    // checked={details.isActive}
                     defaultChecked={details.isActive}
                     id="isActive"
                     name="isActive"

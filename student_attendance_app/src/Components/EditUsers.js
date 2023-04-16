@@ -68,7 +68,7 @@ function EditUsers(props) {
     }
   };
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
     let nam = InputValues.name.trim();
     let eml = InputValues.email.trim();
@@ -119,7 +119,7 @@ function EditUsers(props) {
     const { name, value } = events.target;
     const tempDetails = { ...details, [name]: value };
     setDetails(tempDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const onSubmitClick = (events) => {
@@ -128,11 +128,10 @@ function EditUsers(props) {
 
     events.preventDefault();
 
-    if (!Errors_check(details)) {
+    if (!checkErrors(details)) {
       console.log("details:--", details);
       console.log("isAdmin value:--", isAdmin);
       setIsLoading(true);
-      debugger;
       axios
         .put(APIs.USER, {
           userId,
@@ -170,36 +169,6 @@ function EditUsers(props) {
       setIsLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   setDetails(UserDetail);
-  // });
-
-  // debugger
-  // const Userid = id;//5; //need to get UserId
-  // useEffect(() => {
-  //   axios
-  //   .post(APIs.MYPROFILE, {
-  //     Userid
-  //   })
-  //   .then((response) => {
-  //       // debugger
-  //       const fullrecords = response.data;
-  //       const records = fullrecords[0];
-  //       setDetails(records);
-  //       // setGender(records.Gender);
-  //       setGender('Male');
-  //       console.log("Data->", response.data);
-  //       console.log("type of data -> ", typeof response.data);
-  //     })
-  //     .catch((err) => {
-  //       swal({
-  //       title:"Unable to fetch data",
-  //       text: `${err.message}`,
-  //       timer: 1500
-  //     });
-  //     });
-  // }, []);
 
   return (
     <>

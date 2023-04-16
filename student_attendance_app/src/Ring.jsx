@@ -11,14 +11,14 @@ export function Ring() {
   // }
   return (
     <>
-      <Box sx={{ display: "flex", zIndex: "100000", textAlign: "center" }}>
+      {/* <Box sx={{ display: "flex", zIndex: "100000", textAlign: "center" }}>
         <CircularProgress
           sx={{ color: "black", width: "50px", height: "50px" }}
-        />
+        /> */}
       <Backdrop open={isLoading}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      </Box>
+      {/* </Box> */}
     </>
   );
 }

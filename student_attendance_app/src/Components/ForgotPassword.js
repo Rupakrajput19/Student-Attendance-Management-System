@@ -36,7 +36,7 @@ export default function ForgotPassword(props) {
     setOpen(false);
   };
 
-  const Errors_check = (InputValues) => {
+  const checkErrors = (InputValues) => {
     let errors = {};
     let inp = InputValues.userInput.trim();
     let mob = InputValues.mobile.trim();
@@ -72,7 +72,7 @@ export default function ForgotPassword(props) {
     const { name, value } = events.target;
     const InputDetails = { ...details, [name]: value };
     setDetails(InputDetails);
-    Errors_check(details);
+    checkErrors(details);
   };
 
   const onSubmitClick = (events) => {
@@ -80,7 +80,7 @@ export default function ForgotPassword(props) {
     events.preventDefault();
     console.log("details:--", details);
 
-    if (!Errors_check(details)) {
+    if (!checkErrors(details)) {
       setIsLoading(true);
 
       axios

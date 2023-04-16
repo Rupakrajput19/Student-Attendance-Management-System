@@ -25,7 +25,7 @@ namespace Students.Models
         public string? Country { get; set; }
         public int Pincode { get; set; }
         public bool? IsActive { get; set; } // by default it is true;
-        public string? Photo { get; set; }
+        public string? Photo { get; set; } //= "student_profile.jpg";
         public bool IsDeleted { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
