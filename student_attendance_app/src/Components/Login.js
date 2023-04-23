@@ -83,7 +83,9 @@ function Login(props) {
               // actions.userAdminCheck(result.data[0].IsAdmin);
               // userAdminCheck(result.data[0].IsAdmin);
               // setTimeout(() => {
-              Navigator("/home", { replace: true });
+                // debugger
+                Navigator("/home", { replace: true });
+                // Navigator(`/sidebar`, { state: { LoginUserData: result.data[0] } });
               // }, 3000);
               setIsLoading(false);
             }
@@ -112,7 +114,7 @@ function Login(props) {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
-            timer: 1500,
+            timer: 2000,
           });
           setIsLoading(false);
         });

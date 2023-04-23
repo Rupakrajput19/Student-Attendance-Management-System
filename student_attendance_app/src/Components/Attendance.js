@@ -169,7 +169,7 @@ export default function Attendance() {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
-            timer: 1500
+            timer: 2000
           });
         });
         setIsLoading(false);

@@ -10,7 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EventIcon from "@mui/icons-material/Event";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -24,22 +24,27 @@ import { useSelector } from "react-redux";
 export default function Sidebar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  // debugger;
+  // const location = useLocation();
+  // const userDetails = location.state.LoginUserData;
+  // console.log(userDetails);
 
   // const isAdmin = useSelector(state => state.isAdmin)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   const drawerWidth = 220;
   const drawerMargin = "95px 0 0 0";
   const drawerBorder = "2px solid black";
-  const isAdmin = true; //props.IsAdmin
+  const isAdmin = true; // userDetails.IsAdmin; //props.IsAdmin
   const studentName = "Ritu Kumar"; // will come from props users props.Name
   const drawer = (
     <div>
       <List>
-        &nbsp; &nbsp; Hi, <b>{studentName}</b> {isAdmin ? "(Admin)" : "(Student)"}
+        &nbsp; &nbsp; Hi, <b>{studentName}</b>{" "}
+        {isAdmin ? "(Admin)" : "(Student)"}
       </List>
       <Divider />
       <List>

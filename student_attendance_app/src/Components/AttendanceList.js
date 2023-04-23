@@ -124,7 +124,7 @@ export default function AttendanceList(props) {
         swal({
           title: "Unable to fetch data",
           text: `${err.message}`,
-          timer: 1500,
+          timer: 2000,
         });
       });
   };

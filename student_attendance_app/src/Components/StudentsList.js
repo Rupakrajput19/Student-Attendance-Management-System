@@ -51,7 +51,7 @@ export default function StudentsList(props) {
       field: "Name",
       fontWeight: "bold",
       headerName: "Full Name",
-      width: 140,
+      width: 175,
     },
     {
       field: "FatherName",
@@ -59,7 +59,7 @@ export default function StudentsList(props) {
       headerName: "Father Name",
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 175,
     },
     {
       field: "MotherName",
@@ -67,7 +67,7 @@ export default function StudentsList(props) {
       headerName: "Mother Name",
       sortable: false,
       filterable: false,
-      width: 140,
+      width: 175,
     },
     {
       field: "DateOfBirth",
@@ -149,7 +149,7 @@ export default function StudentsList(props) {
       type: "string",
       sortable: false,
       filterable: false,
-      width: 120,
+      width: 150,
     },
     {
       field: "CreatedOn",
@@ -168,7 +168,7 @@ export default function StudentsList(props) {
       type: "string",
       sortable: false,
       filterable: false,
-      width: 120,
+      width: 200,
     },
     {
       field: "ModifiedOn",
@@ -279,7 +279,7 @@ export default function StudentsList(props) {
           title: `Something went wrong: ${error.message}`,
           text: "Unable to get response from backend, please try again later!",
           icon: "error",
-          timer: 1500,
+          timer: 2000,
         });
       });
   };

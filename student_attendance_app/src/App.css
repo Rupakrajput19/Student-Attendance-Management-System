@@ -331,6 +331,7 @@ footer {
 }
 .profile-pic-box h2 {
   text-decoration: underline;
+  text-align: center;
 }
 
 .pic-holder {
@@ -356,6 +357,9 @@ footer {
   object-fit: cover;
   -o-object-position: center;
   object-position: center;
+  /* margin-right: 80px;
+  margin-top: 60px; */
+  /* margin: 0 20px 0 0; */
 }
 
 .pic-holder .upload-file-block,

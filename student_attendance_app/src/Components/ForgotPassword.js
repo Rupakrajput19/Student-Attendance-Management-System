@@ -128,7 +128,7 @@ export default function ForgotPassword(props) {
               text: `No user found with entered \n Username/Email: "${userInput}", \n Phone No.: ${mobile} \n
               Notes: If you don't know your registered username and email then you need to contact on "9599408303 - ritukumar456061@gmail.com"`,
               icon: "error",
-              timer: 1500,
+              timer: 2000,
               button: "Try Again",
             });
           }
@@ -138,7 +138,7 @@ export default function ForgotPassword(props) {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
-            timer: 1500,
+            timer: 2000,
           });
         });
       setDetails(intitial);

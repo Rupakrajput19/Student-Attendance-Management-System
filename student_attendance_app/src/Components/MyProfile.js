@@ -11,13 +11,16 @@ import { APIs } from "../APIs";
 import dayjs from "dayjs";
 import { Variables } from "../Variables";
 import { Image } from "@mui/icons-material";
+// import myImage from '../../../Backend_C#/Students/Photos';
+import profileImage from "../Images/ProfileImage/student_profile.jpg";
+// import profileImagePath from "../Images/ProfileImage";
 
 export default function MyProfile(props) {
   document.title = `MyProfile - ${props.pageTitle}`;
-  const imageURL =
-    "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/Backend_C#/Students/Photos";
-  var studentName = "Ritu Kumar";
-  studentName = studentName.toString();
+  const studentid = 2; //need to get studentId
+  // const studentName = "Ritu Kumar";
+  // studentName = studentName.toString();
+  const image = require("C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/RITU KUMAR.jpeg");
 
   // $(document).on("change", ".uploadProfileInput", function () {
   //   var triggerInput = this;
@@ -84,9 +87,8 @@ export default function MyProfile(props) {
 
   const [details, setDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const studentid = 2; //need to get studentId
+  const [selectedImage, setSelectedImage] = useState(''); //profileImage
+  const [studentName, setStudentName] = useState('');
 
   const fetchingProfileData = () => {
     axios
@@ -94,38 +96,33 @@ export default function MyProfile(props) {
         studentid,
       })
       .then((response) => {
-        // debugger;
         const fullrecords = response.data;
         const records = fullrecords[0];
-        var fullname = records.Name;
-        var studentId = records.StudentID;
-        var registrationId = records.RegistrationID;
-        var className = records.ClassName;
-        var gender = records.Gender;
-        var addmissionDate = records.AddmissionDate;
-        var dateOfBirth = records.DateOfBirth;
-        var email = records.Email;
-        var mobile = records.Mobile;
-        var fatherName = records.FatherName;
-        var motherName = records.MotherName;
-        var adderess = records.Address;
-        var city = records.City;
-        var state = records.State;
-        var country = records.Country;
-        var pincode = records.Pincode;
-        var photo = records.Photo;
-        const studentImageURL = `${Variables.ImagePath}/${records.Photo}`;
+        const name = records.Name
+        const photo = records.Photo;
+        debugger
+        // const studentImageURL = `${Variables.BackendImagePath}/${records.Photo}`;
+        const studentImageURL = `${Variables.FrontendImagePath}/${photo}`;
+        // const studentImage = studentImageURL != "" ? studentImageURL : profileImage;
+        // const studentImages = studentImageURL.toString();
+        // const photos = require(photo);
         setDetails(records);
-        setSelectedImage(studentImageURL);
-        console.log("Image URL->", studentImageURL);
-        console.log("Data->", response.data);
+        setStudentName(name);
+        console.log("Data->", response.data); 
+        // setSelectedImage(photos); 
+        // setSelectedImage(studentImage); 
+        // console.log("Image URL->", studentImage);
         console.log("type of data -> ", typeof response.data);
+        debugger
+        const frontendPath = "../Images/ProfileImage";
+        const imageUrl = `${frontendPath}/${photo}`; 
+        setSelectedImage(imageUrl); 
       })
       .catch((err) => {
         swal({
           title: "Unable to fetch data",
           text: `${err.message}`,
-          timer: 1500,
+          timer: 2000,
         });
       });
   };
@@ -135,12 +132,21 @@ export default function MyProfile(props) {
     return file.size <= 5242880;
   };
 
+  const changeStudentImage = (event) => {
+    debugger
+    const selectImage = event.target.value;
+    // const imageFile = selectImage[0];
+    // const imageName = imageFile.name;
+    // const imageurl = `${Variables.FrontendImagePath}}/${imageName}`
+    setSelectedImage(selectImage);
+    // setSelectedImage(imageurl);
+  }
+
   const handleSubmit = (event) => {
-    debugger;
     event.preventDefault();
-    const selectedImage = event.target.newProfilePhoto.files;
-    const imageFile = selectedImage[0];
-    if (selectedImage.length == 0) {
+    const selectImage = event.target.newProfilePhoto.files;
+    const imageFile = selectImage[0];
+    if (selectImage.length == 0) {
       return swal({
         title: "Please Select an Image to Upload!",
         // text: "",
@@ -158,45 +164,54 @@ export default function MyProfile(props) {
       });
     } else {
       const imageName = imageFile.name;
+      console.log('Image name', imageName);
       uploadStudentImage(imageFile);
     }
   };
 
   const uploadStudentImage = (imageFile) => {
-    debugger
     const formData = new FormData();
-    formData.append('file', imageFile);
+    formData.append("file", imageFile);
+    formData.append("studenId", studentid);
+    formData.append("studentName", studentName);
     console.log(formData);
     console.log(typeof formData);
     axios
       .post(`${APIs.STUDENTSPHOTO}/${studentid}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         swal({
           title: `${response.data.Message}`,
-          icon: 'success',
+          text: `${response.data.FileName}`,
+          icon: "success",
           timer: 1500,
         });
       })
       .catch((error) => {
         swal({
-          title: 'Unable to Upload Image',
+          title: "Unable to Upload Image",
           text: `${error.message}`,
-          timer: 1500,
+          timer: 2000,
         });
       });
+      // setTimeout(() => {
+        fetchingProfileData();
+      // }, 1500);
   };
-  
-  
 
   useEffect(() => {
     setIsLoading(true);
     fetchingProfileData();
     setIsLoading(false);
   }, []);
+  
+  // // debugger
+  //   const frontendPath = "/Images/ProfileImage";
+  //   const imageFileName = details.Photo;
+  //   const imageUrl = require(`${frontendPath}/${imageFileName}`); 
 
   return (
     <>
@@ -217,17 +232,18 @@ export default function MyProfile(props) {
               <form onSubmit={handleSubmit}>
                 <div className="pic-holder" title={{ studentName }}>
                   {/* <!-- uploaded pic shown here --> */}
-                  <Image
+                  <img
                     id="profilePic"
                     className="pic"
                     // src="https://source.unsplash.com/random/150x150?person"
                     src={selectedImage}
+                    // src={imageUrl}
+                    // src={require(`${process.env.PUBLIC_URL}/Images/ProfileImage/RITU KUMAR.jpeg`)}
                     // destination={{ url: "my-server.com/upload" }}
-                    // src={require("../../../Backend_C#/Students/Photos/student_profile.jpg")}
-                    // src={process.env.PUBLIC_URL + '/Students/Photos/papa photo.jpg'}
                     accept="image/*"
                     fileFilter={filterBySize}
                     alt={`${studentName} Image`}
+                    // alt="Student Profile"
                   />
                   <input
                     className="uploadProfileInput"
@@ -236,7 +252,7 @@ export default function MyProfile(props) {
                     name="newProfilePhoto"
                     id="newProfilePhoto"
                     style={{ opacity: "0" }}
-                    // onChange={uploadStudentImage}
+                    onChange={changeStudentImage}
                   />
                   <label
                     htmlFor="newProfilePhoto"
@@ -258,6 +274,7 @@ export default function MyProfile(props) {
                   variant="contained"
                   className="input_field"
                   id="submit_btn"
+                  // onClick={handleSubmit}
                 >
                   Upload
                 </Button>

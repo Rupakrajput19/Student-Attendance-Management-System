@@ -10,9 +10,11 @@ export const Variables = {
 
   Empty: "Please Enter ",
 
-  // Image URL for frontend
+  // Image URL for frontend/backend
 
-  ImagePath:
+  BackendImagePath:
   "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/Backend_C#/Students/Photos",
+  FrontendImagePath:
+  "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage",
 };
 

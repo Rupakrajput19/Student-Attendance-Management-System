@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Students.Enums;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Students.Controllers
 {
@@ -30,7 +31,7 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult Post(Student student)
         {
-            string query = @"SELECT * FROM dbo.[vwStudentsList] WHERE StudentID = '" + student.StudentID + @"'";
+            string query = @"SELECT ('C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/'+Photo) AS Photos,* FROM dbo.[vwStudentsList] WHERE StudentID = '" + student.StudentID + @"'";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -75,7 +76,7 @@ namespace Students.Controllers
         //                    ,IsActive = '" + student.IsActive + @"'
         //                    ,Photo = '" + student.Photo + @"'
         //                    ,ModifiedBy = '" + student.Name + @"'
-        //                    ,ModifiedOn = 'GETDATE()'
+        //                    ,ModifiedOn = GETDATE()
         //                    WHERE
         //                    StudentID = '" + student.StudentID + @"'
         //                    ";
@@ -104,7 +105,7 @@ namespace Students.Controllers
 
         [Route("SaveFile/{id}")]
         [HttpPost]
-        public JsonResult SaveFile(int id, Student student) //IFormFile image)
+        public JsonResult SaveFile(int id)
         {
             try
             {
@@ -112,8 +113,13 @@ namespace Students.Controllers
                 var postedFile = httpRequest.Files[0];
                 string filesName = postedFile.FileName;
                 var physicalPath = _webHostEnvironment.ContentRootPath + "/Photos/" + filesName;
+                var physicalPathForFrontend = "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/" + filesName;
 
                 using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+                using (var stream = new FileStream(physicalPathForFrontend, FileMode.Create))
                 {
                     postedFile.CopyTo(stream);
                 }
@@ -121,6 +127,8 @@ namespace Students.Controllers
                 {
                     string query = @"UPDATE dbo.[Students] SET 
                                      Photo = '" + filesName + @"'
+                                     ,ModifiedBy = '" + "Image updated by student" + @"'
+                                     ,ModifiedOn = GETDATE()
                                      WHERE
                                      StudentID = '" + id + @"'
                                      ";
@@ -143,7 +151,7 @@ namespace Students.Controllers
                         }
                     }
                 }
-                return new JsonResult(new { FileName = filesName, Message = "Student Profile Image Successfully Updated" });
+                return new JsonResult(new { FileName = filesName, Message = "Profile Successfully Updated" });
             }
             catch (Exception)
             {

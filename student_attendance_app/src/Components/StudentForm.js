@@ -232,7 +232,7 @@ function StudentForm(props) {
             title: `Something went wrong: ${errors}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
-            timer: 1500,
+            timer: 2000,
           });
         });
       setIsLoading(false);
