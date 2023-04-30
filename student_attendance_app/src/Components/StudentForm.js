@@ -55,7 +55,6 @@ function StudentForm(props) {
   };
 
   const onCheckboxClick = () => {
-    debugger;
     const checked = document.getElementById("isActive").checked;
     const checkbox_text = document.getElementById("checkbox_text");
     if (checked) {
@@ -107,7 +106,6 @@ function StudentForm(props) {
       InputValues.mobile.length > 12
     ) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
-      debugger
     } else if (genders == "") {
       errors.gender = "Please Select Gender!";
     } else if (InputValues.email === "") {

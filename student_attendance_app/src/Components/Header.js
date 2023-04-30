@@ -6,8 +6,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Logo_img from "../Images/favicon.jpg";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../Redux/userActions";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  
+  const userLogout = () => {
+    dispatch(logout());
+  }
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -16,25 +24,33 @@ export default function Header() {
             <div>
               <a href="" rel="noopener noreferrer">
                 <img src={Logo_img} alt="Logo" className="header_img" />
-                </a>
+              </a>
             </div>
-            <Typography variant="h4" component="div" sx={{ flexGrow: 1 , color:"black", fontWeight:"bold", textDecoration:"underline"}}>
+            <Typography
+              variant="h4"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                color: "black",
+                fontWeight: "bold",
+                textDecoration: "underline",
+              }}
+            >
               Student Attendance Portal
             </Typography>
-            <Link to='/home' className="header_btn">
-            {/* <Button color="inherit"> */}
+            <Link to="/home" className="header_btn">
+              {/* <Button color="inherit"> */}
               Home
-            {/* </Button> */}
+              {/* </Button> */}
             </Link>
-             <Link to="/login" className="header_btn">
-            {/* <Button color="inherit"> */}
-             Logout
-            {/* </Button>  */}
-             </Link> 
+            <Link to="/login" className="header_btn" onClick={userLogout}>
+              {/* <Button color="inherit"> */}
+              Logout
+              {/* </Button>  */}
+            </Link>
           </Toolbar>
         </AppBar>
       </Box>
     </>
   );
 }
-

@@ -11,84 +11,25 @@ import { APIs } from "../APIs";
 import dayjs from "dayjs";
 import { Variables } from "../Variables";
 import { Image } from "@mui/icons-material";
-// import myImage from '../../../Backend_C#/Students/Photos';
 import profileImage from "../Images/ProfileImage/student_profile.jpg";
-// import profileImagePath from "../Images/ProfileImage";
+import { useSelector } from "react-redux";
 
 export default function MyProfile(props) {
   document.title = `MyProfile - ${props.pageTitle}`;
-  const studentid = 2; //need to get studentId
+  const user = useSelector((state) => state.user);
+  console.log(user);
+  debugger
+  const studentid = 2; //user.StudentID;
   // const studentName = "Ritu Kumar";
   // studentName = studentName.toString();
-  const image = require("C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/RITU KUMAR.jpeg");
-
-  // $(document).on("change", ".uploadProfileInput", function () {
-  //   var triggerInput = this;
-  //   var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
-  //   var holder = $(this).closest(".pic-holder");
-  //   var wrapper = $(this).closest(".profile-pic-wrapper");
-  //   $(wrapper).find('[role="alert"]').remove();
-  //   triggerInput.blur();
-  //   var files = !!this.files ? this.files : [];
-  //   if (!files.length || !window.FileReader) {
-  //     return;
-  //   }
-  //   if (/^image/.test(files[0].type)) {
-  //     // only image file
-  //     var reader = new FileReader(); // instance of the FileReader
-  //     reader.readAsDataURL(files[0]); // read the local file
-
-  //     reader.onloadend = function () {
-  //       $(holder).addClass("uploadInProgress");
-  //       $(holder).find(".pic").attr("src", this.result);
-  //       $(holder).append(
-  //         '<div class="upload-loader"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>'
-  //       );
-
-  //       // Dummy timeout; call API or AJAX below
-  //       setTimeout(() => {
-  //         $(holder).removeClass("uploadInProgress");
-  //         $(holder).find(".upload-loader").remove();
-  //         // If upload successful
-  //         if (Math.random() < 0.9) {
-  //           $(wrapper).append(
-  //             '<div class="snackbar show" role="alert"><i class="fa fa-check-circle text-success"></i> Profile image updated successfully</div>'
-  //           );
-
-  //           // Clear input after upload
-  //           $(triggerInput).val("");
-
-  //           setTimeout(() => {
-  //             $(wrapper).find('[role="alert"]').remove();
-  //           }, 3000);
-  //         } else {
-  //           $(holder).find(".pic").attr("src", currentImg);
-  //           $(wrapper).append(
-  //             '<div class="snackbar show" role="alert"><i class="fa fa-times-circle text-danger"></i> There is an error while uploading! Please try again later.</div>'
-  //           );
-
-  //           // Clear input after upload
-  //           $(triggerInput).val("");
-  //           setTimeout(() => {
-  //             $(wrapper).find('[role="alert"]').remove();
-  //           }, 3000);
-  //         }
-  //       }, 1500);
-  //     };
-  //   } else {
-  //     $(wrapper).append(
-  //       '<div class="alert alert-danger d-inline-block p-2 small" role="alert">Please choose the valid image.</div>'
-  //     );
-  //     setTimeout(() => {
-  //       $(wrapper).find('role="alert"').remove();
-  //     }, 3000);
-  //   }
-  // });
+  // const image = require("C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/RITU KUMAR.jpeg");
 
   const [details, setDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(''); //profileImage
-  const [studentName, setStudentName] = useState('');
+  const [selectedImage, setSelectedImage] = useState(""); //profileImage
+  const [studentName, setStudentName] = useState("");
+  // const [image, setImage] = useState({ preview: '', data: '' })
+  const [imageName, setImageName] = useState("");
 
   const fetchingProfileData = () => {
     axios
@@ -98,25 +39,19 @@ export default function MyProfile(props) {
       .then((response) => {
         const fullrecords = response.data;
         const records = fullrecords[0];
-        const name = records.Name
+        const name = records.Name;
         const photo = records.Photo;
-        debugger
-        // const studentImageURL = `${Variables.BackendImagePath}/${records.Photo}`;
         const studentImageURL = `${Variables.FrontendImagePath}/${photo}`;
-        // const studentImage = studentImageURL != "" ? studentImageURL : profileImage;
-        // const studentImages = studentImageURL.toString();
-        // const photos = require(photo);
         setDetails(records);
         setStudentName(name);
-        console.log("Data->", response.data); 
-        // setSelectedImage(photos); 
-        // setSelectedImage(studentImage); 
-        // console.log("Image URL->", studentImage);
+        // Setting Image Name to show in profile that coming from backend
+        setImageName(photo);
+        console.log("Data->", response.data);
+        console.log("Image URL->", studentImageURL);
         console.log("type of data -> ", typeof response.data);
-        debugger
-        const frontendPath = "../Images/ProfileImage";
-        const imageUrl = `${frontendPath}/${photo}`; 
-        setSelectedImage(imageUrl); 
+        // const frontendPath = "../Images/ProfileImage";
+        // const imageUrl = `${frontendPath}/${photo}`;
+        // setSelectedImage(imageUrl);
       })
       .catch((err) => {
         swal({
@@ -132,21 +67,21 @@ export default function MyProfile(props) {
     return file.size <= 5242880;
   };
 
-  const changeStudentImage = (event) => {
-    debugger
-    const selectImage = event.target.value;
-    // const imageFile = selectImage[0];
-    // const imageName = imageFile.name;
-    // const imageurl = `${Variables.FrontendImagePath}}/${imageName}`
+  const handleFileChange = (event) => {
+    event.preventDefault();
+    const selectImage = URL.createObjectURL(event.target.files[0]);
+    // const selectImage = {
+    //   preview: URL.createObjectURL(event.target.files[0]),
+    //   data: event.target.files[0],
+    // }
     setSelectedImage(selectImage);
-    // setSelectedImage(imageurl);
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const selectImage = event.target.newProfilePhoto.files;
     const imageFile = selectImage[0];
-    if (selectImage.length == 0) {
+    if (selectImage.length === 0) {
       return swal({
         title: "Please Select an Image to Upload!",
         // text: "",
@@ -164,7 +99,7 @@ export default function MyProfile(props) {
       });
     } else {
       const imageName = imageFile.name;
-      console.log('Image name', imageName);
+      console.log("Image name", imageName);
       uploadStudentImage(imageFile);
     }
   };
@@ -197,9 +132,9 @@ export default function MyProfile(props) {
           timer: 2000,
         });
       });
-      // setTimeout(() => {
-        fetchingProfileData();
-      // }, 1500);
+    // setTimeout(() => {
+    fetchingProfileData();
+    // }, 1500);
   };
 
   useEffect(() => {
@@ -207,11 +142,27 @@ export default function MyProfile(props) {
     fetchingProfileData();
     setIsLoading(false);
   }, []);
-  
-  // // debugger
-  //   const frontendPath = "/Images/ProfileImage";
-  //   const imageFileName = details.Photo;
-  //   const imageUrl = require(`${frontendPath}/${imageFileName}`); 
+
+  if (imageName && imageName != undefined && imageName != "") {
+    const frontend = "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage";
+    // var image = require(`${frontend}/${imageName}`);
+    var image = require(`C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/${imageName}`);
+    console.log(image);
+    // setSelectedImage(image);
+  }
+
+  // if (!user) {
+  //   return (
+  //     <>
+  //     <Header />
+  //     <Sidebar />
+  //     <Typography variant="h4" component="div" className="typographyText">
+  //           My Profile
+  //         </Typography>
+  //     <div className="student_form" style={{ marginLeft: "250Px" }}>You must be logged in to see your profile.</div>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
@@ -230,16 +181,17 @@ export default function MyProfile(props) {
             {/* <div className="profile-pic-wrapper" title={{studentName}}> */}
             <div className="profile-pic-box">
               <form onSubmit={handleSubmit}>
-                <div className="pic-holder" title={{ studentName }}>
+                <div className="pic-holder" title={`${studentName}`}>
                   {/* <!-- uploaded pic shown here --> */}
                   <img
                     id="profilePic"
                     className="pic"
+                    src={selectedImage == "" ? image : selectedImage}
                     // src="https://source.unsplash.com/random/150x150?person"
-                    src={selectedImage}
-                    // src={imageUrl}
+                    // src={require("../Images/ProfileImage/RITU KUMAR.jpeg")}
                     // src={require(`${process.env.PUBLIC_URL}/Images/ProfileImage/RITU KUMAR.jpeg`)}
                     // destination={{ url: "my-server.com/upload" }}
+                    type="file"
                     accept="image/*"
                     fileFilter={filterBySize}
                     alt={`${studentName} Image`}
@@ -252,7 +204,7 @@ export default function MyProfile(props) {
                     name="newProfilePhoto"
                     id="newProfilePhoto"
                     style={{ opacity: "0" }}
-                    onChange={changeStudentImage}
+                    onChange={handleFileChange}
                   />
                   <label
                     htmlFor="newProfilePhoto"

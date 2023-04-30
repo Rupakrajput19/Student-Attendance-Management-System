@@ -172,7 +172,6 @@ export default function UsersList(props) {
   const rows = [];
 
   // const onCheckboxClick = (ids) => {
-  //   debugger
   //   const selectedRowsData = ids.map((id) => rows.find((row) => row.StudentID === id));
   //     console.log('checkbox clicked');
   //     console.log(selectedRowsData);

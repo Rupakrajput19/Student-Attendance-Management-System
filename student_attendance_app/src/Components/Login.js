@@ -14,22 +14,19 @@ import ForgotPassword from "./ForgotPassword";
 import { Ring } from "../Ring";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import actionCreators from "../ReduxStates/index";
-import userAdminCheck from "../ReduxStates/Actions/index";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop } from "@mui/material";
+import { login } from "../Redux/userActions";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
   const Navigator = useNavigate();
+  const dispatch = useDispatch();
   const intitial = {
     username: "",
     password: "",
     // email: ""
   };
-
-  const dispatch = useDispatch();
-  // const actions = bindActionCreators(actionCreators, dispatch);
 
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
@@ -64,7 +61,7 @@ function Login(props) {
   const onSubmitClick = (events) => {
     const { username, password } = details;
     events.preventDefault();
-    
+
     if (!checkErrors(details)) {
       console.log("details:--", details);
       setIsLoading(true);
@@ -72,6 +69,7 @@ function Login(props) {
         .post(APIs.LOGIN, { username, password })
         .then((result) => {
           setIsLoading(true);
+          const user = result.data[0];
           console.log("Response from backend -> ", result);
           if (result.data.length == 1 && result.status == 200) {
             if (
@@ -80,13 +78,8 @@ function Login(props) {
                 result.data[0].Email == username) &&
               result.data[0].Password == password
             ) {
-              // actions.userAdminCheck(result.data[0].IsAdmin);
-              // userAdminCheck(result.data[0].IsAdmin);
-              // setTimeout(() => {
-                // debugger
-                Navigator("/home", { replace: true });
-                // Navigator(`/sidebar`, { state: { LoginUserData: result.data[0] } });
-              // }, 3000);
+              dispatch(login(user));
+              Navigator("/home", { replace: true });
               setIsLoading(false);
             }
             console.log(`UserID:-> ${result.data[0].UserID} \n

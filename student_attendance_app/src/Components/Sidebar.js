@@ -20,30 +20,40 @@ import PunchClockIcon from "@mui/icons-material/PunchClock";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logout } from '../Redux/userActions';
 
 export default function Sidebar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-  // debugger;
-  // const location = useLocation();
-  // const userDetails = location.state.LoginUserData;
-  // console.log(userDetails);
+  const dispatch = useDispatch();
 
-  // const isAdmin = useSelector(state => state.isAdmin)
+  const userLogout = () => {
+    dispatch(logout());
+  };
+  
+  const user = useSelector((state) => state.user);
+  const isAdmin = true // user.IsAdmin;
+  // const userId = user.UserID;
+  // const userName = user.Name;
+  // const fullName = userName.split(" ");
+  const firstName = "" //fullName[0];
+  // const lastName = fullName.length > 1 ? fullName[1] : "";
+  // console.log("isAdmin =>", isAdmin);
+  // console.log(user);
+
+  const drawerWidth = 220;
+  const drawerMargin = "95px 0 0 0";
+  const drawerBorder = "2px solid black";
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const drawerWidth = 220;
-  const drawerMargin = "95px 0 0 0";
-  const drawerBorder = "2px solid black";
-  const isAdmin = true; // userDetails.IsAdmin; //props.IsAdmin
-  const studentName = "Ritu Kumar"; // will come from props users props.Name
+
   const drawer = (
     <div>
       <List>
-        &nbsp; &nbsp; Hi, <b>{studentName}</b>{" "}
+        &nbsp; &nbsp; Hi, <b>{firstName}</b>{" "}
         {isAdmin ? "(Admin)" : "(Student)"}
       </List>
       <Divider />
@@ -132,7 +142,7 @@ export default function Sidebar(props) {
           ""
         )}
         <Divider />
-        <Link to="/login" className="login_btn">
+        <Link to="/login" className="login_btn" onClick={userLogout}>
           <ListItem>
             <ListItemButton>
               <LogoutIcon />

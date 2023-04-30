@@ -143,7 +143,6 @@ function SignUp(props) {
             icon: "error",
             timer: 2000,
           });
-          // debugger
           // alert(`Something went wrong: ${errors}`);
           // alert(`Something went wrong: ${errors.response.data}`);
           // alert(`Something went wrong: ${errors.request.response}`);

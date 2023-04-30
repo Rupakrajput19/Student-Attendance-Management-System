@@ -81,7 +81,6 @@ const columns = [
 const rows = [];
 
 const onCheckboxClick = (ids) => {
-  debugger;
   const selectedRowsData = ids.map((id) =>
     rows.find((row) => row.StudentID === id)
   );

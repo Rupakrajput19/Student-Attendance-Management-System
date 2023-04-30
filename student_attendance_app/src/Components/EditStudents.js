@@ -98,7 +98,6 @@ function EditStudentForm(props) {
   };
 
   const onCheckboxClick = () => {
-    debugger;
     const checked = document.getElementById("isActive").checked;
     const checkbox_text = document.getElementById("checkbox_text");
     if (checked) {
@@ -224,7 +223,6 @@ function EditStudentForm(props) {
       console.log("gender value:--", gender);
       console.log("isActive value:--", isActive);
       setIsLoading(true);
-      debugger;
       axios
         .put(APIs.STUDENTS, {
           studentId,
