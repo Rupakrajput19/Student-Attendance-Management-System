@@ -75,6 +75,15 @@ export default function UsersList(props) {
       width: 100,
     },
     {
+      field: "IsStudents",
+      fontWeight: "bold",
+      headerName: "Is Student",
+      type: "string",
+      sortable: false,
+      filterable: false,
+      width: 100,
+    },
+    {
       field: "IsDeleteds",
       fontWeight: "bold",
       headerName: "Is Deleted",
@@ -205,9 +214,10 @@ export default function UsersList(props) {
             icon: "success",
             timer: 1500,
           });
-          setInterval(() => {
-            window.location.reload(false);
-          }, 1500);
+          fetchingUsersData();
+          // setInterval(() => {
+          //   window.location.reload(false);
+          // }, 1500);
         }
       })
       .catch((error) => {

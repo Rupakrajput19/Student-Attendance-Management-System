@@ -211,6 +211,22 @@ body,
   display: flex;
   align-items: center;
 }
+
+/* .textForStudents {
+  width: auto !important;
+} */
+.contactUsPageText {
+  animation: blinker 1.5s linear infinite;
+  font-family: sans-serif;
+  margin: 0 2px 0 222px !important;
+  color: #000;
+  background-color: #fff;
+}
+@keyframes blinker {
+  50% {
+      opacity: 0.5;
+  }
+}
 /* footer css start here */
 
 footer {
@@ -268,7 +284,6 @@ footer {
 
 /* footer css end here */
 
-
 /* Css for MUI Classes */
 .css-i4bv87-MuiSvgIcon-root {
   margin-right: 5px !important;
@@ -296,14 +311,14 @@ footer {
   width: auto;
   margin: 10px;
 }
-.profileField{
+.profileField {
   margin: 15px 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   /* flex-direction: column; */
 }
-.profileDataText{
+.profileDataText {
   margin: 0 10px;
   width: 40%;
   color: grey;
@@ -489,6 +504,10 @@ footer {
     width: 84% !important;
     margin: 30px 30px 30px 235px !important;
   } */
+}
+
+.container_box{
+  margin: 20px auto 40px 250px !important;
 }
 
 @media screen and (max-width: 599px) {

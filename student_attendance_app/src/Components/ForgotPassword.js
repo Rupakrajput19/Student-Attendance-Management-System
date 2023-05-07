@@ -80,67 +80,70 @@ export default function ForgotPassword(props) {
     events.preventDefault();
     console.log("details:--", details);
 
-    if (!checkErrors(details)) {
-      setIsLoading(true);
-
+    const forgotPasswordAPI = () => {
       axios
-        .put(APIs.FORGOTPASSWORD, {
-          userInput,
-          mobile,
-          password,
-          confirmPassword,
-        })
-        .then((result) => {
-          console.log("Response from backend -> ", result);
-          // if (result.data.length == 1 && result.status == 200) {
-          // if(result.data[0].UserName == userInput || result.data[0].Email == userInput &&  result.data[0].Mobile == mobile){
-          if (
-            result.data == "Password Successfully Updated" &&
-            result.status == 200
-          ) {
-            swal({
-              title: "Password Successfully Updated!",
-              text: "Please login with your given credentials",
-              icon: "success",
-              timer: 1500,
-            });
-            // setDetails(intitial);
-            // swal({
-            //   title: "Password Forgot Successfully!",
-            //   text: `
-            //   UserID: ${result.data[0].UserID}
-            //   Name: ${result.data[0].Name}
-            //   UserName: ${result.data[0].UserName}
-            //   Mobile: ${result.data[0].Mobile}
-            //   Email: ${result.data[0].Email}
-            //   Password: ${result.data[0].Password}
-            //   IsAdmin: ${result.data[0].IsAdmin}`,
-            //   icon: "success",
-            // timer: 1500,
-            // });
-          } else if (
-            result.data == "Forgot Password Failed" &&
-            result.status == 200
-          ) {
-            // setDetails(intitial);
-            return swal({
-              title: `${result.data}!`,
-              text: `No user found with entered \n Username/Email: "${userInput}", \n Phone No.: ${mobile} \n
-              Notes: If you don't know your registered username and email then you need to contact on "9599408303 - ritukumar456061@gmail.com"`,
-              icon: "error",
-              timer: 2000,
-              button: "Try Again",
-            });
-          }
-        })
-        .catch((error) => {
+      .put(APIs.FORGOTPASSWORD, {
+        userInput,
+        mobile,
+        password,
+        confirmPassword,
+      })
+      .then((result) => {
+        console.log("Response from backend -> ", result);
+        // if (result.data.length == 1 && result.status == 200) {
+        // if(result.data[0].UserName == userInput || result.data[0].Email == userInput &&  result.data[0].Mobile == mobile){
+        if (
+          result.data == "Password Successfully Updated" &&
+          result.status == 200
+        ) {
           swal({
-            title: `Something went wrong: ${error}`,
-            text: "Unable to get response from backend, please try again later!",
+            title: "Password Successfully Updated!",
+            text: "Please login with your given credentials",
+            icon: "success",
+            timer: 1500,
+          });
+          // setDetails(intitial);
+          // swal({
+          //   title: "Password Forgot Successfully!",
+          //   text: `
+          //   UserID: ${result.data[0].UserID}
+          //   Name: ${result.data[0].Name}
+          //   UserName: ${result.data[0].UserName}
+          //   Mobile: ${result.data[0].Mobile}
+          //   Email: ${result.data[0].Email}
+          //   Password: ${result.data[0].Password}
+          //   IsAdmin: ${result.data[0].IsAdmin}`,
+          //   icon: "success",
+          // timer: 1500,
+          // });
+        } else if (
+          result.data == "Forgot Password Failed" &&
+          result.status == 200
+        ) {
+          // setDetails(intitial);
+          return swal({
+            title: `${result.data}!`,
+            text: `No user found with entered \n Username/Email: "${userInput}", \n Phone No.: ${mobile} \n
+            Notes: If you don't know your registered username and email then you need to contact on "9599408303 - ritukumar456061@gmail.com"`,
             icon: "error",
             timer: 2000,
+            button: "Try Again",
           });
+        }
+      })
+      .catch((error) => {
+        swal({
+          title: `Something went wrong: ${error}`,
+          text: "Unable to get response from backend, please try again later!",
+          icon: "error",
+          timer: 2000,
         });
+      });
+    }
+
+    if (!checkErrors(details)) {
+      setIsLoading(true);
+      forgotPasswordAPI();
       setDetails(intitial);
       setOpen(false);
       setIsLoading(false);

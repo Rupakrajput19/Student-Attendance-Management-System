@@ -25,7 +25,7 @@ namespace Students.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT *, CASE WHEN IsAdmin = 1 THEN 'Yes' ELSE 'No' END AS IsAdmins, CASE WHEN IsDeleted = 1 THEN 'Yes' ELSE 'No' END AS IsDeleteds FROM dbo.[Users] ORDER BY Name ASC"; // WHERE IsDeleted = " + (int)Deleted.notDeleted;
+            string query = @"SELECT *, CASE WHEN IsAdmin = 1 THEN 'Yes' ELSE 'No' END AS IsAdmins, CASE WHEN IsStudent = 1 THEN 'Yes' ELSE 'No' END AS IsStudents, CASE WHEN IsDeleted = 1 THEN 'Yes' ELSE 'No' END AS IsDeleteds FROM dbo.[Users] ORDER BY Name ASC"; // WHERE IsDeleted = " + (int)Deleted.notDeleted;
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -88,7 +88,7 @@ namespace Students.Controllers
                 {
                     if (userUsernameStatus)
                     {
-                        string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin)
+                        string query = @"INSERT INTO dbo.[Users] (Name,UserName,Mobile,Email,Password,ConfirmPassword,IsAdmin,IsStudent)
                             VALUES
                             (
                              '" + user.Name + @"'  
@@ -98,6 +98,7 @@ namespace Students.Controllers
                              ,'" + user.Password + @"'
                              ,'" + user.ConfirmPassword + @"'
                              ,'" + user.IsAdmin + @"'  
+                             ,'" + user.IsStudent + @"'  
                              )
                             ";
 
@@ -146,6 +147,7 @@ namespace Students.Controllers
                             ,Password = '" + user.Password + @"'
                             ,ConfirmPassword = '" + user.ConfirmPassword + @"'
                             ,IsAdmin = '" + user.IsAdmin + @"'  
+                            ,IsStudent = '" + user.IsStudent + @"'  
                             ,ModifiedBy = '" + user.UserName + @"'
                             ,ModifiedOn = GETDATE()
                             WHERE

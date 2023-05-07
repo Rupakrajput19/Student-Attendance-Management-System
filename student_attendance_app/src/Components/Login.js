@@ -62,9 +62,7 @@ function Login(props) {
     const { username, password } = details;
     events.preventDefault();
 
-    if (!checkErrors(details)) {
-      console.log("details:--", details);
-      setIsLoading(true);
+    const loginUserAPI = () => {
       axios
         .post(APIs.LOGIN, { username, password })
         .then((result) => {
@@ -88,7 +86,9 @@ function Login(props) {
                       Mobile:-> ${result.data[0].Mobile} \n
                       Email:-> ${result.data[0].Email} \n
                       Password:-> ${result.data[0].Password} \n
-                      IsAdmin:-> ${result.data[0].IsAdmin}
+                      IsAdmin:-> ${result.data[0].IsAdmin} \n
+                      IsStudent:-> ${result.data[0].IsStudent}
+                      StudentID:-> ${result.data[0].StudentID}
                       `);
           } else {
             setDetails(intitial);
@@ -111,6 +111,12 @@ function Login(props) {
           });
           setIsLoading(false);
         });
+    }
+
+    if (!checkErrors(details)) {
+      console.log("details:--", details);
+      setIsLoading(true);
+      loginUserAPI();
     }
   };
 
@@ -180,6 +186,11 @@ function Login(props) {
                 SignUp
               </Link>
             </Typography>
+            <div className="textForStudents">
+            <marquee behavior="scroll" direction="left">
+                <p>{props.textForStudents}</p>
+              </marquee>
+            </div>
           </Box>
         </div>
       )}

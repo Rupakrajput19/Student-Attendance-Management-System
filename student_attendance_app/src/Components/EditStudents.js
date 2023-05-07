@@ -44,6 +44,8 @@ function EditStudentForm(props) {
   // const state = student.State;
   // const country = student.Country;
   // const pincode = student.Pincode;
+  // const username: student.Username;
+  // const password: student.Password;
   const studentDetail = {
     studentId: student.StudentID,
     name: student.Name,
@@ -62,7 +64,12 @@ function EditStudentForm(props) {
     country: student.Country,
     pincode: student.Pincode,
     isActive: student.IsActive,
+    username: student.UserName,
+    password: student.Password,
   };
+
+  // const isdisable = studentDetail.username && studentDetail.password ? true : false;
+
   // const intitial = {
   //   id: "",
   //   name: "",
@@ -79,6 +86,8 @@ function EditStudentForm(props) {
   //   state: "",
   //   country: "",
   //   pincode: "",
+  //   username: "",
+  //   password: "",
   // };
 
   const [details, setDetails] = useState(studentDetail);
@@ -114,9 +123,13 @@ function EditStudentForm(props) {
   const checkErrors = (InputValues) => {
     let errors = {};
     let inputEmail = InputValues.email.trim();
-    let validEmail = inputEmail.match(Variables.EmailRegex);
+    let usr = InputValues.username.trim();
+    let pass = InputValues.password.trim();
     let dob = InputValues.dateOfBirth;
     let ad = InputValues.addmissionDate;
+
+    let validEmail = inputEmail.match(Variables.EmailRegex);
+    let validPassword = pass.match(Variables.PasswordRegex);
 
     var today = new Date();
     today = moment(today).format("YYYY-MM-DD");
@@ -130,7 +143,10 @@ function EditStudentForm(props) {
       errors.name = "Only Characters Allowed In Name!";
     } else if (InputValues.registrationId === "") {
       errors.registrationId = "Please Enter Registration Id!";
-    } else if (InputValues.registrationId.length < 5 || InputValues.registrationId.length > 8) {
+    } else if (
+      InputValues.registrationId.length < 5 ||
+      InputValues.registrationId.length > 8
+    ) {
       errors.registrationId = "Please Enter 5-8 digit Registration Id!";
     } else if (InputValues.addmissionDate === "") {
       errors.addmissionDate = "Please Enter Addmission Date!";
@@ -138,7 +154,7 @@ function EditStudentForm(props) {
     //  else if (InputValues.addmissionDate > today) {
     //   errors.addmissionDate = `Addmission Date ${dateExceededText}`;
     // }
-     else if (InputValues.className === "") {
+    else if (InputValues.className === "") {
       errors.className = "Please Enter Class Name!";
     } else if (InputValues.mobile === "") {
       errors.mobile = "Please Enter Mobile No.!";
@@ -166,6 +182,10 @@ function EditStudentForm(props) {
       errors.fatherName = "Please Enter Father Name!";
     } else if (InputValues.motherName === "") {
       errors.motherName = "Please Enter Mother Name!";
+    } else if (usr === "") {
+      errors.username = "Please Enter Your Username";
+    } else if (usr.length < 5 || usr.length > 15) {
+      errors.username = "Username Should be in 5-15 Characters";
     } else if (InputValues.address === "") {
       errors.address = "Please Enter Address!";
     } else if (InputValues.city === "") {
@@ -176,6 +196,11 @@ function EditStudentForm(props) {
       errors.country = "Please Enter Country!";
     } else if (InputValues.pincode === "") {
       errors.pincode = "Please Enter Pincode!";
+    } else if (pass === "") {
+      errors.password = "Please Enter Password!";
+    } else if (!validPassword) {
+      errors.password =
+        "Password must be in 8 - 20 character and containt atleast 1 Number, 1 Uppercase , 1 Lowercase & 1 Special character!";
     }
     setErrors(errors);
     return Object.entries(errors).length > 0;
@@ -212,17 +237,15 @@ function EditStudentForm(props) {
       state,
       country,
       pincode,
+      username,
+      password,
     } = details;
     const gender = genders;
     const isActive = isActives;
 
     events.preventDefault();
 
-    if (!checkErrors(details)) {
-      console.log("details:--", details);
-      console.log("gender value:--", gender);
-      console.log("isActive value:--", isActive);
-      setIsLoading(true);
+    const editStudentDetails = () => {
       axios
         .put(APIs.STUDENTS, {
           studentId,
@@ -242,6 +265,8 @@ function EditStudentForm(props) {
           country,
           pincode,
           isActive,
+          username,
+          password, // Once the Username and password save for the student can not be update/ediatble later
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -266,6 +291,14 @@ function EditStudentForm(props) {
             timer: 2000,
           });
         });
+    }
+
+    if (!checkErrors(details)) {
+      console.log("details:--", details);
+      console.log("gender value:--", gender);
+      console.log("isActive value:--", isActive);
+      setIsLoading(true);
+      editStudentDetails();
       setIsLoading(false);
     }
   };
@@ -282,7 +315,7 @@ function EditStudentForm(props) {
           <Typography variant="h4" component="div" className="typographyText">
             Edit Student Details
           </Typography>
-          <div className="student_form" style={{ marginLeft: "250Px" }}>
+          <div className="student_form container_box">
             <Box
               className="registration_form"
               component="form"
@@ -397,6 +430,28 @@ function EditStudentForm(props) {
               ) : (
                 ""
               )}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // checked={details.isActive}
+                    defaultChecked={details.isActive}
+                    id="isActive"
+                    name="isActive"
+                    // color="primary"
+                    sx={{
+                      color: "red",
+                      "&.Mui-checked": {
+                        color: "blue",
+                      },
+                    }}
+                  />
+                }
+                label="Is Student Active ?"
+                onChange={onCheckboxClick}
+              />
+              {/* <p className="clear_errors" id="checkbox_text">
+                Is Student Active ?
+              </p> */}
             </Box>
 
             <Box
@@ -511,6 +566,25 @@ function EditStudentForm(props) {
               ) : (
                 ""
               )}
+              <TextField
+                id="Username"
+                type="text"
+                name="username"
+                label="Username"
+                variant="outlined"
+                className="input_field"
+                required
+                // disabled={isdisable}
+                disabled
+                defaultValue={details.username}
+                // defaultValue={username}
+                onChange={InputChange}
+              />
+              {errors.username ? (
+                <p className="clear_error">{errors.username}</p>
+              ) : (
+                ""
+              )}
               <Button
                 variant="contained"
                 id="submit_btn"
@@ -618,29 +692,25 @@ function EditStudentForm(props) {
               ) : (
                 ""
               )}
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    // checked={details.isActive}
-                    defaultChecked={details.isActive}
-                    id="isActive"
-                    name="isActive"
-                    // color="primary"
-                    sx={{
-                      color: "red",
-                      "&.Mui-checked": {
-                        color: "blue",
-                      },
-                    }}
-                  />
-                }
-                label="Is Student Active ?"
-                onChange={onCheckboxClick}
+              <TextField
+                id="Password"
+                type="text"
+                name="password"
+                label="Password"
+                variant="outlined"
+                className="input_field"
+                required
+                // disabled={isdisable}
+                disabled
+                defaultValue={details.password}
+                // defaultValue={password}
+                onChange={InputChange}
               />
-              {/* <p className="clear_errors" id="checkbox_text">
-                Is Student Active ?
-              </p> */}
+              {errors.password ? (
+                <p className="clear_error">{errors.password}</p>
+              ) : (
+                ""
+              )}
               <Button
                 variant="contained"
                 id="submit_btn"

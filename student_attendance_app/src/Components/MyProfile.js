@@ -17,16 +17,22 @@ import { useSelector } from "react-redux";
 export default function MyProfile(props) {
   document.title = `MyProfile - ${props.pageTitle}`;
   const user = useSelector((state) => state.user);
-  console.log(user);
-  debugger
-  const studentid = 2; //user.StudentID;
-  // const studentName = "Ritu Kumar";
-  // studentName = studentName.toString();
-  // const image = require("C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/RITU KUMAR.jpeg");
+
+  var userId = 0;
+  var studentId = 0;
+  if (user) {
+    userId = user.UserID ? user.UserID : 0;
+    studentId = user.StudentID ? user.StudentID : 0;
+    console.log(user);
+    console.log("userId =>", userId);
+    console.log("studentId =>", studentId);
+  } else {
+    console.log("No. User Imformation found in redux, please login again!");
+  }
 
   const [details, setDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(""); //profileImage
+  const [selectedImage, setSelectedImage] = useState(""); // profileImage
   const [studentName, setStudentName] = useState("");
   // const [image, setImage] = useState({ preview: '', data: '' })
   const [imageName, setImageName] = useState("");
@@ -34,7 +40,7 @@ export default function MyProfile(props) {
   const fetchingProfileData = () => {
     axios
       .post(APIs.MYPROFILE, {
-        studentid,
+        studentId,
       })
       .then((response) => {
         const fullrecords = response.data;
@@ -107,12 +113,12 @@ export default function MyProfile(props) {
   const uploadStudentImage = (imageFile) => {
     const formData = new FormData();
     formData.append("file", imageFile);
-    formData.append("studenId", studentid);
+    formData.append("studenId", studentId);
     formData.append("studentName", studentName);
     console.log(formData);
     console.log(typeof formData);
     axios
-      .post(`${APIs.STUDENTSPHOTO}/${studentid}`, formData, {
+      .post(`${APIs.STUDENTSPHOTO}/${studentId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -132,8 +138,8 @@ export default function MyProfile(props) {
           timer: 2000,
         });
       });
-    // setTimeout(() => {
-    fetchingProfileData();
+      // setTimeout(() => {
+      // fetchingProfileData(); //no need to fetch profile data after image upload action
     // }, 1500);
   };
 
@@ -159,7 +165,7 @@ export default function MyProfile(props) {
   //     <Typography variant="h4" component="div" className="typographyText">
   //           My Profile
   //         </Typography>
-  //     <div className="student_form" style={{ marginLeft: "250Px" }}>You must be logged in to see your profile.</div>
+  //     <div className="student_form container_box">You must be logged in to see your profile.</div>
   //     </>
   //   );
   // }

@@ -22,13 +22,14 @@ import EditUsers from "./Components/EditUsers";
 const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
 const textFuture = `${text} , I will Add this Functionality In Future`;
+const textForStudents = "If You Are Student Then You Can Direct Login For Dashboard, For Login Details Please Contact Administrator!";
 function App() {
   return (
     <>
         <Routes>
-          <Route exact path="/" element={<Login PageTitle='Login' pageTitle={pageTitle}/>} />
-          <Route exact path="/login" element={<Login PageTitle='Login'  pageTitle={pageTitle}/>} />
-          <Route exact path="/Signup" element={<SignUp PageTitle='Registered'  pageTitle={pageTitle}/>} />
+          <Route exact path="/" element={<Login PageTitle='Login' pageTitle={pageTitle} textForStudents={textForStudents}/>} />
+          <Route exact path="/login" element={<Login PageTitle='Login'  pageTitle={pageTitle} textForStudents={textForStudents}/>} />
+          <Route exact path="/Signup" element={<SignUp PageTitle='Registered'  pageTitle={pageTitle} textForStudents={textForStudents}/>} />
           <Route exact path="/home" element={<Home pageTitle={pageTitle}/>} />
           <Route exact path="/attendanceList" element={<AttendanceList   pageTitle={pageTitle}/>} />
           <Route exact path="/form" element={<StudentForm pageTitle={pageTitle}/>} />

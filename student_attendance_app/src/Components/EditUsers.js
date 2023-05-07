@@ -37,8 +37,10 @@ function EditUsers(props) {
     password: userData.Password,
     confirmPassword: userData.ConfirmPassword,
     isAdmin: userData.IsAdmin,
+    isStudent: userData.IsStudent,
   };
 
+  const isdisable = UserDetail.isStudent;
   const [details, setDetails] = useState(UserDetail);
   const [errors, setErrors] = useState({});
   const [isAdmins, setActive] = useState(UserDetail.isAdmin);
@@ -52,6 +54,16 @@ function EditUsers(props) {
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const onStudentCheckboxClick = () => {
+    // window.alert(`This action is not allowed! \n restricted by the admin`);
+    swal({
+      title: "This action is not allowed!",
+      text: "Restricted by the admin",
+      icon: "error",
+      timer: 2000,
+    });
   };
 
   const onCheckboxClick = () => {
@@ -98,8 +110,8 @@ function EditUsers(props) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
     } else if (usr === "") {
       errors.userName = "Please Enter Your Username";
-    } else if (usr.length < 5 || usr.length > 10) {
-      errors.userName = "Username Should be in 5-10 Characters";
+    } else if (usr.length < 5 || usr.length > 15) {
+      errors.userName = "Username Should be in 5-15 Characters";
     } else if (pass === "") {
       errors.password = "Please Enter Password!";
     } else if (!validPassword) {
@@ -123,8 +135,10 @@ function EditUsers(props) {
   };
 
   const onSubmitClick = (events) => {
-    const { userId, name, userName, email, mobile, password, confirmPassword } = details;
+    const { userId, name, userName, email, mobile, password, confirmPassword } =
+      details;
     const isAdmin = isAdmins;
+    const isStudent = UserDetail.isStudent;
 
     events.preventDefault();
 
@@ -142,6 +156,7 @@ function EditUsers(props) {
           password,
           confirmPassword,
           isAdmin,
+          isStudent,
         })
         .then((response) => {
           console.log("Response from backend -> ", response);
@@ -182,7 +197,15 @@ function EditUsers(props) {
           <Typography variant="h4" component="div" className="typographyText">
             Edit User Details
           </Typography>
-          <div className="student_form" style={{ marginLeft: "250Px" }}>
+          <div className="contactUsPageText">
+            <marquee behavior="alternate" direction="left">
+              <p>
+                If User is Student then the user details can not be editable due to
+                security issue, Please contact to your administrator for more details!
+              </p>
+            </marquee>
+          </div>
+          <div className="student_form container_box">
             <Box
               className="registration_form"
               component="form"
@@ -214,7 +237,7 @@ function EditUsers(props) {
                 defaultValue={details.name}
                 // defaultValue={name}
                 onChange={InputChange}
-                // disabled
+                disabled={isdisable}
                 focused
               />
               {errors.name ? <p className="clear_error">{errors.name}</p> : ""}
@@ -306,6 +329,7 @@ function EditUsers(props) {
                 defaultValue={details.password}
                 required
                 onChange={InputChange}
+                disabled={isdisable}
               />
               {errors.password ? (
                 <p className="clear_error">{errors.password}</p>
@@ -322,6 +346,7 @@ function EditUsers(props) {
                 required
                 defaultValue={details.confirmPassword}
                 onChange={InputChange}
+                disabled={isdisable}
               />
               {errors.confirmPassword ? (
                 <p className="clear_error">{errors.confirmPassword}</p>
@@ -346,6 +371,25 @@ function EditUsers(props) {
                 }
                 label="Is User Admin ?"
                 onChange={onCheckboxClick}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    // defaultChecked={details.isStudent}
+                    checked={details.isStudent}
+                    id="isStudent"
+                    name="isStudent"
+                    // color="primary"
+                    sx={{
+                      color: "red",
+                      "&.Mui-checked": {
+                        color: "blue",
+                      },
+                    }}
+                  />
+                }
+                label="Is User Student ?"
+                onClick={onStudentCheckboxClick}
               />
               {/* <p className="clear_errors" id="checkbox_text">
                 Is User Active ?

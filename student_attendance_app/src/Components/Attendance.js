@@ -17,7 +17,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { Variables } from "../Variables";
@@ -26,8 +26,11 @@ import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
 import { Ring } from "../Ring";
 import moment from "moment";
+import AttendanceList from "./AttendanceList";
 
 export default function Attendance() {
+  const Navigator = useNavigate();
+  // const history = useHistory();
   const intitial = {
     studentId: "",
     attendanceDate: "",
@@ -117,8 +120,7 @@ export default function Attendance() {
     console.log("Student is present:--", ispresent ? "Yes" : "No");
     console.log("Student Attendance Details:--", details, isPresents);
 
-    if (!checkErrors(details)) {
-      setIsLoading(true);
+    const addAttendanceAPI = () => {
       axios
         .put(APIs.ATTEDNDANCES, {
           studentId,
@@ -135,11 +137,19 @@ export default function Attendance() {
             swal({
               title: `${result.data}!`,
               icon: "success",
-              timer: 1500
+              timer: 1500,
             });
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
+            //debugger;
+            // fetchingAttendances();
+            // <AttendanceList />;
+            // window.location.reload(false);
+            // Navigator("/attendanceList");
+            // <Navigate to="/attendanceList" replace={true} />
+            // history.go(0);
+            // history.push('/attendanceList');
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 1500);
           } else if (
             result.data == "Attendance Is Already Marked" &&
             result.status == 200
@@ -169,13 +179,20 @@ export default function Attendance() {
             title: `Something went wrong: ${error}`,
             text: "Unable to get response from backend, please try again later!",
             icon: "error",
-            timer: 2000
+            timer: 2000,
           });
         });
-        setIsLoading(false);
-        setDetails(intitial);
-        setOpen(false);
+    };
+
+    if (!checkErrors(details)) {
+      setIsLoading(true);
+      addAttendanceAPI();
+      setIsLoading(false);
+      setDetails(intitial);
+      setOpen(false);
+      Navigator("/attendanceList");
     }
+    Navigator("/attendanceList");
   };
 
   return (
@@ -274,7 +291,9 @@ export default function Attendance() {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={onSubmitClick}>Submit</Button>
+              {/* <Link to="/attendanceList"> */}
+                <Button onClick={onSubmitClick}>Submit</Button>
+              {/* </Link> */}
             </DialogActions>
           </Dialog>
         </div>

@@ -21,7 +21,7 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { logout } from '../Redux/userActions';
+import { logout } from "../Redux/userActions";
 
 export default function Sidebar(props) {
   const { window } = props;
@@ -31,16 +31,26 @@ export default function Sidebar(props) {
   const userLogout = () => {
     dispatch(logout());
   };
-  
+
+  var isAdmin = false;
+  var isStudent = false;
+  var firstName = "N/A";
+  var lastName = "N/A";
   const user = useSelector((state) => state.user);
-  const isAdmin = true // user.IsAdmin;
-  // const userId = user.UserID;
-  // const userName = user.Name;
-  // const fullName = userName.split(" ");
-  const firstName = "" //fullName[0];
-  // const lastName = fullName.length > 1 ? fullName[1] : "";
-  // console.log("isAdmin =>", isAdmin);
-  // console.log(user);
+  if (user) {
+    const userId = user.UserID;
+    const userName = user.Name;
+    const fullName = userName.split(" ");
+    isAdmin = user.IsAdmin ? user.IsAdmin : false;
+    isStudent = user.IsStudent ? user.IsStudent : false;
+    firstName = fullName[0] ? fullName[0] : "N/A";
+    lastName = fullName.length > 1 ? fullName[1] : "N/A";
+    console.log(user);
+    console.log("isAdmin =>", isAdmin);
+    console.log("isStudent =>", isStudent);
+  } else {
+    console.log("No. User Imformation found in redux, please login again!");
+  }
 
   const drawerWidth = 220;
   const drawerMargin = "95px 0 0 0";
@@ -54,18 +64,23 @@ export default function Sidebar(props) {
     <div>
       <List>
         &nbsp; &nbsp; Hi, <b>{firstName}</b>{" "}
-        {isAdmin ? "(Admin)" : "(Student)"}
+        {isAdmin ? "(Admin)" : isStudent ? "(Student)" : "(User)"}
       </List>
-      <Divider />
+      {/* <Divider /> */}
       <List>
-        <Link to="/profile" className="login_btn">
-          <ListItem>
-            <ListItemButton>
-              <AccountCircleIcon />
-              My Profile
-            </ListItemButton>
-          </ListItem>
-        </Link>
+        <Divider />
+        {isStudent ? (
+          <Link to="/profile" className="login_btn">
+            <ListItem>
+              <ListItemButton>
+                <AccountCircleIcon />
+                My Profile
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ) : (
+          ""
+        )}
         <Divider />
         {isAdmin ? (
           <Link to="/studentList" className="login_btn">
@@ -80,23 +95,31 @@ export default function Sidebar(props) {
           ""
         )}
         <Divider />
-        <Link to="/attendanceList" className="login_btn">
-          <ListItem>
-            <ListItemButton>
-              <PunchClockIcon />
-              Attendance Sheet
-            </ListItemButton>
-          </ListItem>
-        </Link>
+        {isAdmin || isStudent ? (
+          <Link to="/attendanceList" className="login_btn">
+            <ListItem>
+              <ListItemButton>
+                <PunchClockIcon />
+                Attendance Sheet
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ) : (
+          ""
+        )}
         <Divider />
-        {/* <Link to="/marksheet" className="login_btn">
-        <ListItem>
-            <ListItemButton>
-              <ContentPasteIcon />
-              Marksheet
-            </ListItemButton>
-        </ListItem>
-          </Link> */}
+        {isStudent ? (
+          <Link to="/marksheet" className="login_btn">
+            <ListItem>
+              <ListItemButton>
+                <ContentPasteIcon />
+                Marksheet
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ) : (
+          ""
+        )}
         <Divider />
         <Link to="/events" className="login_btn">
           <ListItem>

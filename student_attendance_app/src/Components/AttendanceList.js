@@ -12,6 +12,7 @@ import axios, { isCancel, AxiosError } from "axios";
 import { APIs } from "../APIs";
 import { Ring } from "../Ring";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const columns = [
   // { field: "AttendanceID", headerName: "Attendance ID", width: 100, fontWeight: "bold" },
@@ -91,6 +92,21 @@ const onCheckboxClick = (ids) => {
 export default function AttendanceList(props) {
   document.title = `Attendance - ${props.pageTitle}`;
 
+  const user = useSelector((state) => state.user);
+
+  var userId = 0;
+  var studentId = 0;
+  var isAdmin = false;
+  var isStudent = false;
+  if (user) {
+    userId = user.UserID ? user.UserID : 0;
+    studentId = user.StudentID ? user.StudentID : 0;
+    console.log(user);
+    console.log("userId =>", userId);
+    console.log("studentId =>", studentId);
+  } else {
+    console.log("No. User Imformation found in redux, please login again!");
+  }
   // const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
@@ -102,10 +118,6 @@ export default function AttendanceList(props) {
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const userId = 1; // userId will come from redux
-  const studentId = 1;
-  const isAdmin = true; // isAdmin will from redux
 
   const fetchingAttendances = () => {
     axios

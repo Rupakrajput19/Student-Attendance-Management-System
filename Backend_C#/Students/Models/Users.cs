@@ -16,6 +16,7 @@ namespace Students.Models
         public string? Password { get; set; }
         public string? ConfirmPassword { get; set; }
         public bool? IsAdmin { get; set; }
+        public bool? IsStudent { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string? ModifiedBy { get; set; }

@@ -125,6 +125,24 @@ export default function StudentsList(props) {
       valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY"),
     },
     {
+      field: "UserName",
+      fontWeight: "bold",
+      headerName: "UserName",
+      type: "string",
+      sortable: true,
+      filterable: true,
+      width: 150,
+    },
+    {
+      field: "Password",
+      fontWeight: "bold",
+      headerName: "Password",
+      type: "string",
+      sortable: true,
+      filterable: true,
+      width: 150,
+    },
+    {
       field: "IsActives",
       fontWeight: "bold",
       headerName: "Is Active",
@@ -268,9 +286,10 @@ export default function StudentsList(props) {
             icon: "success",
             timer: 1500,
           });
-          setInterval(() => {
-            window.location.reload(false);
-          }, 1500);
+          fetchingStudentData();
+          // setInterval(() => {
+          //   // window.location.reload(false);
+          // }, 1500);
         }
       })
       .catch((error) => {

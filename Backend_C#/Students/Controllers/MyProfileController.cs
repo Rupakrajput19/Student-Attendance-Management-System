@@ -31,7 +31,7 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult Post(Student student)
         {
-            string query = @"SELECT ('C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/'+Photo) AS Photos,* FROM dbo.[vwStudentsList] WHERE StudentID = '" + student.StudentID + @"'";
+            string query = @"SELECT * FROM dbo.[vwStudentsList] WHERE StudentID = '" + student.StudentID + @"'";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
@@ -112,13 +112,14 @@ namespace Students.Controllers
                 var httpRequest = Request.Form;
                 var postedFile = httpRequest.Files[0];
                 string filesName = postedFile.FileName;
-                var physicalPath = _webHostEnvironment.ContentRootPath + "/Photos/" + filesName;
-                var physicalPathForFrontend = "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage/" + filesName;
+                var frontEndProfileImagePath = "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage";
+                var physicalPathForFrontend = frontEndProfileImagePath + "/" + filesName; // To upload image at frontend Photo folder
+                //var physicalPath = _webHostEnvironment.ContentRootPath + "/Photos/" + filesName; // To upload image at backend Photo folder
 
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
+                //using (var stream = new FileStream(physicalPath, FileMode.Create))
+                //{
+                //    postedFile.CopyTo(stream);
+                //}
                 using (var stream = new FileStream(physicalPathForFrontend, FileMode.Create))
                 {
                     postedFile.CopyTo(stream);

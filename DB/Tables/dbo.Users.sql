@@ -1,7 +1,7 @@
 USE [StudentApp]
 GO
 
-/****** Object:  Table [dbo].[Users]    Script Date: 18-03-2023 23:10:15 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 05-05-2023 23:13:45 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -22,6 +22,7 @@ CREATE TABLE [dbo].[Users](
 	[CreatedOn] [datetime] NULL,
 	[ModifiedBy] [varchar](50) NULL,
 	[ModifiedOn] [datetime] NULL,
+	[IsStudent] [bit] NULL,
  CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
 (
 	[UserID] ASC
@@ -45,6 +46,9 @@ ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_ModifiedBy]  DEFAULT ('Ritu 
 GO
 
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_ModifiedOn]  DEFAULT (getdate()) FOR [ModifiedOn]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_IsStudent]  DEFAULT ((0)) FOR [IsStudent]
 GO
 
 

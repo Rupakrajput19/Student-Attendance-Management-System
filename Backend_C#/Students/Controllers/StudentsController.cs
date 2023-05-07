@@ -95,7 +95,7 @@ namespace Students.Controllers
                     if (studentMobileStatus)
                     {
                         string query = @"INSERT INTO dbo.[Students] 
-                            (Name,Mobile,Email,Gender,DateOfBirth,FatherName,MotherName,ClassName,RegistrationID,AddmissionDate,Address,City,State,Country,Pincode,IsActive,Photo)
+                            (Name,Mobile,Email,Gender,DateOfBirth,FatherName,MotherName,ClassName,RegistrationID,AddmissionDate,Address,City,State,Country,Pincode,IsActive,UserName,Password,Photo)
                             VALUES
                             (
                              '" + student.Name + @"'  
@@ -114,6 +114,8 @@ namespace Students.Controllers
                              ,'" + student.Country + @"'  
                              ,'" + student.Pincode + @"'  
                              ,'" + student.IsActive + @"'  
+                             ,'" + student.UserName + @"'  
+                             ,'" + student.Password + @"'  
                              ,'" + "student_profile.jpg" + @"'  
                              )
                             ";
@@ -175,6 +177,8 @@ namespace Students.Controllers
                             ,Country = '" + student.Country + @"'
                             ,Pincode = '" + student.Pincode + @"'
                             ,IsActive = '" + student.IsActive + @"'
+                            ,UserName = '" + student.UserName + @"'
+                            ,Password = '" + student.Password + @"'
                             ,ModifiedBy = '" + student.Name + @"'
                             ,ModifiedOn = GETDATE()
                             WHERE

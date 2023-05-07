@@ -58,8 +58,8 @@ function SignUp(props) {
       errors.mobile = "Please Enter 10-12 Digits No.!";
     } else if (usr === "") {
       errors.username = "Please Enter Your Username";
-    } else if (usr.length < 5 || usr.length > 10) {
-      errors.username = "Username Should be in 5-10 Characters";
+    } else if (usr.length < 5 || usr.length > 15) {
+      errors.username = "Username Should be in 5-15 Characters";
     } else if (pass === "") {
       errors.password = "Please Enter Password!";
     } else if (!validPassword) {
@@ -85,11 +85,10 @@ function SignUp(props) {
   const onSubmitClick = (events) => {
     const { name, email, mobile, username, password, confirmPassword } =
       details;
+    const isStudent = false;
     events.preventDefault();
 
-    if (!checkErrors(details)) {
-      console.log("details:--", details);
-      setIsLoading(true);
+    const signUpUserAPI = () => {
       axios
         .post(APIs.USER, {
           name,
@@ -98,6 +97,7 @@ function SignUp(props) {
           username,
           password,
           confirmPassword,
+          isStudent,
         })
         .then((response) => {
           setIsLoading(true);
@@ -106,7 +106,7 @@ function SignUp(props) {
             response.status == 200
           ) {
             swal({
-              title: "User Succesfully Registered",
+              title: `${response.data}`,
               text: "Please Login with your Credentials!",
               icon: "success",
               timer: 1500,
@@ -149,6 +149,13 @@ function SignUp(props) {
           // alert(`Something went wrong: ${errors.request.responseText}`);
           setIsLoading(false);
         });
+    }
+
+    if (!checkErrors(details)) {
+      console.log("details:--", details);
+      setIsLoading(true);
+      signUpUserAPI();
+      setIsLoading(false);
     }
   };
 
@@ -228,7 +235,7 @@ function SignUp(props) {
             )}
             <TextField
               id="Password"
-              type="password"
+              type="text"
               name="password"
               label="Password"
               variant="outlined"
@@ -243,7 +250,7 @@ function SignUp(props) {
             )}
             <TextField
               id="confirmPassword"
-              type="password"
+              type="text"
               name="confirmPassword"
               label="Confirm Password"
               variant="outlined"
@@ -265,6 +272,11 @@ function SignUp(props) {
                 Login
               </Link>
             </Typography>
+            <div className="textForStudents">
+            <marquee behavior="scroll" direction="left">
+              <p>{props.textForStudents}</p>
+            </marquee>
+            </div>
           </Box>
         </div>
       )}

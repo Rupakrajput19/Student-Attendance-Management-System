@@ -21,7 +21,7 @@ SELECT   StudentID, Name, Mobile, Email, Gender, CONVERT(date, DateOfBirth, 103)
          FatherName, MotherName, ClassName, RegistrationID, CONVERT(date, AddmissionDate, 103) AS AddmissionDate, 
 		 Address + ', ' + City + ', ' + State + ', ' + Country + ' - ' + Pincode AS FullAddress, 
 		 Address, City, State, Country, Pincode, CASE WHEN IsActive = 1 THEN 'Yes' ELSE 'No' END AS IsActives, 
-		 IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn
+		 IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn, UserName, Password
 FROM       dbo.Students
 WHERE    (IsDeleted = 0)
 GO

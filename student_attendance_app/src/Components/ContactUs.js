@@ -18,7 +18,7 @@ export default function ContactUs(props) {
 
       <div className="WIP_text">Contact Us {props.WIP_text}</div>
       <Ring />
-      <div style={{ margin: "0 2px 0 222px", background: "#fff" }}>
+      <div className="contactUsPageText">
         <marquee behavior="alternate" direction="">
           <b>
             <u>Contact No</u> 9599408303, 7065308276 & <u>Email Adderess</u> - "
