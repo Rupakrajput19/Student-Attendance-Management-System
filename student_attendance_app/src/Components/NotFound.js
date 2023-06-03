@@ -16,7 +16,7 @@ function NotFound(props) {
       <br />
       <h1 >404 Page Not Found!</h1>
       <br />
-      <h4>The page are you looking for that is not available or doesn't exist on this websites,for to go main application click on <span><Link to="/" className="login_btn" style={{color:"White", textDecoration:"underline"}}>
+      <h4>The page are you looking for that is not available or doesn't exist on this websites, for to go main application click on <span><Link to="/" className="login_btn" style={{color:"White", textDecoration:"underline"}}>
               Login
             </Link></span></h4> 
     </div>
