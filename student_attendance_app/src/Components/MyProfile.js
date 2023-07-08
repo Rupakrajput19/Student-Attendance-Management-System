@@ -27,7 +27,7 @@ export default function MyProfile(props) {
     console.log("userId =>", userId);
     console.log("studentId =>", studentId);
   } else {
-    console.log("No. User Imformation found in redux, please login again!");
+    console.log(Variables.NoDetailFoundInRedux);
   }
 
   const [details, setDetails] = useState([]);
@@ -183,7 +183,7 @@ export default function MyProfile(props) {
             My Profile
           </Typography>
 
-          <div className="gridBoxContainer">
+          <div className="gridBoxContainer gridBoxMyProfile">
             {/* <div className="profile-pic-wrapper" title={{studentName}}> */}
             <div className="profile-pic-box">
               <form onSubmit={handleSubmit}>
@@ -241,7 +241,7 @@ export default function MyProfile(props) {
 
             <div className="profileData">
               <div className="profileField">
-                <p className="profileDataText">First Name:</p>
+                <p className="profileDataText">Full Name:</p>
                 <TextField
                   required
                   autoComplete="off"

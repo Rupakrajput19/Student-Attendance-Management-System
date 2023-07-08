@@ -11,16 +11,11 @@ export default function Home(props) {
       <Header />
       <Sidebar />
       <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          margin: "120px 0 0 220px",
-        }}
+      className="home_box"
       >
         <div>
           <img
-            style={{ height: "450px", width: "900px" }}
+          className="home_main_img"
             src="https://static.javatpoint.com/blog/images/student-management-system.png"
             alt="home_image_loading"
           />
@@ -42,62 +37,60 @@ export default function Home(props) {
         </div>
         <div>
           <img
-            style={{ height: "450px", width: "900px" }}
+          className="home_main_img"
             src="https://www.skoolbeep.com/blog/wp-content/uploads/2020/12/min-Advantages-of-Attendance-Management-System.png"
             alt="home_image_loading"
           />
         </div>
         <div>
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://cdn.techjockey.com/blog/wp-content/uploads/2020/05/Online-Attendance-System-for-Students_banner.png"
             alt="home_image_loading"
           />
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQV2qBD5bVy6AuC1Nsd1fj4UceFYcHhyB2ww&usqp=CAU"
             alt="home_image_loading"
           />
         </div>
         <div>
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy8GriC6-zNHQEGKLKcddfC4zpysCVuieuvQ&usqp=CAU"
             alt="home_image_loading"
           />
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNGAN7-HVe7o_4eesJ25HwBviZ9jPbboYTiQ&usqp=CAU"
             alt="home_image_loading"
           />
         </div>
         <div>
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWgY-lgm9dT-jCpHMIVHAGtgmxIcJ5PqaHUw&usqp=CAU"
             alt="home_image_loading"
           />
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm3Q8zPabLafXIioxhJvUphUv5o4FxjjhUrQ&usqp=CAU"
             alt="home_image_loading"
           />
         </div>
         <div>
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ivm9d5dxovlorc-0V4ZKTfc9oDic_CQhTg&usqp=CAU"
             alt="home_image_loading"
           />
           <img
-            style={{ height: "400px", width: "500px" }}
+            className="home_side_img"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCCen44f0RbeZtPDHviAoluElwBGkrvEESWw&usqp=CAU"
             alt="home_image_loading"
           />
         </div>
       </div>
-      {/* <Attendance List/> */}
-      {/* <StudentForm /> */}
     </>
   );
 }

@@ -10,6 +10,10 @@ export const Variables = {
 
   Empty: "Please Enter ",
 
+
+  // Message when user details not found in redux store
+  NoDetailFoundInRedux : "No. User Imformation found in redux, please login again!",
+
   // Image URL for frontend/backend
 
   FrontendImagePath:

@@ -9,6 +9,7 @@ import Header from "./Header";
 import Attendance from "./Attendance";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
+import { Variables } from "../Variables";
 import { APIs } from "../APIs";
 import { Ring } from "../Ring";
 import moment from "moment";
@@ -101,12 +102,17 @@ export default function AttendanceList(props) {
   if (user) {
     userId = user.UserID ? user.UserID : 0;
     studentId = user.StudentID ? user.StudentID : 0;
+    isAdmin = user.IsAdmin ? user.IsAdmin : false;
+    isStudent = user.IsStudent ? user.IsStudent : false;
     console.log(user);
     console.log("userId =>", userId);
     console.log("studentId =>", studentId);
+    console.log("isAdmin =>", isAdmin);
+    console.log("isStudent =>", isStudent);
   } else {
-    console.log("No. User Imformation found in redux, please login again!");
+    console.log(Variables.NoDetailFoundInRedux);
   }
+
   // const [loading, setLoading] = useState(false);
 
   // useEffect(() => {
@@ -167,7 +173,7 @@ export default function AttendanceList(props) {
             Attendances Reports
           </Typography>
 
-          <div className="gridBoxContainer">
+          <div className="gridBoxContainer TopgridBoxContainer">
             {/* <Checkbox
         sx={{
           color: "black",

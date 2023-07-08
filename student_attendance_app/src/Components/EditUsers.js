@@ -26,7 +26,7 @@ function EditUsers(props) {
   document.title = `Edit - ${props.pageTitle}`;
   const Navigator = useNavigate();
   const location = useLocation();
-  const userData = location.state.UserData;
+  const userData = location && location.state && location.state.UserData;
   console.log(userData);
   const UserDetail = {
     userId: userData.UserID,

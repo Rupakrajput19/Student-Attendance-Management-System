@@ -35,6 +35,7 @@ export default function Header() {
                 fontWeight: "bold",
                 textDecoration: "underline",
               }}
+              className="header_heading"
             >
               Student Attendance Portal
             </Typography>

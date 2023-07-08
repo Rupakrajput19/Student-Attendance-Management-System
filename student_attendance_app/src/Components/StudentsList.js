@@ -7,10 +7,17 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import swal from "sweetalert";
 import axios, { isCancel, AxiosError } from "axios";
-import { Link, useNavigate, useLocation, createSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+  createSearchParams,
+} from "react-router-dom";
 import { APIs } from "../APIs";
 import { Ring } from "../Ring";
 import moment from "moment";
+import { Variables } from "../Variables";
+import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import EditStudents from "./EditStudents";
 import "@mui/icons-material";
@@ -20,6 +27,26 @@ export default function StudentsList(props) {
   const Navigator = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const user = useSelector((state) => state.user);
+
+  var userId = 0;
+  var studentId = 0;
+  var isAdmin = false;
+  var isStudent = false;
+  if (user) {
+    userId = user.UserID ? user.UserID : 0;
+    studentId = user.StudentID ? user.StudentID : 0;
+    isAdmin = user.IsAdmin ? user.IsAdmin : false;
+    isStudent = user.IsStudent ? user.IsStudent : false;
+    console.log(user);
+    console.log("userId =>", userId);
+    console.log("studentId =>", studentId);
+    console.log("isAdmin =>", isAdmin);
+    console.log("isStudent =>", isStudent);
+  } else {
+    console.log(Variables.NoDetailFoundInRedux);
+  }
 
   const columns = [
     {
@@ -346,11 +373,15 @@ export default function StudentsList(props) {
             Student Details
           </Typography>
 
-          <Link to="/form" className="header_btn attendance_modal">
+          {isAdmin ? (
+            <Link to="/form" className="header_btn attendance_modal">
               Add New Student
-          </Link>
+            </Link>
+          ) : (
+            ""
+          )}
 
-          <div className="gridBoxContainer">
+          <div className="gridBoxContainer TopgridBoxContainer">
             <DataGrid
               rows={data}
               columns={columns}

@@ -19,6 +19,7 @@ import ContactsIcon from "@mui/icons-material/Contacts";
 import PunchClockIcon from "@mui/icons-material/PunchClock";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import { Variables } from "../Variables";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout } from "../Redux/userActions";
@@ -49,7 +50,7 @@ export default function Sidebar(props) {
     console.log("isAdmin =>", isAdmin);
     console.log("isStudent =>", isStudent);
   } else {
-    console.log("No. User Imformation found in redux, please login again!");
+    console.log(Variables.NoDetailFoundInRedux);
   }
 
   const drawerWidth = 220;
@@ -215,7 +216,7 @@ export default function Sidebar(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            // display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,

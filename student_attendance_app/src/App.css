@@ -57,7 +57,20 @@ body,
   background-color: white;
   box-shadow: 5px 5px 10px black /* , -2px -2px 5px black */;
 }
-
+.home_box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin: 120px 0 0 220px;
+}
+.home_main_img {
+  height: 450px;
+  width: 900px;
+}
+.home_side_img {
+  height: 400px;
+  width: 500px;
+}
 .registration_img {
   width: 500px;
   height: 675px;
@@ -93,6 +106,10 @@ body,
   border-radius: 5px;
   background-color: white;
   box-shadow: 5px 5px 10px black /* , -2px -2px 5px black */;
+}
+.container_box {
+  /* width: 100%; */
+  margin: 20px auto 40px 235px !important;
 }
 .input_field {
   width: 100%;
@@ -218,13 +235,13 @@ body,
 .contactUsPageText {
   animation: blinker 1.5s linear infinite;
   font-family: sans-serif;
-  margin: 0 2px 0 222px !important;
+  margin: 0 2px 0 225px !important;
   color: #000;
   background-color: #fff;
 }
 @keyframes blinker {
   50% {
-      opacity: 0.5;
+    opacity: 0.5;
   }
 }
 /* footer css start here */
@@ -481,7 +498,7 @@ footer {
 
 /* For My Profile Image */
 
-@media screen and (min-width: 600px) and (max-width: 1000px) {
+@media screen and (max-width: 1000px) {
   .home_style,
   .student_form {
     display: flex;
@@ -492,6 +509,10 @@ footer {
     height: auto;
     margin: 80px 20px;
   }
+  .container_box {
+    width: 100%;
+    margin: 20px auto 40px 225px !important;
+  }
   .registration_img {
     width: auto;
     height: 500px;
@@ -499,28 +520,79 @@ footer {
   .registration_form {
     padding: 30px 0;
   }
-  /* .gridBoxContainer {
-    height: auto !important;
-    width: 84% !important;
-    margin: 30px 30px 30px 235px !important;
-  } */
-}
-
-.container_box{
-  margin: 20px auto 40px 250px !important;
+  .gridBoxContainer {
+    min-height: 100% !important;
+    width: 100% !important;
+  }
+  .gridBoxMyProfile {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 30px 10px 30px 225px !important;
+  }
+  .contactUsPageText {
+    width: 100% !important;
+  }
+  .profile-pic-box {
+    float: none;
+  }
+  .profileField {
+    flex-direction: column;
+  }
+  .profileDataText {
+    /* margin-left: -180px; */
+    width: 100%;
+  }
+  .attendance_modal{
+    position: absolute;
+    top: 125px;
+    right: -220px;
+    margin: 0;
+  }
+  footer {
+    /* margin: 5px; */
+    margin: 5px 2px 0 220px;
+    margin-top: 50px;
+    height: auto;
+    width: 100%;
+  }
+  footer b {
+    display: block;
+  }
 }
 
 @media screen and (max-width: 599px) {
+  /* .header {
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
+  } */
   .header_img {
-    margin: 10px;
-    height: 50px;
-    width: 50px;
+    margin: 5px;
+    margin-left: -8px;
+    height: 40px;
+    width: 40px;
+  }
+  .header_heading {
+    font-size: 28px !important;
+    /* margin-top: -20px !important; */
   }
   .header_btn {
-    margin: 0;
-    padding: 5px;
+    margin: 1px;
+    /* padding: 5px;
     font-size: medium;
-    font-weight: 100;
+    font-weight: 100; */
+    /* display: none; */
+  }
+  .attendance_modal{
+    position: absolute;
+    /* top: 0; */
+    width: auto;
+    margin: 50px auto auto;
+    /* padding: 5px; */
+    /* z-index: 10000; */
+    /* line-height: 20px; */
+    /*Add attendance/Student btn*/
+    display: block; 
   }
   .home_style,
   .student_form {
@@ -529,12 +601,27 @@ footer {
     margin: 50px auto;
     justify-content: center;
   }
-
+  .home_box {
+    margin: 100px 0 0 150px !important;
+  }
+  .home_main_img {
+    height: 300px;
+    width: 400px;
+    margin-left: 70px;
+  }
+  .home_side_img {
+    height: 200px;
+    width: 350px;
+    margin: 0 80px;
+  }
+  .home_text {
+    width: 280px;
+    margin-left: 70px;
+  }
   .registration_img {
     width: 100%;
     height: 600px;
   }
-
   .registration_form {
     padding: 20px;
   }
@@ -545,18 +632,36 @@ footer {
   #datagrid {
     margin: 100px auto 50px auto;
   }
-  footer {
-    margin: 5px;
-    margin-top: 50px;
-    height: auto;
-  }
-  footer b {
-    display: block;
+  .typographyText {
+    font-size: 25px !important;
+    width: 100%;
+    /* margin: 120px auto auto 200px !important; */
   }
   .gridBoxContainer {
-    height: auto !important;
-    width: 95% !important;
-    margin: 30px 10px 30px 10px !important;
+    /* min-height: 100% !important;
+    width: 100% !important; */
+    margin: 30px 10px 30px 225px !important;
+  }
+  .TopgridBoxContainer {
+    margin-top: 80px !important;
+  }
+  .container_box {
+    margin: 20px auto 40px 225px !important;
+  }
+  .contactUsPageText {
+    width: 110% !important;
+  }
+  /*customizing MUI CSS*/
+  /* .css-fgfpp1-MuiDrawer-docked .MuiDrawer-paper {
+    width: auto !important;
+  } */
+  .css-hyum1k-MuiToolbar-root {
+    min-height: 95px !important;
+  }
+  .css-hyum1k-MuiToolbar-root {
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
   }
 }
 
