@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[Students](
 	[ModifiedBy] [varchar](100) NULL,
 	[ModifiedOn] [datetime] NULL,
 	[Photo] [varchar](500) NULL,
-	[FullAddress]  AS ('CONCATE(''Address + '', '' + City + '', '' + State + '', '' + Country + '' - '' + Pincode'')'),
+	[FullAddress]  AS (((((((([Address]+', ')+[City])+', ')+[State])+', ')+[Country])+' - ')+[Pincode]),
 	[UserName] [varchar](100) NULL,
 	[Password] [varchar](100) NULL,
  CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
