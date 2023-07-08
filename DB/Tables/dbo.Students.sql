@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[Students](
 	[Email] [varchar](100) NULL,
 	[Gender] [varchar](50) NULL,
 	[DateOfBirth] [varchar](100) NULL,
+	[Age]  AS (datediff(year,CONVERT([datetime],[DateOfBirth],(105)),getdate())),
 	[FatherName] [varchar](100) NULL,
 	[MotherName] [varchar](100) NULL,
 	[ClassName] [varchar](100) NULL,

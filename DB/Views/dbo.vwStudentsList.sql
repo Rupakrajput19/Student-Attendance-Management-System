@@ -17,7 +17,7 @@ GO
 
 ALTER VIEW [dbo].[vwStudentsList]
 AS
-SELECT   StudentID, Name, Mobile, Email, Gender, CONVERT(date, DateOfBirth, 103) AS DateOfBirth, 
+SELECT   StudentID, Name, Mobile, Email, Gender, CONVERT(date, DateOfBirth, 103) AS DateOfBirth, Age,
          FatherName, MotherName, ClassName, RegistrationID, CONVERT(date, AddmissionDate, 103) AS AddmissionDate, FullAddress, 
 		 Address, City, State, Country, Pincode, CASE WHEN IsActive = 1 THEN 'Yes' ELSE 'No' END AS IsActives, 
 		 IsActive, Photo, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn, UserName, Password
