@@ -122,7 +122,8 @@ export default function Sidebar(props) {
           ""
         )}
         <Divider />
-        <Link to="/events" className="login_btn">
+        {isStudent || isAdmin? (
+        <Link to="/eventsList" className="login_btn">
           <ListItem>
             <ListItemButton>
               <EventIcon />
@@ -130,6 +131,9 @@ export default function Sidebar(props) {
             </ListItemButton>
           </ListItem>
         </Link>
+        ) : (
+          ""
+        )}
         <Divider />
         <Link to="/contactUs" className="login_btn">
           <ListItem>

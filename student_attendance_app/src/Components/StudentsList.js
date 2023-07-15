@@ -48,6 +48,9 @@ export default function StudentsList(props) {
     console.log(Variables.NoDetailFoundInRedux);
   }
 
+  const topgridBoxContainer = isAdmin ? 'topgridBoxContainer' : '';
+  const dynamicsClasses = `gridBoxContainer ${topgridBoxContainer}`;
+
   const columns = [
     {
       field: "StudentID",
@@ -103,8 +106,16 @@ export default function StudentsList(props) {
       type: "date",
       sortable: true,
       filterable: true,
-      width: 200,
+      width: 150,
       valueFormatter: (params) => moment(params?.value).format("DD/MM/YYYY"),
+    },
+    {
+      field: "Age",
+      fontWeight: "bold",
+      headerName: "Age",
+      sortable: true,
+      filterable: true,
+      width: 100,
     },
     {
       field: "Gender",
@@ -381,7 +392,7 @@ export default function StudentsList(props) {
             ""
           )}
 
-          <div className="gridBoxContainer TopgridBoxContainer">
+          <div className={dynamicsClasses}>
             <DataGrid
               rows={data}
               columns={columns}

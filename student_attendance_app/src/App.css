@@ -496,6 +496,38 @@ footer {
   }
 }
 
+.contact-us-container {
+  text-align: center;
+  width: 100%;
+  height: 435px;
+  margin: auto;
+  margin-top: 120px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.contact-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  mix-blend-mode: color-burn;
+}
+
+.contact-text {
+  text-align: left;
+}
+
 /* For My Profile Image */
 
 @media screen and (max-width: 1000px) {
@@ -542,7 +574,7 @@ footer {
     /* margin-left: -180px; */
     width: 100%;
   }
-  .attendance_modal{
+  .attendance_modal {
     position: absolute;
     top: 125px;
     right: -220px;
@@ -583,7 +615,7 @@ footer {
     font-weight: 100; */
     /* display: none; */
   }
-  .attendance_modal{
+  .attendance_modal {
     position: absolute;
     /* top: 0; */
     width: auto;
@@ -592,7 +624,7 @@ footer {
     /* z-index: 10000; */
     /* line-height: 20px; */
     /*Add attendance/Student btn*/
-    display: block; 
+    display: block;
   }
   .home_style,
   .student_form {
@@ -642,7 +674,7 @@ footer {
     width: 100% !important; */
     margin: 30px 10px 30px 225px !important;
   }
-  .TopgridBoxContainer {
+  .topgridBoxContainer {
     margin-top: 80px !important;
   }
   .container_box {
@@ -651,6 +683,16 @@ footer {
   .contactUsPageText {
     width: 110% !important;
   }
+
+  .contact-us-container {
+    height: auto;
+    text-align: center;
+    margin: 120px 10px 0 229px;
+  }
+  .contact-info {
+    margin-right: 30px;
+  }
+
   /*customizing MUI CSS*/
   /* .css-fgfpp1-MuiDrawer-docked .MuiDrawer-paper {
     width: auto !important;

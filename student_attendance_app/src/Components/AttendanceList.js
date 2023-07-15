@@ -94,7 +94,7 @@ export default function AttendanceList(props) {
   document.title = `Attendance - ${props.pageTitle}`;
 
   const user = useSelector((state) => state.user);
-
+  
   var userId = 0;
   var studentId = 0;
   var isAdmin = false;
@@ -112,6 +112,9 @@ export default function AttendanceList(props) {
   } else {
     console.log(Variables.NoDetailFoundInRedux);
   }
+
+  const topgridBoxContainer = isAdmin ? 'topgridBoxContainer' : '';
+  const dynamicsClasses = `gridBoxContainer ${topgridBoxContainer}`;
 
   // const [loading, setLoading] = useState(false);
 
@@ -173,7 +176,7 @@ export default function AttendanceList(props) {
             Attendances Reports
           </Typography>
 
-          <div className="gridBoxContainer TopgridBoxContainer">
+          <div className={dynamicsClasses}>
             {/* <Checkbox
         sx={{
           color: "black",

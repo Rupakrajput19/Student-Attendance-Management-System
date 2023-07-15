@@ -31,7 +31,7 @@ namespace Students.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM dbo.[vwStudentsList]"; // [vwStudentsList] WHERE [IsDeleted] = " + (int)Deleted.notDeleted;    // use to get all data with deleted [Students]
+            string query = @"SELECT * FROM dbo.[vwStudentsList]"; 
             query = query + @" ORDER BY StudentID ASC";
 
             DataTable table = new DataTable();

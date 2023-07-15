@@ -11,6 +11,7 @@ export const APIs = {
   MYPROFILE: API_URL + "MyProfileControllers",
   FORGOTPASSWORD: API_URL + "ForgotPasswordControllers",
   STUDENTSPHOTO: API_URL + "MyProfileControllers/SaveFile", // API's for Students Photos
+  EVENTS: API_URL + "EventsControllers",
 };
 
 
@@ -22,6 +23,7 @@ export const APIs = {
 // 4. https://localhost:44367/api/AttendancesControllers -- "Attendances" - ("Get", "Post", "Put", "Delete")
 // 5. https://localhost:44367/api/ForgotPasswordControllers -- "Password" - ("Post" - Password Recover), ("Put" - Forgot Password)
 // 6. https://localhost:44367/api/MyProfileControllers -- "MyProfile" - ("Post" - Get Student Profile), ("Post" - Students Photos)
+// 6. https://localhost:44367/api/EventsControllers -- "EVENTS" - ("Get", "Post", "Put", "Delete")
 
 
 // Notes: If user dont know username and email then user need to contact on 9599408303 - ritukumar456061@gmail.com

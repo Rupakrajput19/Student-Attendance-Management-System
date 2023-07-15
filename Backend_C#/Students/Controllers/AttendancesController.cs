@@ -27,7 +27,6 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult Post(Attendances attendances)
         {
-            //int UserID = 33;
             bool userIsAdminStatus = false;
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
             using (SqlConnection conn = new SqlConnection(sqlDataSource))
@@ -42,9 +41,9 @@ namespace Students.Controllers
                     conn.Close();
                 }
             }
-
-            string forAllStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] ORDER BY CreatedOn DESC"; // StudentName ASC
-            string forSingleStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + " ORDER BY CreatedOn DESC";
+            string sortOrder = "ORDER BY CreatedOn DESC";
+            string forAllStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] " + sortOrder + "";
+            string forSingleStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + sortOrder + "";
 
             string query = userIsAdminStatus ? forAllStudentsAttendance : forSingleStudentsAttendance;
             //string query = @"SELECT * FROM dbo.[Attendances] WHERE [IsDeleted] = " + (int)Deleted.notDeleted + " ORDER BY StudentName ASC";

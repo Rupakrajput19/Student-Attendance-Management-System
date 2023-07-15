@@ -11,7 +11,7 @@ import Footer from "./Components/Footer";
 import NotFound from "./Components/NotFound";
 
 import ContactUs from "./Components/ContactUs";
-import Events from "./Components/Events";
+import EventsList from "./Components/EventsList";
 import Marksheet from "./Components/Marksheet";
 import MyProfile from "./Components/MyProfile";
 import StudentsList from "./Components/StudentsList";
@@ -43,7 +43,7 @@ function App() {
           <Route exact path="/profile" element={<MyProfile WIP_text={text}  pageTitle={pageTitle}/>} />
           <Route exact path="/studentList" element={<StudentsList WIP_text={text}  pageTitle={pageTitle}/>} />
           <Route exact path="/marksheet" element={<Marksheet WIP_text={textFuture}  pageTitle={pageTitle}/>} />
-          <Route exact path="/events" element={<Events WIP_text={textFuture}  pageTitle={pageTitle}/>} />
+          <Route exact path="/eventsList" element={<EventsList WIP_text={textFuture}  pageTitle={pageTitle}/>} />
           <Route exact path="/contactUs" element={<ContactUs WIP_text={text}  pageTitle={pageTitle}/>} />
           
           <Route path="*" element={<NotFound  pageTitle={pageTitle}/>} />
