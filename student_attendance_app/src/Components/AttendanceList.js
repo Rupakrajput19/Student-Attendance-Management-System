@@ -166,7 +166,7 @@ export default function AttendanceList(props) {
         <div>
           {isAdmin ? (
             <div className="login_link login_btn">
-              <Attendance />
+              <Attendance fetchingAttendances={fetchingAttendances}/>
             </div>
           ) : (
             ""

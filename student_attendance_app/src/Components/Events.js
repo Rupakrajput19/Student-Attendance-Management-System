@@ -29,14 +29,14 @@ import { Ring } from "../Ring";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-export default function Events() {
+export default function Events({fetchingEvents}) {
   const Navigator = useNavigate();
 
   const user = useSelector((state) => state.user);
 
   var userId = 0;
   var studentId = 0;
-  var isAdmin = true;
+  var isAdmin = false;
   var isStudent = false;
   var userName = "";
   if (user) {
@@ -65,7 +65,7 @@ export default function Events() {
   const [details, setDetails] = useState(intitial);
   const [errors, setErrors] = useState({});
   const [open, setOpen] = useState(false);
-  const [eventDayName, SetDayName] = useState("");
+  const [eventDayName, setDayName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClickOpen = () => {
@@ -93,7 +93,7 @@ export default function Events() {
       weekday: "long",
     });
 
-    SetDayName(inputDatedayName);
+    setDayName(inputDatedayName);
 
     if (en === "") {
       errors.eventName = "Please Enter Event Name!";
@@ -129,7 +129,6 @@ export default function Events() {
     console.log("Event Details:--", details);
 
     const addEventsAPI = () => {
-      debugger
       axios
         .put(APIs.EVENTS, {
           eventName,
@@ -167,6 +166,7 @@ export default function Events() {
     if (!checkErrors(details)) {
       setIsLoading(true);
       addEventsAPI();
+      fetchingEvents();
       setIsLoading(false);
       setDetails(intitial);
       setOpen(false);

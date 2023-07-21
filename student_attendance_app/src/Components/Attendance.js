@@ -28,7 +28,7 @@ import { Ring } from "../Ring";
 import moment from "moment";
 import AttendanceList from "./AttendanceList";
 
-export default function Attendance() {
+export default function Attendance({fetchingAttendances}) {
   const Navigator = useNavigate();
   // const history = useHistory();
   const intitial = {
@@ -139,17 +139,6 @@ export default function Attendance() {
               icon: "success",
               timer: 1500,
             });
-            //debugger;
-            // fetchingAttendances();
-            // <AttendanceList />;
-            // window.location.reload(false);
-            // Navigator("/attendanceList");
-            // <Navigate to="/attendanceList" replace={true} />
-            // history.go(0);
-            // history.push('/attendanceList');
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 1500);
           } else if (
             result.data == "Attendance Is Already Marked" &&
             result.status == 200
@@ -187,6 +176,7 @@ export default function Attendance() {
     if (!checkErrors(details)) {
       setIsLoading(true);
       addAttendanceAPI();
+      fetchingAttendances();
       setIsLoading(false);
       setDetails(intitial);
       setOpen(false);

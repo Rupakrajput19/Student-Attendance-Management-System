@@ -128,12 +128,12 @@ export default function EventsList(props) {
   if (user) {
     userId = user.UserID ? user.UserID : 0;
     studentId = user.StudentID ? user.StudentID : 0;
-    isAdmin = user.IsAdmin ? user.IsAdmin : false;
+    //isAdmin = user.IsAdmin ? user.IsAdmin : false;
     isStudent = user.IsStudent ? user.IsStudent : false;
     console.log(user);
     console.log("userId =>", userId);
     console.log("studentId =>", studentId);
-    console.log("isAdmin =>", isAdmin);
+    // console.log("isAdmin =>", isAdmin);
     console.log("isStudent =>", isStudent);
   } else {
     console.log(Variables.NoDetailFoundInRedux);
@@ -230,7 +230,7 @@ export default function EventsList(props) {
         <div>
           {isAdmin ? (
             <div className="login_link login_btn">
-              <Events />
+              <Events fetchingEvents={fetchingEvents}/>
             </div>
           ) : (
             ""

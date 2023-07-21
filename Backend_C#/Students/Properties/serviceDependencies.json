@@ -5,7 +5,7 @@
     },
     "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:data_source=LAPTOP-A5Q0P5KS::SQLEXPRESS09;initial_catalog=StudentApp;trusted_connection=true",
+      "connectionId": "ConnectionStrings:data_source=RITU-KUMAR::SQLEXPRESS09;initial_catalog=StudentApp;trusted_connection=true",
       "dynamicId": null
     }
   }
