@@ -45,19 +45,26 @@ export default function MyProfile(props) {
       .then((response) => {
         const fullrecords = response.data;
         const records = fullrecords[0];
-        const name = records.Name;
-        const photo = records.Photo;
-        const studentImageURL = `${Variables.FrontendImagePath}/${photo}`;
-        setDetails(records);
-        setStudentName(name);
-        // Setting Image Name to show in profile that coming from backend
-        setImageName(photo);
-        console.log("Data->", response.data);
-        console.log("Image URL->", studentImageURL);
-        console.log("type of data -> ", typeof response.data);
-        // const frontendPath = "../Images/ProfileImage";
-        // const imageUrl = `${frontendPath}/${photo}`;
-        // setSelectedImage(imageUrl);
+        if (records) {
+          const name = records.Name;
+          const photo = records.Photo;
+          const studentImageURL = `${Variables.FrontendImagePath}/${photo}`;
+          setDetails(records);
+          setStudentName(name);
+          // Setting Image Name to show in profile that coming from backend
+          setImageName(photo);
+          console.log("Data->", response.data);
+          console.log("Image URL->", studentImageURL);
+          console.log("type of data -> ", typeof response.data);
+          // const frontendPath = "../Images/ProfileImage";
+          // const imageUrl = `${frontendPath}/${photo}`;
+          // setSelectedImage(imageUrl);
+        } else {
+          swal({
+            title: "You are not a student",
+            timer: 2000,
+          });
+        }
       })
       .catch((err) => {
         swal({

@@ -31,7 +31,7 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult Post(Student student)
         {
-            string query = @"SELECT * FROM dbo.[vwStudentsList] WHERE StudentID = '" + student.StudentID + @"'";
+            string query = @"SELECT * FROM dbo.[vwStudentsList] WHERE StudentID = " + student.StudentID + "";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");

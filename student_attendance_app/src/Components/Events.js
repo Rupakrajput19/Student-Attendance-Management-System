@@ -170,9 +170,9 @@ export default function Events({fetchingEvents}) {
       setIsLoading(false);
       setDetails(intitial);
       setOpen(false);
-      Navigator("/eventsList");
+      // Navigator("/eventsList");
     }
-    Navigator("/eventsList");
+    // Navigator("/eventsList");
   };
 
   return (

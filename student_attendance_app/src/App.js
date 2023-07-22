@@ -18,12 +18,22 @@ import StudentsList from "./Components/StudentsList";
 import ForgotPassword from "./Components/ForgotPassword";
 import UsersList from "./Components/UsersList";
 import EditUsers from "./Components/EditUsers";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { loadUserFromStorage } from "./Redux/userActions";
 
 const pageTitle = "Student Attendance Management System";
 const text = "Page is in Progress...";
 const textFuture = `${text} , I will Add this Functionality In Future`;
 const textForStudents = "If You Are Student Then You Can Direct Login For Dashboard, For Login Details Please Contact Administrator!";
 function App() {
+  
+  const dispatch = useDispatch();
+  
+  // useEffect(() => {
+    dispatch(loadUserFromStorage());
+  // }, []);
+
   return (
     <>
         <Routes>

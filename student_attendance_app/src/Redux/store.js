@@ -16,6 +16,11 @@ function reducer(state = initialState, action) {
         ...state,
         user: null,
       };
+      case 'LOAD_USER':
+        return {
+          ...state,
+          user: action.payload,
+        };
     default:
       return state;
   }

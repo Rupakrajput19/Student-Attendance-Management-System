@@ -180,9 +180,9 @@ export default function Attendance({fetchingAttendances}) {
       setIsLoading(false);
       setDetails(intitial);
       setOpen(false);
-      Navigator("/attendanceList");
+      // Navigator("/attendanceList");
     }
-    Navigator("/attendanceList");
+    // Navigator("/attendanceList");
   };
 
   return (

@@ -43,7 +43,7 @@ namespace Students.Controllers
             }
             string sortOrder = "ORDER BY CreatedOn DESC";
             string forAllStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] " + sortOrder + "";
-            string forSingleStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + sortOrder + "";
+            string forSingleStudentsAttendance = @"SELECT * FROM dbo.[vwAttendancesList] WHERE StudentID = " + attendances.StudentID + " " + sortOrder + "";
 
             string query = userIsAdminStatus ? forAllStudentsAttendance : forSingleStudentsAttendance;
             //string query = @"SELECT * FROM dbo.[Attendances] WHERE [IsDeleted] = " + (int)Deleted.notDeleted + " ORDER BY StudentName ASC";
