@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.85ca2cfb.css",
+    "main.js": "/static/js/main.ae78a8f7.js",
+    "static/js/787.6b1d165e.chunk.js": "/static/js/787.6b1d165e.chunk.js",
+    "static/media/Spiderman back.jpg": "/static/media/Spiderman back.91543acd560e12eb34fe.jpg",
+    "static/media/rupakcap.jpg": "/static/media/rupakcap.8d235a5476818d6a4c4b.jpg",
+    "static/media/rupakvillage.jpg": "/static/media/rupakvillage.547e44eab45e723787db.jpg",
+    "static/media/passbook.jpg": "/static/media/passbook.b8210c9a33e9af85d5ba.jpg",
+    "static/media/papa photo.jpg": "/static/media/papa photo.2f492538a3bdefb63248.jpg",
+    "static/media/RITU KUMAR.jpeg": "/static/media/RITU KUMAR.e785733fb1cc9c74c497.jpeg",
+    "static/media/papa  photot photo.jpg": "/static/media/papa  photot photo.bc9647de6b480dfc2ec3.jpg",
+    "static/media/navigation.jpg": "/static/media/navigation.04def7df6e29898492bd.jpg",
+    "static/media/ipem logo.jpeg": "/static/media/ipem logo.e4a23cc1a3e2501c28d1.jpeg",
+    "static/media/jyoti_img.jpeg": "/static/media/jyoti_img.e6f3d0a72355f6e50fd4.jpeg",
+    "static/media/favicon.jpg": "/static/media/favicon.cdb6bdd04e898b682214.jpg",
+    "static/media/registration_image.jpg": "/static/media/registration_image.cb6c9d2b084c83781c71.jpg",
+    "index.html": "/index.html",
+    "main.85ca2cfb.css.map": "/static/css/main.85ca2cfb.css.map",
+    "main.ae78a8f7.js.map": "/static/js/main.ae78a8f7.js.map",
+    "787.6b1d165e.chunk.js.map": "/static/js/787.6b1d165e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.85ca2cfb.css",
+    "static/js/main.ae78a8f7.js"
+  ]
+}

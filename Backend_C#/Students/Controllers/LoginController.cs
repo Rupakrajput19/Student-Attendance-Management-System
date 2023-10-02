@@ -81,5 +81,31 @@ namespace Students.Controllers
         //    }
         //    return query.ExecuteDataTable().DefaultView;
         //}
+
+        [Route("GoogleLogin")]
+        [HttpPost]
+        public JsonResult GoogleLogin(Login login)
+        {
+
+            string query = @"SELECT * FROM dbo.[vwUsersList] WHERE Email = '" + login.UserName + @"'";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+            SqlDataReader myReader;
+
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
     }
 }

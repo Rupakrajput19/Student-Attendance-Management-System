@@ -17,6 +17,8 @@ import { bindActionCreators } from "redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop } from "@mui/material";
 import { login } from "../Redux/userActions";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import GoogleLoginButton from "./Google";
 
 function Login(props) {
   document.title = `Login - ${props.pageTitle}`;
@@ -111,7 +113,7 @@ function Login(props) {
           });
           setIsLoading(false);
         });
-    }
+    };
 
     if (!checkErrors(details)) {
       console.log("details:--", details);
@@ -179,6 +181,11 @@ function Login(props) {
             <Button variant="contained" id="submit_btn" onClick={onSubmitClick}>
               Login
             </Button>
+
+            <GoogleOAuthProvider clientId={Variables.ClientId}>
+              <GoogleLoginButton />
+            </GoogleOAuthProvider>
+
             <ForgotPassword />
             <Typography className="login_link">
               <p>Don't have an account?</p>
@@ -187,7 +194,7 @@ function Login(props) {
               </Link>
             </Typography>
             <div className="textForStudents">
-            <marquee behavior="scroll" direction="left">
+              <marquee behavior="scroll" direction="left">
                 <p>{props.textForStudents}</p>
               </marquee>
             </div>

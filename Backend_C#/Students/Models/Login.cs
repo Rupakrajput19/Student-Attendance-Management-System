@@ -21,7 +21,7 @@ namespace Students.Models
         //    }
         //}
         public string? UserName { get; set; }
-        [Required]
+        //[Required]
         public string? Password { get; set; }
         #endregion
     }

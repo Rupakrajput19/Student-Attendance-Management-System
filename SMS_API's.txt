@@ -30,5 +30,12 @@ Need to add and disable cors
 "Frontend_Url": "http://localhost:3000/"
 
 
+Goggle Login:-
+1.Client ID:- 652787113867-qvha5j4271nnitphqk23u7k1lccqrq5q.apps.googleusercontent.com
+
+2.Client secret:- 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
+
+gapi.auth.getToken().access_token
+
 
 

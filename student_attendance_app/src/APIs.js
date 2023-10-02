@@ -12,6 +12,7 @@ export const APIs = {
   FORGOTPASSWORD: API_URL + "ForgotPasswordControllers",
   STUDENTSPHOTO: API_URL + "MyProfileControllers/SaveFile", // API's for Students Photos
   EVENTS: API_URL + "EventsControllers",
+  GoogleLogin : API_URL + "LoginControllers/GoogleLogin", // API's for Google Login Authentication
 };
 
 

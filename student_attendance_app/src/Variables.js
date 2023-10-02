@@ -20,5 +20,9 @@ export const Variables = {
   "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/student_attendance_app/src/Images/ProfileImage",
   BackendImagePath:
   "C:/Users/Ritu Kumar/OneDrive/Desktop/Student_Attendance_Management_System/Backend_C#/Students/Photos",
+
+  // Goggle Login
+  ClientId: "652787113867-qvha5j4271nnitphqk23u7k1lccqrq5q.apps.googleusercontent.com",
+  ClientSecret: "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",
 };
 
