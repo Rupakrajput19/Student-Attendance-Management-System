@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,9 @@ using Students.Enums;
 using Students.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using IdentityModel.Client;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Students.Controllers
 {
@@ -86,24 +90,31 @@ namespace Students.Controllers
         [HttpPost]
         public JsonResult GoogleLogin(Login login)
         {
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(login.TokenId);
+            var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == "email");
 
-            string query = @"SELECT * FROM dbo.[vwUsersList] WHERE Email = '" + login.UserName + @"'";
             DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
-            SqlDataReader myReader;
 
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            if (emailClaim != null)
             {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
+                string query = @"SELECT * FROM dbo.[vwUsersList] WHERE Email = '" + emailClaim.Value + @"'";
+                string sqlDataSource = _configuration.GetConnectionString("StudentAppConnection");
+                SqlDataReader myReader;
 
+                using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+                {
+                    myCon.Open();
+                    using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                    {
+                        myReader = myCommand.ExecuteReader();
+                        table.Load(myReader);
+                        myReader.Close();
+                        myCon.Close();
+                    }
+                }
+
+            }
             return new JsonResult(table);
         }
 

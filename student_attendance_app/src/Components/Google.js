@@ -23,10 +23,10 @@ export default function Google() {
   
   const onSuccess = (res) => {
     const userName = res.profileObj.email;
+    const tokenId = res.tokenId; // Checking user detail at backend via tokenId
       axios
-        .post(APIs.GoogleLogin, { userName })
+        .post(APIs.GoogleLogin, { tokenId })
         .then((result) => {
-          debugger
           const user = result.data[0];
           console.log("Response from backend -> ", result);
           if (result.data.length == 1 && result.status == 200) {

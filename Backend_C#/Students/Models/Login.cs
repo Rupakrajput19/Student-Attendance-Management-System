@@ -23,6 +23,7 @@ namespace Students.Models
         public string? UserName { get; set; }
         //[Required]
         public string? Password { get; set; }
+        public string? TokenId { get; set; }
         #endregion
     }
 }

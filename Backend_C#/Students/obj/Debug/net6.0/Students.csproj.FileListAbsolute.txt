@@ -391,3 +391,4 @@ C:\Users\Ritu Kumar\OneDrive\Desktop\Student_Attendance_Management_System\Backen
 C:\Users\Ritu Kumar\OneDrive\Desktop\Student_Attendance_Management_System\Backend_C#\Students\bin\Debug\net6.0\Publish\appsettings.json
 C:\Users\Ritu Kumar\OneDrive\Desktop\Student_Attendance_Management_System\Backend_C#\Students\bin\Debug\net6.0\Publish\Students.deps.json
 C:\Users\Ritu Kumar\OneDrive\Desktop\Student_Attendance_Management_System\Backend_C#\Students\bin\Debug\net6.0\Publish\Students.runtimeconfig.json
+C:\Users\Ritu Kumar\OneDrive\Desktop\Student_Attendance_Management_System\Backend_C#\Students\bin\Debug\net6.0\IdentityModel.dll
