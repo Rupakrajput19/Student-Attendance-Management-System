@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.85ca2cfb.css",
-    "main.js": "/static/js/main.ae78a8f7.js",
+    "main.js": "/static/js/main.3b72ef14.js",
     "static/js/787.6b1d165e.chunk.js": "/static/js/787.6b1d165e.chunk.js",
     "static/media/Spiderman back.jpg": "/static/media/Spiderman back.91543acd560e12eb34fe.jpg",
     "static/media/rupakcap.jpg": "/static/media/rupakcap.8d235a5476818d6a4c4b.jpg",
@@ -17,11 +17,11 @@
     "static/media/registration_image.jpg": "/static/media/registration_image.cb6c9d2b084c83781c71.jpg",
     "index.html": "/index.html",
     "main.85ca2cfb.css.map": "/static/css/main.85ca2cfb.css.map",
-    "main.ae78a8f7.js.map": "/static/js/main.ae78a8f7.js.map",
+    "main.3b72ef14.js.map": "/static/js/main.3b72ef14.js.map",
     "787.6b1d165e.chunk.js.map": "/static/js/787.6b1d165e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.85ca2cfb.css",
-    "static/js/main.ae78a8f7.js"
+    "static/js/main.3b72ef14.js"
   ]
 }

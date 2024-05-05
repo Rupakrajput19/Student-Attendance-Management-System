@@ -11,6 +11,9 @@
 # production
 /build
 
+# Ignore profiles images
+/src/Images/ProfileImage
+
 # misc
 .DS_Store
 .env.local
